@@ -5,7 +5,7 @@ import { StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native'
 
 class ButtonImageAndText extends React.Component {
   render() {
-    const{text, sourceImage}=this.props
+    const{text, imageSource}=this.props
     return (
       <View>
         <TouchableOpacity
@@ -13,7 +13,8 @@ class ButtonImageAndText extends React.Component {
         onPress={() => console.log("Pressed Create New Project")}>
           <Image
             style={styles.button_image}
-            source={require("../Images/plus.png")}
+            source= {imageSource}
+
           />
           <Text
           style={styles.button_text}>

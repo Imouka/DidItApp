@@ -10,8 +10,8 @@ class ProjectItem extends React.Component {
     return (
       <View
       style={styles.main_container}>
-        <View>
-          <View>
+        <View style = {{flex:1}} >
+          <View >
              <ProjectIcon/>
           </View>
           <View
@@ -23,11 +23,15 @@ class ProjectItem extends React.Component {
         </View>
         <View
         style={styles.text_container}>
+        <View>
           <Text
           style={styles.project_title_text}>
           Project title
           </Text>
-  
+          </View>
+          <View>
+          <Description/>
+          </View>
         </View>
       </View>
     )
@@ -39,7 +43,7 @@ const styles = StyleSheet.create({
   main_container: {
     flexDirection:'row',
     marginTop: 20,
-    marginLeft:15 ,
+    width: "100%",
   },
   project_title_text: {
     fontWeight: 'bold',
@@ -47,8 +51,7 @@ const styles = StyleSheet.create({
   },
   text_container:{
     flexDirection:'column',
-    marginLeft :20,
-    backgroundColor: '#2ccce4'
+    flex:3.5
   }
 })
 

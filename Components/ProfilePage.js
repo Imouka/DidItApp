@@ -17,7 +17,7 @@ class ProfilePage extends React.Component {
         style={styles.button_create_new_project}>
            <ButtonImageAndText
            text="Create a new project"
-           imageSource='plus'/>
+           imageSource= {require("../Images/plus.png")}/>
         </View>
         <View
         style={{marginTop:10}}>
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
   main_container: {
     marginTop: 20,
     marginLeft:15 ,
+    marginRight:15 ,
   },
   button_create_new_project:{
     marginTop: 10,
