@@ -14,7 +14,6 @@ class ButtonImageAndText extends React.Component {
           <Image
             style={styles.button_image}
             source= {imageSource}
-
           />
           <Text
           style={styles.button_text}>

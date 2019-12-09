@@ -12,17 +12,17 @@ class ProgressBar extends React.Component {
 }*/
 
   render() {
-   const {progression_projet,progression_temps}=this.props
+   const {progressionProjet,progressionTemps}=this.props
     return (
       <View
       style={styles.main_container}>
         <View
         style={styles.progress_bar_border}>
           <View
-          style={[ StyleSheet.absoluteFill, styles.progress_bar_filler, {width: progression_projet} ]}>
+          style={[ StyleSheet.absoluteFill, styles.progress_bar_filler, {width: progressionProjet} ]}>
           </View>
           <Image
-            style={[styles.hourglass, {marginLeft:progression_temps}]}
+            style={[styles.hourglass, {marginLeft:progressionTemps}]}
             source={require('../Images/hourglass4.png')}/>
         </View>
       </View>

@@ -10,13 +10,16 @@ class ProfileHeader extends React.Component {
 
 
   render() {
+    const{userName, imageSource, description}=this.props
     return (
       <View>
         <View
         style={styles.main_container}>
           <View
             style={styles.user_image_container}>
-            <UserIcon/>
+            <UserIcon
+            userName={userName}
+            imageSource={imageSource}/>
           </View>
           <View
             style={styles.projects_nb_container}>
@@ -33,7 +36,8 @@ class ProfileHeader extends React.Component {
         </View>
         <View
           style={styles.description}>
-          <Description/>
+          <Description
+          description={description}/>
         </View>
     </View>
     )

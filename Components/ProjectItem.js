@@ -1,24 +1,27 @@
 
 import React from 'react'
-import {View,StyleSheet, Text} from 'react-native'
+import {View,StyleSheet, Text, TouchableOpacity} from 'react-native'
 import ProgressBar from '../Components/ProgressBar'
 import ProjectIcon from '../Components/ProjectIcon'
 import Description from '../Components/Description'
 
 class ProjectItem extends React.Component {
   render() {
+    const{imageSource, projectTitle, description, progressionProjet, progressionTemps, displayDetailForProject}=this.props
     return (
-      <View
-      style={styles.main_container}>
+      <TouchableOpacity
+      style={styles.main_container}
+      onPress={ () => displayDetailForProject()}>
         <View style = {{flex:1}} >
           <View >
-             <ProjectIcon/>
+             <ProjectIcon
+             imageSource={imageSource}/>
           </View>
           <View
           style={{marginTop:10}}>
              <ProgressBar
-             progression_projet="30%"
-             progression_temps="10%"/>
+             progressionProjet={progressionProjet}
+             progressionTemps={progressionTemps}/>
           </View>
         </View>
         <View
@@ -26,14 +29,15 @@ class ProjectItem extends React.Component {
         <View>
           <Text
           style={styles.project_title_text}>
-          Project title
+            {projectTitle}
           </Text>
           </View>
           <View>
-          <Description/>
+          <Description
+            description={description}/>
           </View>
         </View>
-      </View>
+      </TouchableOpacity>
     )
   }
 }

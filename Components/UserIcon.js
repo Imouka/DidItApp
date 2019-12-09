@@ -5,6 +5,7 @@ import { StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native'
 
 class UserIcon extends React.Component {
   render() {
+    const{userName, imageSource}=this.props
     return (
       <View
       style={styles.main_container}>
@@ -12,14 +13,14 @@ class UserIcon extends React.Component {
         onPress={() => console.log("Pressed user avatar")}>
           <Image
             style={styles.user_image}
-            source={require('../Images/profile_icon.png')}
+            source= {imageSource}
           />
         </TouchableOpacity>
         <Text
         style={styles.user_name_text}
         numberOfLines={1}
         ellipsizeMode={'tail'}>
-        user name
+        {userName}
         </Text>
       </View>
 

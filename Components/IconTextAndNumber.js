@@ -7,17 +7,17 @@ class IconTextAndNumber extends React.Component {
     const {text,number}=this.props
     return (
       <View>
-      <TouchableOpacity
-      onPress={() => console.log("Pressed number of friends")}>
-      <Text
-      style={styles.nb_of_friends} >
-      {this.props.number}
-      </Text>
-      <Text
-      style={styles.text_friends} >
-      {text}
-      </Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+        onPress={() => console.log("Pressed icon text and Number")}>
+          <Text
+          style={styles.nb_of_friends} >
+          {this.props.number}
+          </Text>
+          <Text
+          style={styles.text_friends} >
+          {text}
+          </Text>
+        </TouchableOpacity>
       </View>
 
     )

@@ -5,16 +5,14 @@ import { StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native'
 
 class ProjectIcon extends React.Component {
   render() {
+    const{imageSource}=this.props
     return (
       <View
       style={styles.main_container}>
-        <TouchableOpacity
-        onPress={() => console.log("Pressed ProjectIcon")}>
-          <Image
-            style={styles.project_image}
-            source={require('../Images/project.png')}
-          />
-        </TouchableOpacity>
+        <Image
+          style={styles.project_image}
+          source={imageSource}
+        />
       </View>
 
     )
