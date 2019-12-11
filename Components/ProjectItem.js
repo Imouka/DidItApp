@@ -7,18 +7,18 @@ import Description from '../Components/Description'
 
 class ProjectItem extends React.Component {
   render() {
-    const{imageSource, projectTitle, description, progressionProjet, progressionTemps, displayDetailForProject}=this.props
+    const{imageSource,project,progressionProjet,progressionTemps, displayDetailForProject}=this.props
     return (
       <TouchableOpacity
       style={styles.main_container}
-      onPress={ () => displayDetailForProject()}>
-        <View style = {{flex:1}} >
+      onPress={ () => displayDetailForProject(project.id)}>
+        <View style = {{flex:1, alignContent:'center'}} >
           <View >
              <ProjectIcon
              imageSource={imageSource}/>
           </View>
           <View
-          style={{marginTop:10}}>
+          style={{marginTop:8}}>
              <ProgressBar
              progressionProjet={progressionProjet}
              progressionTemps={progressionTemps}/>
@@ -29,13 +29,15 @@ class ProjectItem extends React.Component {
         <View>
           <Text
           style={styles.project_title_text}>
-            {projectTitle}
+            {project.title}
           </Text>
           </View>
           <View>
           <Description
-            description={description}/>
+            description={project.description}
+            lineNb={2}/>
           </View>
+
         </View>
       </TouchableOpacity>
     )
@@ -53,6 +55,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 20,
   },
+  project_image_container: {
+    flex:1
+  },
   text_container:{
     flexDirection:'column',
     flex:3.5
@@ -60,3 +65,8 @@ const styles = StyleSheet.create({
 })
 
 export default ProjectItem
+/*
+<View
+style={{marginTop:8}}>
+   <TwoProgressBars/>
+</View>*/

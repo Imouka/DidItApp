@@ -6,7 +6,6 @@ class IconTextAndNumber extends React.Component {
   render() {
     const {text,number}=this.props
     return (
-      <View>
         <TouchableOpacity
         onPress={() => console.log("Pressed icon text and Number")}>
           <Text
@@ -18,8 +17,6 @@ class IconTextAndNumber extends React.Component {
           {text}
           </Text>
         </TouchableOpacity>
-      </View>
-
     )
   }
 }

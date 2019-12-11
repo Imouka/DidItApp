@@ -5,12 +5,12 @@ import { StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native'
 
 class ButtonImageAndText extends React.Component {
   render() {
-    const{text, imageSource}=this.props
+    const{text, imageSource, displayCreateNewProjectPage}=this.props
     return (
       <View>
         <TouchableOpacity
         style={styles.main_container}
-        onPress={() => console.log("Pressed Create New Project")}>
+        onPress={() => displayCreateNewProjectPage()}>
           <Image
             style={styles.button_image}
             source= {imageSource}

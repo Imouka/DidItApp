@@ -1,37 +1,28 @@
-
 import React from 'react'
 import { StyleSheet, View, Image, Text, TouchableOpacity,} from 'react-native'
 
-class ProgressBar extends React.Component {
-
-/* _convert_time_passed_in_hourglass_pos(progression_temps) {
-    return (
-    progression_temps-10;
-    )
-  }
-}*/
+class ProgressBarWithImage extends React.Component {
 
   render() {
-   const {progressionProjet,progressionTemps}=this.props
+   const {progression,imageSource}=this.props
     return (
       <View
       style={styles.main_container}>
+        <Image
+        style={styles.imageSource}
+        source={imageSource}/>
         <View
         style={styles.progress_bar_border}>
           <View
-          style={[ StyleSheet.absoluteFill, styles.progress_bar_filler, {width: progressionProjet} ]}>
+          style={[ StyleSheet.absoluteFill, styles.progress_bar_filler, {width: progression} ]}>
           </View>
-          <Image
-            style={[styles.hourglass, {marginLeft:progressionTemps}]}
-            source={require('../Images/hourglass4.png')}/>
+
         </View>
       </View>
 
     )
   }
 }
-//style={[ StyleSheet.absoluteFill, { backgroundColor: 'powderblue' , width: progression_projet} ]}>
-// marginLeft:progression_temps
 
 const styles = StyleSheet.create({
   main_container:{
@@ -52,10 +43,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#2ccce4' ,
     borderRadius:5,
  },
- hourglass :{
+ imageSource :{
    width: 20,
    height:20,
  },
 });
 
-export default ProgressBar
+export default ProgressBarWithImage

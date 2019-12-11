@@ -10,7 +10,7 @@ class ProfileHeader extends React.Component {
 
 
   render() {
-    const{userName, imageSource, description}=this.props
+    const{user, imageSource, friendsNb, projectNb}=this.props
     return (
       <View>
         <View
@@ -18,26 +18,27 @@ class ProfileHeader extends React.Component {
           <View
             style={styles.user_image_container}>
             <UserIcon
-            userName={userName}
+            userName={user.first_name}
             imageSource={imageSource}/>
           </View>
           <View
             style={styles.projects_nb_container}>
             <IconTextAndNumber
             text="Projects"
-            number="8"/>
+            number={projectNb}/>
           </View>
           <View
             style={styles.friends_nb_container}>
             <IconTextAndNumber
             text="Friends"
-            number="43"/>
+            number={friendsNb}/>
           </View>
         </View>
         <View
           style={styles.description}>
           <Description
-          description={description}/>
+          description={user.description}
+          lineNb={4}/>
         </View>
     </View>
     )
@@ -58,7 +59,6 @@ const styles = StyleSheet.create({
     flex:1,
   },
   description:{
-    marginRight: 10,
     marginTop:20
   },
 })

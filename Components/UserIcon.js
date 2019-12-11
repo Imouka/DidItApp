@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   user_name_text: {
     fontSize: 15,
-    textAlign: 'left',
+  //  textAlign: 'center',
   },
   user_image:{
     width: 70,

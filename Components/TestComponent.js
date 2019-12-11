@@ -2,7 +2,7 @@
 import React from 'react'
 import { StyleSheet, View, Text, Button} from 'react-native'
 
-import { getFilmsFromApiWithSearchedText } from '../API/APITest'
+import { getUserFromId } from '../API/APITest'
 
 class TestComponent extends React.Component {
 
@@ -10,16 +10,15 @@ class TestComponent extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      title: "EMMA"
+      first_name: "EMMA"
     }
   }
 
   _loadTitle(){
-    getFilmsFromApiWithSearchedText("emma").then(data => {
+    getUserFromId("2").then(data => {
         this.setState({
-          title: data.title,
+          first_name: data.first_name,
         })
-        console.log(data.title)
     })
   }
 
@@ -29,11 +28,10 @@ class TestComponent extends React.Component {
         <View>
           <Text
             style={styles.title_text}>
-            {this.state.title}
+            {this.state.first_name}
           </Text>
           <Button title='Call API' onPress={() => this._loadTitle()}/>
         </View>
-
         )
     }
 }

@@ -1,16 +1,44 @@
 
 import React from 'react'
-import {View,StyleSheet} from 'react-native'
+import {View,StyleSheet,Text} from 'react-native'
 import ProfileHeader from '../Components/ProfileHeader'
 import ButtonImageAndText from '../Components/ButtonImageAndText'
 import ProjectItem from '../Components/ProjectItem'
 import ProjectList from '../Components/ProjectList'
+import { getUserFromId, getProjectFromUserId } from '../API/APITest'
+
 
 class ProfilePage extends React.Component {
+ constructor(props) {
+    super(props)
+    this.state = {
+      projects: [],
+      user:{}
+    }
+  }
+
+  componentDidMount(){
+    getUserFromId("2").then(data => {
+      this.setState ({
+        user:data
+      })
+    })
+    getProjectFromUserId("2").then(data => {
+      this.setState ({
+        projects:data.projects
+      })
+    })
+  }
+
 
   _displayDetailForProject=()=>{
     this.props.navigation.navigate('ProjectPage')
 }
+
+_displayCreateNewProjectPage= (idProject) => {
+  this.props.navigation.navigate('CreateNewProjectPage',{idProject :idProject})
+}
+
 
   render() {
     return (
@@ -19,29 +47,26 @@ class ProfilePage extends React.Component {
         <View>
             <ProfileHeader
              imageSource={require('../Images/profile_icon.png')}
-             userName='userName'
-             description='Pendant deux ans, Cyril Dion a sillonné 18 pays, près de 200 villes pour accompagner le succès de son documentaire Demain, co-réalisé avec Mélanie Laurent. Pendant ce temps, la litanie des mauvaises nouvelles sallongeait : accélération du réchauffement planétaire, disparition de 80% des insectes en Europe et de 50% des populations de vertébrés ces 40 dernières années, explosion des inégalités, des migrations, des déchets... Comment faire face à une telle conjonction de catastrophes alors que de nombreux scientifiques parlent désormais dune poignée dannées pour réagir?'/>
+             user={this.state.user}
+             friendsNb='43'
+             projectNb='8'/>
         </View>
         <View
         style={styles.button_create_new_project}>
            <ButtonImageAndText
            text="Create a new project"
-           imageSource= {require("../Images/plus.png")}/>
+           imageSource= {require("../Images/plus.png")}
+           displayCreateNewProjectPage={this._displayCreateNewProjectPage}/>
         </View>
         <View
-        style={{marginTop:10}}>
-           <ProjectItem
-           imageSource={require('../Images/project.png')}
-           projectTitle='Project Title'
-           description='Pendant deux ans, Cyril Dion a sillonné 18 pays, près de 200 villes pour accompagner le succès de son documentaire Demain, co-réalisé avec Mélanie Laurent. Pendant ce temps, la litanie des mauvaises nouvelles sallongeait : accélération du réchauffement planétaire, disparition de 80% des insectes en Europe et de 50% des populations de vertébrés ces 40 dernières années, explosion des inégalités, des migrations, des déchets... Comment faire face à une telle conjonction de catastrophes alors que de nombreux scientifiques parlent désormais dune poignée dannées pour réagir?'
-           progressionProjet='20%'
-           progressionTemps='50%'
-           displayDetailForProject={this._displayDetailForProject}
-           />
-        </View>
-        <View
-        style={{marginTop:10}}>
-           <ProjectList/>
+        style={{flex:1}}>
+        <ProjectList
+            projects={this.state.projects}
+            imageSource={require('../Images/project.png')}
+            progressionProjet={'60%'}
+            progressionTemps={'10%'}
+            displayDetailForProject={this._displayDetailForProject}
+        />
         </View>
       </View>
 
@@ -55,10 +80,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft:15 ,
     marginRight:15 ,
+    flex:1,
   },
   button_create_new_project:{
     marginTop: 10,
-  }
+  },
 })
 
 export default ProfilePage
