@@ -3,6 +3,7 @@ import React from 'react'
 import { StyleSheet, View, Text, Button} from 'react-native'
 
 import { getUserFromId } from '../API/APITest'
+import { getFilmDetailFromApi} from '../API/APITest'
 
 class TestComponent extends React.Component {
 
@@ -15,13 +16,17 @@ class TestComponent extends React.Component {
   }
 
   _loadTitle(){
-    getUserFromId("2").then(data => {
+    getFilmDetailFromApi("181809").then(data => {
+        this.setState({
+          first_name: data.title,
+        })
+    })
+    /*getUserFromId("2").then(data => {
         this.setState({
           first_name: data.first_name,
         })
-    })
+    })*/
   }
-
 
     render() {
       return (
@@ -53,6 +58,3 @@ const styles = StyleSheet.create({
 })
 
 export default TestComponent
-
-/*<Text
-style={styles.title_text}>*/

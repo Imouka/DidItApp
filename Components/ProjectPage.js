@@ -6,6 +6,20 @@ import ProgressBar from '../Components/ProgressBar'
 import ProgressBarWithImage from '../Components/ProgressBarWithImage'
 
 class ProjectPage extends React.Component {
+
+  constructor(props) {
+     super(props)
+     this.state = {
+       projet: [],
+     }
+   }
+
+   componentDidMount(){
+       this.setState ({
+         projet:this.props.navigation.state.params.project
+       })
+   }
+
   render() {
     return (
       <View>
@@ -20,7 +34,7 @@ class ProjectPage extends React.Component {
             style={styles.project_text_container}>
             <Text
             style={styles.project_title_text}>
-            Project Title
+            {this.state.projet.title}
             </Text>
             <View
             style={styles.progress_and_button}>
