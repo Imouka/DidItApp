@@ -14,6 +14,7 @@ class ProfilePage extends React.Component {
       projects: [],
       user:{}
     }
+  //this._scrollToIndex=this._scrollToIndex.bind(this)
   }
 
   componentDidMount(){
@@ -48,7 +49,7 @@ return (
       height: 1,
       width: "86%",
       backgroundColor: "#CED0CE",
-      marginLeft: "14%"
+      marginLeft: "3%"
     }}
   />
 );
@@ -62,7 +63,8 @@ return (
        imageSource={require('../Images/profile_icon.png')}
        user={this.state.user}
        friendsNb='43'
-       projectNb='8'/>
+       projectNb='8'
+       scrollToIndex={this._scrollToIndex}/>
   </View>
   <View
   style={styles.button_create_new_project}>
@@ -75,6 +77,11 @@ return (
 )
 };
 
+_scrollToIndex = () => {
+  console.log(this.flatListRef)
+  this.flatListRef.scrollToIndex({animated: true, index:0});
+}
+
   render() {
     return (
       <View
@@ -82,14 +89,15 @@ return (
       <FlatList
         data={this.state.projects}
         keyExtractor={(item) => item.id.toString()}
+        ref={(ref) => { this.flatListRef = ref; }}
         ItemSeparatorComponent={this._renderSeparator}
         ListHeaderComponent={this._renderHeader}
         renderItem={({item}) =>
         <ProjectItem
             project={item}
             imageSource={require('../Images/project.png')}
-            progressionProjet={'60%'}
-            progressionTemps={'10%'}
+            progressionProjet={'10%'}
+            progressionTemps={'0%'}
             displayDetailForProject={this._displayDetailForProject}
         />}
       />
@@ -101,9 +109,8 @@ return (
 
 const styles = StyleSheet.create({
   main_container: {
-    marginTop: 20,
-    marginLeft:15 ,
-    marginRight:15 ,
+    marginTop: "5%",
+    marginLeft:"3%" ,
     flex:1,
   },
   button_create_new_project:{

@@ -39,9 +39,9 @@ const styles = StyleSheet.create({
     alignItems:'center',
   },
   progress_bar_border: {
-    flex:1,
+    //flex:1,
     height: 10,
-    //width: 70,
+    width: 70,
     backgroundColor: 'white',
     borderColor: '#605f62',
     borderWidth: 1,

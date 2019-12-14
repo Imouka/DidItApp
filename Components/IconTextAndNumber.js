@@ -4,10 +4,10 @@ import { StyleSheet, View, Text,TouchableOpacity} from 'react-native'
 
 class IconTextAndNumber extends React.Component {
   render() {
-    const {text,number}=this.props
+    const {text,number, action}=this.props
     return (
         <TouchableOpacity
-        onPress={() => console.log("Pressed icon text and Number")}>
+        onPress={() => action()}>
           <Text
           style={styles.nb_of_friends} >
           {this.props.number}
