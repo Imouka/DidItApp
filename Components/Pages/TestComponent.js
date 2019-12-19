@@ -2,8 +2,8 @@
 import React from 'react'
 import { StyleSheet, View, Text, Button} from 'react-native'
 
-import { getUserFromId } from '../API/APITest'
-import { getFilmDetailFromApi} from '../API/APITest'
+import { getUserFromId } from '../../API/APITest'
+import { getFilmDetailFromApi} from '../../API/APITest'
 
 class TestComponent extends React.Component {
 

@@ -1,10 +1,10 @@
 
 import React from 'react'
 import {View,StyleSheet,Text, Image, TouchableOpacity} from 'react-native'
-import ProjectIcon from '../Components/ProjectIcon'
-import ProgressBar from '../Components/ProgressBar'
-import ProgressBarWithImage from '../Components/ProgressBarWithImage'
-import Description from '../Components/Description'
+import ProjectIcon from '../../Components/ProjectIcon'
+import ProgressBar from '../../Components/ProgressBar'
+import ProgressBarWithImage from '../../Components/ProgressBarWithImage'
+import Description from '../../Components/Description'
 
 class ProjectPageHeader extends React.Component {
 
@@ -28,17 +28,17 @@ class ProjectPageHeader extends React.Component {
         style={styles.progress_container}>
           <ProgressBarWithImage
             progression={progressionProject}
-            imageSource={require('../Images/goal.png')}/>
+            imageSource={require('../../Images/goal.png')}/>
           <ProgressBarWithImage
             progression={progressionTemps}
-            imageSource={require('../Images/hourglass.png')}/>
+            imageSource={require('../../Images/hourglass.png')}/>
         </View>
         <View
         style={styles.image_container}>
           <TouchableOpacity>
             <Image
               style={styles.button_image}
-              source= {require('../Images/progress.png')}/>
+              source= {require('../../Images/progress.png')}/>
           </TouchableOpacity>
         </View>
       </View>
@@ -46,7 +46,7 @@ class ProjectPageHeader extends React.Component {
       style={styles.support_container} >
         <Image
           style={styles.button_image}
-          source= {require('../Images/support.png')}
+          source= {require('../../Images/support.png')}
         />
         <Text>
         55 people supported this project

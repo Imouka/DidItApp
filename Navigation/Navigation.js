@@ -5,11 +5,11 @@ import{createBottomTabNavigator} from 'react-navigation-tabs'
 import React from 'react'
 import {StyleSheet, Image } from 'react-native'
 
-import HomePage from '../Components/HomePage'
-import ProfilePage from '../Components/ProfilePage'
-import ProjectPage from '../Components/ProjectPage'
-import TestComponent from '../Components/TestComponent'
-import CreateNewProjectPage from '../Components/CreateNewProjectPage'
+import HomePage from '../Components/Pages/HomePage'
+import ProfilePage from '../Components/Pages/ProfilePage'
+import ProjectPage from '../Components/Pages/ProjectPage'
+import TestComponent from '../Components/Pages/TestComponent'
+import CreateNewProjectPage from '../Components/Pages/CreateNewProjectPage'
 
 const ProfileStackNavigator = createStackNavigator({
   ProfilePage: {

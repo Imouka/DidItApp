@@ -1,10 +1,10 @@
 
 import React from 'react'
 import {View,StyleSheet,Text, FlatList} from 'react-native'
-import ProfileHeader from '../Components/ProfileHeader'
-import ButtonImageAndText from '../Components/ButtonImageAndText'
-import ProjectItem from '../Components/ProjectItem'
-import { getUserFromId, getProjectFromUserId } from '../API/APITest'
+import ProfileHeader from '../../Components/Headers/ProfileHeader'
+import ButtonImageAndText from '../../Components/ButtonImageAndText'
+import ProjectItem from '../../Components/ProjectItem'
+import { getUserFromId, getProjectFromUserId } from '../../API/APITest'
 
 
 class ProfilePage extends React.Component {
@@ -60,7 +60,7 @@ return (
 <View>
   <View>
       <ProfileHeader
-       imageSource={require('../Images/profile_icon.png')}
+       imageSource={require('../../Images/profile_icon.png')}
        user={this.state.user}
        friendsNb='43'
        projectNb='8'
@@ -70,7 +70,7 @@ return (
   style={styles.button_create_new_project}>
      <ButtonImageAndText
      text="Create a new project"
-     imageSource= {require("../Images/plus.png")}
+     imageSource= {require("../../Images/plus.png")}
      displayCreateNewProjectPage={this._displayCreateNewProjectPage}/>
   </View>
 </View>
@@ -95,7 +95,7 @@ _scrollToIndex = () => {
         renderItem={({item}) =>
         <ProjectItem
             project={item}
-            imageSource={require('../Images/project.png')}
+            imageSource={require('../../Images/project.png')}
             progressionProjet={'10%'}
             progressionTemps={'0%'}
             displayDetailForProject={this._displayDetailForProject}

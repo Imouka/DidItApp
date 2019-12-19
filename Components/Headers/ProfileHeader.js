@@ -1,9 +1,9 @@
 
 import React from 'react'
 import {View,StyleSheet} from 'react-native'
-import UserIcon from '../Components/UserIcon'
-import IconTextAndNumber from '../Components/IconTextAndNumber'
-import Description from '../Components/Description'
+import UserIcon from '../../Components/UserIcon'
+import IconTextAndNumber from '../../Components/IconTextAndNumber'
+import Description from '../../Components/Description'
 
 
 class ProfileHeader extends React.Component {
