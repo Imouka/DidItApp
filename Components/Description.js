@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
     textAlign: 'left',
+    fontStyle: 'italic',
   },
 })
 

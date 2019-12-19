@@ -5,12 +5,12 @@ import { StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native'
 
 class ButtonImageAndText extends React.Component {
   render() {
-    const{text, imageSource, displayCreateNewProjectPage}=this.props
+    const{text, imageSource, action}=this.props
     return (
       <View>
         <TouchableOpacity
         style={styles.main_container}
-        onPress={() => displayCreateNewProjectPage()}>
+        onPress={() => action()}>
           <Image
             style={styles.button_image}
             source= {imageSource}
@@ -24,17 +24,7 @@ class ButtonImageAndText extends React.Component {
     )
   }
 }
-//TODO : REGLER PB LINE 16
 
-//const {text,sourceImage}=this.props
-//source={require('../Images/plus.png')}
-//{uri: sourceImage }
-/*<Text
-style={styles.user_name_text}
-numberOfLines={1}
-ellipsizeMode={'tail'}>
-{text}
-</Text>*/
 const styles = StyleSheet.create({
   main_container: {
     flexDirection: 'row',

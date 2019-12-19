@@ -51,17 +51,19 @@ class Panel extends React.Component{
     _renderTitle(icon) {
         if (!this.state.expanded) {
             return (
-              <View
-                style={styles.header}>
-                <Text style={styles.title}>{this.state.title_closed}</Text>
+              <View>
                 <TouchableOpacity
                     onPress={this.toggle.bind(this)}
                     underlayColor="#f1f1f1"
                     style={styles.button}>
+                    <View
+                      style={styles.header}>
+                      <Text style={styles.title}>{this.state.title_closed}</Text>
                       <Image
                           style={styles.buttonImage}
                           source={icon}>
                       </Image>
+                    </View>
                 </TouchableOpacity>
               </View>
             );
@@ -111,7 +113,7 @@ export default Panel;
 
 var styles = StyleSheet.create({
     container   : {
-        backgroundColor: '#fff',
+        backgroundColor: '#FFF',
         overflow:'hidden',
         height:25
     },
@@ -124,11 +126,10 @@ var styles = StyleSheet.create({
         height  : 20
     },
     body        : {
-        paddingTop  : 10
+        paddingLeft :10,
     },
     header :{
       flexDirection: 'row',
-      right:0,
       justifyContent: 'flex-end'
     },
     button:{

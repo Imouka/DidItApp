@@ -2,7 +2,7 @@
 import React from 'react'
 import {View,StyleSheet,Text, FlatList} from 'react-native'
 import ProfileHeader from '../../Components/Headers/ProfileHeader'
-import ButtonImageAndText from '../../Components/ButtonImageAndText'
+import ButtonBigImageAndText from '../../Components/ButtonBigImageAndText'
 import ProjectItem from '../../Components/ProjectItem'
 import { getUserFromId, getProjectFromUserId } from '../../API/APITest'
 
@@ -68,10 +68,10 @@ return (
   </View>
   <View
   style={styles.button_create_new_project}>
-     <ButtonImageAndText
+     <ButtonBigImageAndText
      text="Create a new project"
      imageSource= {require("../../Images/plus.png")}
-     displayCreateNewProjectPage={this._displayCreateNewProjectPage}/>
+     action={this._displayCreateNewProjectPage}/>
   </View>
 </View>
 )
@@ -119,29 +119,3 @@ const styles = StyleSheet.create({
 })
 
 export default ProfilePage
-
-/*
-<View>
-    <ProfileHeader
-     imageSource={require('../Images/profile_icon.png')}
-     user={this.state.user}
-     friendsNb='43'
-     projectNb='8'/>
-</View>
-<View
-style={styles.button_create_new_project}>
-   <ButtonImageAndText
-   text="Create a new project"
-   imageSource= {require("../Images/plus.png")}
-   displayCreateNewProjectPage={this._displayCreateNewProjectPage}/>
-</View>
-<View
-style={{flex:1}}>
-<ProjectList
-    projects={this.state.projects}
-    imageSource={require('../Images/project.png')}
-    progressionProjet={'60%'}
-    progressionTemps={'10%'}
-    displayDetailForProject={this._displayDetailForProject}
-/>
-</View>*/
