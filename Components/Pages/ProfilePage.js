@@ -63,7 +63,7 @@ return (
        imageSource={require('../../Images/profile_icon.png')}
        user={this.state.user}
        friendsNb='43'
-       projectNb='8'
+       projectNb={this.state.projects.length}
        scrollToIndex={this._scrollToIndex}/>
   </View>
   <View

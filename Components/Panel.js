@@ -95,6 +95,15 @@ class Panel extends React.Component{
               <View>
                 {this.props.children}
               </View>
+              <View style={{flexDirection:"row",justifyContent:"space-between"}}>
+                <View
+                  style={{
+                    marginTop:'3%',
+                    height: 1,
+                    width: "86%",
+                    backgroundColor: "#CED0CE",
+                  }}
+                />
                 <TouchableOpacity
                 style={styles.button}
                 onPress={this.toggle.bind(this)}
@@ -104,7 +113,10 @@ class Panel extends React.Component{
                   source={icon}>
                   </Image>
                 </TouchableOpacity>
+                </View>
+
               </View>
+
           </Animated.View>
         );
     }

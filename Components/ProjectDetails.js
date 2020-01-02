@@ -4,7 +4,14 @@ import moment from 'moment'
 
 class ProjectDetails extends React.Component {
 
-
+  _displayProjectDeadlineMessage(dateDay, dateEndProject) {
+         if (moment(dateDay).isBefore(dateEndProject)) {
+             return <Text style={styles.small_text}> Project will end {moment(dateEndProject, "YYYYMMDD").fromNow()} </Text>;
+         } else {
+             return <Text style={styles.small_text}> Project ended {moment(dateEndProject, "YYYYMMDD").fromNow()}</Text>;
+         }
+     }
+//{moment(new Date(project.project.project_end_date)).format('DD/MM/YYYY')}
   render() {
     const project=this.props
     const date = new Date(); //Current Date
@@ -26,7 +33,7 @@ class ProjectDetails extends React.Component {
             <Text>  {moment(new Date(project.project.project_end_date)).format('DD/MM/YYYY')}</Text>
           </View>
         </View>
-        <Text style={styles.small_text}>Project will end //ended {moment(project.project.project_end_date, "YYYYMMDD").fromNow()} </Text>
+        <Text style={styles.small_text}> {this._displayProjectDeadlineMessage(moment(new Date()), moment(project.project.project_end_date, "YYYYMMDD").add(23, 'h'))}</Text>
         <View
         style={styles.row_container}>
           <View>
@@ -61,6 +68,7 @@ class ProjectDetails extends React.Component {
             <Text>   XX/XX/XXXX</Text>
           </View>
         </View>
+        
       </View>
 
     )

@@ -36,9 +36,11 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
  button_image:{
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
     borderRadius:360,
+    borderWidth:2,
+    borderColor:'#000000'
   },
 })
 

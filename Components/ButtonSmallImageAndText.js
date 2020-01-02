@@ -11,14 +11,14 @@ class ButtonSmallImageAndText extends React.Component {
         <TouchableOpacity
         style={styles.main_container}
         onPress={() => action()}>
+        <Text
+        style={styles.button_text}>
+        {text}
+        </Text>
           <Image
             style={styles.button_image}
             source= {imageSource}
           />
-          <Text
-          style={styles.button_text}>
-          {text}
-          </Text>
         </TouchableOpacity>
       </View>
     )
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   button_text: {
     marginLeft: 5,
-    fontSize: 15,
+    fontSize: 14,
     textAlign: 'left',
   },
  button_image:{
