@@ -3,7 +3,7 @@ import React from 'react'
 import { StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native'
 
 
-class ButtonSmallImageAndText extends React.Component {
+class ButtonSmallImage extends React.Component {
   render() {
     const{text, imageSource, action}=this.props
     return (
@@ -11,10 +11,6 @@ class ButtonSmallImageAndText extends React.Component {
         <TouchableOpacity
         style={styles.main_container}
         onPress={() => action()}>
-        <Text
-        style={styles.button_text}>
-        {text}
-        </Text>
           <Image
             style={styles.button_image}
             source= {imageSource}
@@ -36,10 +32,12 @@ const styles = StyleSheet.create({
     textAlign: 'left',
   },
  button_image:{
-    width: 20,
-    height: 20,
-    borderRadius:360,
+   width: 25,
+   height: 25,
+   borderRadius:360,
+   borderWidth:2,
+   borderColor:'#55cfb3',
   },
 })
 
-export default ButtonSmallImageAndText
+export default ButtonSmallImage

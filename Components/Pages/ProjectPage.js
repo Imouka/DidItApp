@@ -1,12 +1,13 @@
 
 import React from 'react'
-import {View,StyleSheet,Text, Image, TouchableOpacity,TouchableHighlight,Animated} from 'react-native'
+import {View,StyleSheet,ScrollView,} from 'react-native'
 import ProjectPageHeader from '../../Components/Headers/ProjectPageHeader'
 
 import CommentItem from '../../Components/CommentItem'
 import UpdateItem from '../../Components/UpdateItem'
 import SupportItem from '../../Components/SupportItem'
 import ButtonBigImageAndText from '../../Components/ButtonBigImageAndText'
+import TextInputWithImage from '../../Components/TextInputWithImage'
 
 class ProjectPage extends React.Component {
 
@@ -41,19 +42,18 @@ class ProjectPage extends React.Component {
      displayProjectSettings={this.displayProjectSettings}/>
     </View>
     <View style={styles.add_update_container} >
-       <ButtonBigImageAndText
+       <TextInputWithImage
        text="Add Update"
        imageSource= {require("../../Images/profile_icon.png")}
        action={console.log}/>
      </View>
   </View>
- )
- };
+ )}
 
   render() {
     return (
-      <View style={styles.main_container}>
-        <View>
+      <ScrollView style={styles.main_container} >
+      <View>
         {this._renderHeader()}
        </View>
        <View>
@@ -69,7 +69,7 @@ class ProjectPage extends React.Component {
          </View>
          <SupportItem/>
       </View>
-    </View>
+    </ScrollView>
 
     )
   }
@@ -113,3 +113,17 @@ const styles = StyleSheet.create({
     marginBottom:'2%'
   },
 })
+/* <View>
+   <CommentItem
+    comment='Voici mon commentaire, Je commente ton projet avec un long commentaire blablabla bravo franchement tu geres. Ton projet est vraiment super'/>
+   <View style={{marginTop:20, backgroundColor:'#F1F4F8'}}>
+    <UpdateItem
+    didProgress={true}
+    withMessage={true}
+    oldProgressionProjet='38%'
+    newProgressionProjet='60%'
+    message="C'est le meilleur projet dans lequel je me suis jamais lancé ! Encouragez moi !"/>
+   </View>
+   <SupportItem/>
+</View>
+*/

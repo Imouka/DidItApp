@@ -68,7 +68,7 @@ class ProjectDetails extends React.Component {
             <Text>   XX/XX/XXXX</Text>
           </View>
         </View>
-        
+
       </View>
 
     )
@@ -79,7 +79,7 @@ export default ProjectDetails
 var styles = StyleSheet.create({
   row_container:{
     flexDirection:"row",
-    marginTop:8,
+    marginTop:"2%",
   },
   response_text:{
    flex:1,

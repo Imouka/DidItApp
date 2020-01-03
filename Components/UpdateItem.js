@@ -2,6 +2,7 @@
 import React from 'react'
 import {View, StyleSheet,Text,Image} from 'react-native'
 import ProgressBarProgressionView from '../Components/ProgressBarProgressionView'
+import ButtonSmallImage from '../Components/ButtonSmallImage'
 
 class UpdateItem extends React.Component {
 
@@ -45,10 +46,9 @@ _displayMessage(message) {
       <View
       style={styles.main_container}>
         <View  style={{flex:1}}>
-          <Image
-            style={styles.user_image}
-            source= {require("../Images/profile_icon.png")}
-          />
+        <ButtonSmallImage
+          imageSource= {require("../Images/profile_icon.png")}
+          action={console.log}/>
         </View>
         <View style={{flex:10}} >
           <Text>
@@ -100,12 +100,5 @@ const styles = StyleSheet.create({
     fontSize: 15,
     textAlign: 'left',
     fontWeight:'bold',
-  },
- user_image:{
-    width: 25,
-    height: 25,
-    borderRadius:360,
-    borderWidth:2,
-    borderColor:'#55cfb3',
   },
 })

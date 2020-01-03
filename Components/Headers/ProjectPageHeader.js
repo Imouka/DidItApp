@@ -4,12 +4,13 @@ import {View,StyleSheet,Text, Image, TouchableOpacity} from 'react-native'
 import ProjectIcon from '../../Components/ProjectIcon'
 import ProgressBar from '../../Components/ProgressBar'
 import ProgressBarWithImage from '../../Components/ProgressBarWithImage'
+
 import Description from '../../Components/Description'
 import moment from 'moment'
 
 import Panel from '../../Components/Panel';  // Step 1
 
-import ButtonSmallImageAndText from '../../Components/ButtonSmallImageAndText'
+import ButtonSmallImage from '../../Components/ButtonSmallImage'
 import ProjectDetails from '../../Components/ProjectDetails'
 
 class ProjectPageHeader extends React.Component {
@@ -24,10 +25,13 @@ class ProjectPageHeader extends React.Component {
         style={styles.project_title_text}>
         {project.title}
         </Text>
-        <ButtonSmallImageAndText
-        text=" "
-        imageSource= {require("../../Images/settings.png")}
-        action={displayProjectSettings}/>
+        <TouchableOpacity
+        onPress={displayProjectSettings}>
+          <Image
+            style={styles.settings_image}
+            source=  {require("../../Images/settings.png")}
+          />
+        </TouchableOpacity>
       </View>
       <View
       style={styles.row_container}>
@@ -113,6 +117,11 @@ const styles = StyleSheet.create({
     width: 40,
     height:40,
   },
+  settings_image:{
+    width: 25,
+    height: 25,
+    borderRadius:360,
+   },
   project_title_text: {
     fontWeight: 'bold',
     fontSize: 20,

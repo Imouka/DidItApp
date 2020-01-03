@@ -1,7 +1,7 @@
 
 import React from 'react'
 import {View,Text,StyleSheet,Image} from 'react-native'
-import ButtonSmallImageAndText from '../Components/ButtonSmallImageAndText'
+import ButtonSmallImage from '../Components/ButtonSmallImage'
 
 class CommentItem extends React.Component {
   render() {
@@ -9,10 +9,9 @@ class CommentItem extends React.Component {
         <View
         style={styles.main_container}>
           <View  style={{flex:1}}>
-            <Image
-              style={styles.user_image}
-              source= {require("../Images/profile_icon.png")}
-            />
+          <ButtonSmallImage
+            imageSource= {require("../Images/profile_icon.png")}
+            action={console.log}/>
           </View>
           <View style={{flex:10}} >
             <View style={{flexDirection: 'row'}}>
@@ -23,12 +22,12 @@ class CommentItem extends React.Component {
               </Text>
               <Text
               style={styles.comment}>
-              supported this project
+              {" supported this project  "}
               </Text>
             </Text>
             <Image
               style={styles.support_image}
-              source= {require("../Images/support.png")}
+              source= {require("../Images/support2.png")}
             />
             </View>
             <View style={{marginTop:3}}>
@@ -58,13 +57,6 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontWeight:'bold',
   },
- user_image:{
-    width: 25,
-    height: 25,
-    borderRadius:360,
-    borderWidth:2,
-    borderColor:'#55cfb3',
-  },
   comment:{
     fontSize: 15,
     textAlign: 'left',
@@ -76,9 +68,9 @@ const styles = StyleSheet.create({
     color:'#777878'
   },
   support_image:{
-     width: 25,
-     height: 25,
+     width: 30,
+     height: 30,
      borderRadius:360,
-     alignSelf:'flex-start'
+     //alignSelf:'flex-end'
    },
 })
