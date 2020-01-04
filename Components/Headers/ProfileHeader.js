@@ -4,13 +4,11 @@ import {View,StyleSheet} from 'react-native'
 import UserIcon from '../../Components/UserIcon'
 import IconTextAndNumber from '../../Components/IconTextAndNumber'
 import Description from '../../Components/Description'
-
-
 class ProfileHeader extends React.Component {
 
 
   render() {
-    const{user, imageSource, friendsNb, projectNb, scrollToIndex}=this.props
+    const{user, imageSource, friendsNb, projectNb, scrollToIndex, displayFriendsList}=this.props
     return (
       <View>
         <View
@@ -22,18 +20,18 @@ class ProfileHeader extends React.Component {
             imageSource={imageSource}/>
           </View>
           <View
-            style={styles.projects_nb_container}>
+            style={styles.nb_container}>
             <IconTextAndNumber
             text="Projects"
             number={projectNb}
             action={scrollToIndex}/>
           </View>
           <View
-            style={styles.friends_nb_container}>
+            style={styles.nb_container}>
             <IconTextAndNumber
             text="Friends"
             number={friendsNb}
-            action={() => console.log("pressed friends")}/>
+            action={displayFriendsList}/>
           </View>
         </View>
         <View
@@ -53,11 +51,9 @@ const styles = StyleSheet.create({
   },
   user_image_container:{
     flex:1,
+
   },
-  projects_nb_container:{
-    flex:1,
-  },
-  friends_nb_container:{
+  nb_container:{
     flex:1,
   },
   description:{

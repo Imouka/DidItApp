@@ -41,6 +41,10 @@ _displayCreateNewProjectPage= () => {
 
 }
 
+_displayFriendsList=()=>{
+  this.props.navigation.navigate('FriendsList')
+}
+
 _renderSeparator = () => {
 return (
   <View
@@ -64,7 +68,8 @@ return (
        user={this.state.user}
        friendsNb='43'
        projectNb={this.state.projects.length}
-       scrollToIndex={this._scrollToIndex}/>
+       scrollToIndex={this._scrollToIndex}
+       displayFriendsList={this._displayFriendsList}/>
   </View>
   <View
   style={styles.button_create_new_project}>
