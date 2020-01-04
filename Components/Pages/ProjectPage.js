@@ -37,8 +37,6 @@ class ProjectPage extends React.Component {
      <ProjectPageHeader
      project={this.state.project}
      imageProject={require('../../Images/project.png')}
-     progressionProject={'50%'}
-     progressionTemps={'20%'}
      displayProjectSettings={this.displayProjectSettings}/>
     </View>
     <View style={styles.add_update_container} >

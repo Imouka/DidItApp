@@ -46,10 +46,10 @@ class ProjectDetails extends React.Component {
             <Text  style={styles.categorie_text}>Done:</Text>
           </View>
           <View style={styles.response_text}>
-            <Text> XX </Text>
+            <Text> {project.project.progression} </Text>
           </View>
         </View>
-        <Text  style={styles.small_text}>XX% Already accomplished</Text>
+        <Text  style={styles.small_text}>{Math.round(project.project.progression_percentage * 100) + "% Already accomplished"}</Text>
         <View
         style={styles.row_container}>
           <View>

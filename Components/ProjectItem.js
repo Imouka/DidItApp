@@ -7,7 +7,7 @@ import Description from '../Components/Description'
 
 class ProjectItem extends React.Component {
   render() {
-    const{imageSource,project,progressionProjet,progressionTemps, displayDetailForProject}=this.props
+    const{imageSource,project, displayDetailForProject}=this.props
     return (
       <TouchableOpacity
       style={styles.main_container}
@@ -20,8 +20,8 @@ class ProjectItem extends React.Component {
           <View
           style={{marginTop:8}}>
              <ProgressBar
-             progressionProjet={progressionProjet}
-             progressionTemps={progressionTemps}/>
+             progressionProjet={Math.round(project.progression_percentage * 100) + "%"}
+             progressionTemps={Math.round(project.time_progression * 100) + "%"}/>
           </View>
         </View>
         <View

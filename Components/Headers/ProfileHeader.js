@@ -31,7 +31,7 @@ class ProfileHeader extends React.Component {
             <IconTextAndNumber
             text="Friends"
             number={friendsNb}
-            action={displayFriendsList}/>
+            action={()=>displayFriendsList(user.id)}/>
           </View>
         </View>
         <View

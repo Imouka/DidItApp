@@ -12,18 +12,18 @@ class ProfilePage extends React.Component {
     super(props)
     this.state = {
       projects: [],
-      user:{}
+      user:{},
     }
   //this._scrollToIndex=this._scrollToIndex.bind(this)
   }
 
   componentDidMount(){
-    getUserFromId("2").then(data => {
+    getUserFromId("1").then(data => {
       this.setState ({
         user:data
       })
     })
-    getProjectFromUserId("2").then(data => {
+    getProjectFromUserId("1").then(data => {
       this.setState ({
         projects:data.projects
       })
@@ -41,8 +41,8 @@ _displayCreateNewProjectPage= () => {
 
 }
 
-_displayFriendsList=()=>{
-  this.props.navigation.navigate('FriendsList')
+_displayFriendsListPage=(user_id)=>{
+  this.props.navigation.navigate('FriendsListPage',{user_id :user_id})
 }
 
 _renderSeparator = () => {
@@ -69,7 +69,7 @@ return (
        friendsNb='43'
        projectNb={this.state.projects.length}
        scrollToIndex={this._scrollToIndex}
-       displayFriendsList={this._displayFriendsList}/>
+       displayFriendsList={this._displayFriendsListPage}/>
   </View>
   <View
   style={styles.button_create_new_project}>
@@ -101,8 +101,6 @@ _scrollToIndex = () => {
         <ProjectItem
             project={item}
             imageSource={require('../../Images/project.png')}
-            progressionProjet={'10%'}
-            progressionTemps={'0%'}
             displayDetailForProject={this._displayDetailForProject}
         />}
       />

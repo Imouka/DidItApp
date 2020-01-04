@@ -17,7 +17,7 @@ class ProjectPageHeader extends React.Component {
 
 
   render() {
-    const {project,imageProject,progressionTemps,progressionProject,displayProjectSettings}=this.props
+    const {project,imageProject,displayProjectSettings}=this.props
     return (
       <View>
       <View style={{flexDirection:"row",justifyContent:"space-between",  alignItems:"center"}}>
@@ -43,10 +43,10 @@ class ProjectPageHeader extends React.Component {
         <View
         style={styles.progress_container}>
           <ProgressBarWithImage
-            progression={progressionProject}
+            progression={Math.round(project.progression_percentage * 100) + "%"}
             imageSource={require('../../Images/goal.png')}/>
           <ProgressBarWithImage
-            progression={progressionTemps}
+            progression={Math.round(project.time_progression * 100) + "%"}
             imageSource={require('../../Images/hourglass.png')}/>
             <View
             style={styles.date_container}>

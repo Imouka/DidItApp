@@ -10,7 +10,7 @@ import ProfilePage from '../Components/Pages/ProfilePage'
 import ProjectPage from '../Components/Pages/ProjectPage'
 import TestComponent from '../Components/Pages/TestComponent'
 import CreateNewProjectPage from '../Components/Pages/CreateNewProjectPage'
-import FriendsList from '../Components/Pages/FriendsList'
+import FriendsListPage from '../Components/Pages/FriendsListPage'
 
 
 const ProfileStackNavigator = createStackNavigator({
@@ -26,8 +26,8 @@ const ProfileStackNavigator = createStackNavigator({
  CreateNewProjectPage:{
    screen: CreateNewProjectPage,
  },
- FriendsList:{
-   screen : FriendsList,
+ FriendsListPage:{
+   screen : FriendsListPage,
  }
 })
 

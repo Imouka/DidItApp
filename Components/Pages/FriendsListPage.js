@@ -5,17 +5,21 @@ import SearchBar from '../../Components/SearchBar'
 import {getFriendsFromUserId } from '../../API/APITest'
 
 
-class FriendsList extends React.Component {
+class FriendsListPage extends React.Component {
 
   constructor(props) {
      super(props)
      this.state = {
        friends: [],
+       user_id: "",
      }
    }
 
    componentDidMount(){
-     getFriendsFromUserId("2").then(data => {
+     this.setState ({
+       user_id:this.props.navigation.state.params.user_id
+     })
+     getFriendsFromUserId(this.props.navigation.state.params.user_id).then(data => {
        this.setState ({
          friends:data.friends
        })
@@ -53,6 +57,7 @@ class FriendsList extends React.Component {
           <FriendItem
             userfirstname={item.first_name}
             userlastname={item.last_name}
+            friendRequest={item}
             imageSource={require('../../Images/profile_icon.png')}
           />}
         />
@@ -61,19 +66,7 @@ class FriendsList extends React.Component {
     )
   }
 }
-/*<FriendItem
-username={"Emma"}
-imageSource={require('../../Images/profile_icon.png')}
-/>
-<FriendItem
-username={"Emma"}
-imageSource={require('../../Images/profile_icon.png')}
-/>
-<FriendItem
-username={"Emma"}
-imageSource={require('../../Images/profile_icon.png')}
-/>
-*/
+
 
 const styles = StyleSheet.create({
   main_container: {
@@ -81,4 +74,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default FriendsList
+export default FriendsListPage
