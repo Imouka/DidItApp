@@ -5,12 +5,12 @@ import { Text, TouchableOpacity, StyleSheet, View} from 'react-native'
 
 class AddFriendButton extends React.Component {
   render() {
-    const{text, color, action, disabled,backgroundcolor, textcolor}=this.props
+    const{text, color, action, disabled,friend, backgroundcolor, textcolor}=this.props
     return (
       <View>
         <TouchableOpacity
                  style={[styles.button, {backgroundColor: backgroundcolor} ]}
-                 onPress={() => action()}
+                 onPress={() => action(friend,"sendFriendRequest")}
                  disabled={disabled}>
                  <Text style={{color: textcolor}}> {text} </Text>
          </TouchableOpacity>

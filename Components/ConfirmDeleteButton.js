@@ -1,15 +1,15 @@
 
 import React from 'react'
-import { Text, TouchableOpacity, StyleSheet, View} from 'react-native'
+import { Text, TouchableOpacity, StyleSheet, View, Alert} from 'react-native'
 
 class ConfirmDeleteButton extends React.Component {
   render() {
-    const{text, color, action}=this.props
+    const{text, color, friend, action, action_type}=this.props
     return (
       <View>
         <TouchableOpacity
                  style={[styles.button, {backgroundColor: color} ]}
-                 onPress={() => action()}>
+                 onPress={() => action(friend, action_type)}>
                  <Text> {text} </Text>
          </TouchableOpacity>
       </View>

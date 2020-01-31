@@ -1,8 +1,9 @@
 import React from 'react'
-import {View, StyleSheet, TextInput, FlatList} from 'react-native'
+import {View, StyleSheet, TextInput, FlatList, Alert, ActivityIndicator} from 'react-native'
 import FriendItem from '../../Components/FriendItem'
 import SearchBar from '../../Components/SearchBar'
 import {getFriendsFromUserId } from '../../API/APITest'
+import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react-native-popup-menu';
 
 
 class FriendsListPage extends React.Component {
@@ -12,7 +13,9 @@ class FriendsListPage extends React.Component {
      this.state = {
        friends: [],
        user_id: "",
+       isLoading:false,
      }
+       this.handleFriendship=this.handleFriendship.bind(this)
    }
 
    componentDidMount(){
@@ -26,6 +29,16 @@ class FriendsListPage extends React.Component {
      })
    }
 
+   _displayLoading() {
+       if (this.state.isLoading) {
+         return (
+           <View style={styles.loading_container}>
+             <ActivityIndicator size='large' />
+           </View>
+         )
+       }
+     }
+
   _renderHeader = () => {
   return (
   <View>
@@ -33,6 +46,39 @@ class FriendsListPage extends React.Component {
   </View>
   )
   };
+
+handleFriendship=(friend, action_type) =>{
+  this.setState({ isLoading: true })
+  if (action_type=="refuseFriendship") {
+    getFriendsFromUserId("2")
+    .then(data => {
+            this.setState({ isLoading: false })
+            Alert.alert("Deleted", "The friend request from "+friend.first_name+ " has been deleted")
+          })
+    .catch(data => {
+            this.setState({ isLoading: false })
+            Alert.alert("Error", "The action could not be performed, please try again later")
+          })
+  }
+  else if (action_type=="confirmFriendship")  {
+    getFriendsFromUserId("2").then(data => {
+            this.setState({ isLoading: false })
+            Alert.alert("Confirmed", "The friend request from "+ friend.first_name+ " has been confirmed")
+          })
+  }
+  else if (action_type=="sendFriendRequest")  {
+    getFriendsFromUserId("2").then(data => {
+            this.setState({ isLoading: false })
+            Alert.alert("Request send", "You sent a friend request to "+ friend.first_name)
+          })
+  }
+  else if (action_type=="unFriend")  {
+    getFriendsFromUserId("2").then(data => {
+            this.setState({ isLoading: false })
+            Alert.alert("Unfriended", friend.first_name+ "  has been unfriended")
+          })
+  }
+}
 
   _renderSeparator = () => {
   return (
@@ -44,7 +90,7 @@ class FriendsListPage extends React.Component {
   );
   };
 
-  render() {
+ render() {
     return (
         <View style={styles.main_container}>
         <FlatList
@@ -55,23 +101,33 @@ class FriendsListPage extends React.Component {
           ListHeaderComponent={this._renderHeader}
           renderItem={({item}) =>
           <FriendItem
-            userfirstname={item.first_name}
-            userlastname={item.last_name}
-            friendRequest={item}
+            frienditem={item}
             imageSource={require('../../Images/profile_icon.png')}
+            handleFriendship={this.handleFriendship}
+
           />}
         />
+        {this._displayLoading()}
         </View>
-
     )
   }
 }
+
 
 
 const styles = StyleSheet.create({
   main_container: {
     marginLeft: '3%',
   },
+  loading_container: {
+  position: 'absolute',
+  left: 0,
+  right: 0,
+  top: 100,
+  bottom: 0,
+  alignItems: 'center',
+  justifyContent: 'center'
+}
 })
 
 export default FriendsListPage

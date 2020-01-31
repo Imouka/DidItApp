@@ -2,7 +2,7 @@ import React from 'react'
 import { TouchableOpacity, StyleSheet, View, Image} from 'react-native'
 
 
-class DeleteButton extends React.Component {
+class MoreButton extends React.Component {
   render() {
     const{action}=this.props
     return (
@@ -26,4 +26,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default DeleteButton
+export default MoreButton

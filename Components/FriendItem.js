@@ -1,15 +1,17 @@
 import React from 'react'
-import {View, StyleSheet, TouchableOpacity,Text, Image,Button} from 'react-native'
+import {View, StyleSheet, TouchableOpacity,Text, Image,Button, Alert} from 'react-native'
 import UserIcon from '../Components/UserIcon'
 import ConfirmDeleteButton from '../Components/ConfirmDeleteButton'
 import MoreButton from '../Components/MoreButton'
 import AddFriendButton from '../Components/AddFriendButton'
+import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger} from 'react-native-popup-menu';
+
 
 class FriendItem extends React.Component {
 
-  _renderButton =(status) => {
-    console.log(status)
-    if (status=="SENDED") {
+  _renderButton =(frienditem,handleFriendship) => {
+    console.log(frienditem.status)
+    if (frienditem.status=="SENDED") {
         return (
           <View>
             <AddFriendButton
@@ -21,25 +23,39 @@ class FriendItem extends React.Component {
           </View>
         );
     }
-    else if (status=="RECEIVED") {
+    else if (frienditem.status=="RECEIVED") {
         return (
           <View style={{flexDirection: 'row'}}>
             <ConfirmDeleteButton
             text={"Confirm"}
             color={"#2ccce4"}
-            action={console.log}/>
+            friend={frienditem}
+            action={handleFriendship}
+            action_type={"confirmFriendship"}/>
             <ConfirmDeleteButton
             text={"Delete"}
             color={"#EEF0F1"}
-            action={console.log}/>
+            friend={frienditem}
+            action={handleFriendship}
+            action_type={"refuseFriendship"}/>
           </View>
         );
     }
-    else if (status=="ACCEPTED") {
+    else if (frienditem.status=="ACCEPTED") {
       return (
         <View>
-          <MoreButton
-          action={console.log}/>
+        <Menu onSelect={() => handleFriendship(frienditem, "unFriend")}>
+            <MenuTrigger>
+            <Image
+              style={styles.more_button_image}
+              source= {require('../Images/more.png')}
+            />
+           </MenuTrigger>
+            <MenuOptions>
+              <MenuOption value={ String(frienditem.first_name)}
+              text={'  Unfriend'} />
+          </MenuOptions>
+        </Menu>
         </View>
       );
     }
@@ -50,7 +66,8 @@ class FriendItem extends React.Component {
             text={"Add Friend"}
             backgroundcolor={'#2ccce4'}
             textcolor={'#000000'}
-            action={console.log}
+            friend={frienditem}
+            action={handleFriendship}
             disabled={false}/>
           </View>
         );
@@ -59,7 +76,7 @@ class FriendItem extends React.Component {
 
 
   render() {
-    const{userfirstname,userlastname, imageSource,friendRequest}=this.props
+    const{imageSource,frienditem,handleFriendship}=this.props
     return (
       <View style={styles.main_container}>
         <View style={{flex:4}}>
@@ -77,13 +94,13 @@ class FriendItem extends React.Component {
               style={styles.user_name_text}
               numberOfLines={1}
               ellipsizeMode={'tail'}>
-              {userfirstname} {userlastname}
+              {frienditem.first_name} {frienditem.last_name}
               </Text>
             </View>
           </TouchableOpacity>
         </View>
         <View style={{flex:3,flexDirection: 'row',  alignItems:'center',justifyContent:'flex-end' }}>
-            {this._renderButton(friendRequest.status)}
+            {this._renderButton(frienditem,handleFriendship)}
         </View>
       </View>
 
@@ -118,6 +135,10 @@ const styles = StyleSheet.create({
   user_name_container:{
     flex:2.5,
   },
+  more_button_image:{
+    width: 25,
+    height: 25,
+   },
 })
 
 export default FriendItem

@@ -41,7 +41,7 @@ class ProjectPage extends React.Component {
     </View>
     <View style={styles.add_update_container} >
        <TextInputWithImage
-       text="Add Update"
+       text={"Add Update"}
        imageSource= {require("../../Images/profile_icon.png")}
        action={console.log}/>
      </View>

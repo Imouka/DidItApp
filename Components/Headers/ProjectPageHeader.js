@@ -74,7 +74,7 @@ class ProjectPageHeader extends React.Component {
           source= {require('../../Images/support.png')}
         />
         <Text   style={styles.support_text} >
-          {"  55 people supported this project"}
+          {"  XXXX people supported this project"}
         </Text>
       </View>
       <View
