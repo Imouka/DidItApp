@@ -66,7 +66,7 @@ return (
       <ProfileHeader
        imageSource={require('../../Images/profile_icon.png')}
        user={this.state.user}
-       friendsNb='43'
+       friendsNb='XXX'
        projectNb={this.state.projects.length}
        scrollToIndex={this._scrollToIndex}
        displayFriendsList={this._displayFriendsListPage}/>

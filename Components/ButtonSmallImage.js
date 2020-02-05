@@ -26,11 +26,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems :'center'
   },
-  button_text: {
-    marginLeft: 5,
-    fontSize: 14,
-    textAlign: 'left',
-  },
  button_image:{
    width: 25,
    height: 25,

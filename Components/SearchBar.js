@@ -12,7 +12,6 @@ class SearchBar extends React.Component {
             source={require('../Images/magnifying-glass.png')}
           />
         <TextInput
-          style={styles.textinput}
           placeholder='Search'
           onChangeText={console.log()}
           onSubmitEditing={console.log()}
