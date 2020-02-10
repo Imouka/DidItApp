@@ -4,15 +4,14 @@ import { StyleSheet, View, Image, Text, TouchableOpacity,} from 'react-native'
 
 class ProgressBar extends React.Component {
 
-/* _convert_time_passed_in_hourglass_pos(progression_temps) {
-    return (
-    progression_temps-10;
-    )
-  }
-}*/
+
+  convert_time_passed_in_hourglass_pos(progression_temps) {
+    return(((Number.parseInt(progression_temps) -14)+"%").toString())
+   }
+
 
   render() {
-   const {progressionProjet,progressionTemps}=this.props
+   const {progressionProjet, progressionTemps}=this.props
     return (
       <View
       style={styles.main_container}>
@@ -22,8 +21,8 @@ class ProgressBar extends React.Component {
           style={[ StyleSheet.absoluteFill, styles.progress_bar_filler, {width: progressionProjet} ]}>
           </View>
           <Image
-            style={[styles.hourglass, {marginLeft:progressionTemps}]}
-            source={require('../Images/hourglass4.png')}/>
+            style={[styles.hourglass, {marginLeft:this.convert_time_passed_in_hourglass_pos(progressionTemps)}]}
+            source={require('../Images/hourglass6.png')}/>
         </View>
       </View>
 

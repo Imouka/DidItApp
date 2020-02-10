@@ -18,12 +18,12 @@ class ProfilePage extends React.Component {
   }
 
   componentDidMount(){
-    getUserFromId("2").then(data => {
+    getUserFromId("1").then(data => {
       this.setState ({
         user:data
       })
     })
-    getProjectFromUserId("2").then(data => {
+    getProjectFromUserId("1").then(data => {
       this.setState ({
         projects:data.projects
       })

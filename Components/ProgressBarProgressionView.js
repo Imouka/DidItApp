@@ -4,22 +4,7 @@ import { StyleSheet, View, Image, Text, TouchableOpacity,ImageBackground} from '
 
 class ProgressBar extends React.Component {
 
-/* _convert_time_passed_in_hourglass_pos(progression_temps) {
-    return (
-    progression_temps-10;
-    )
-  }
-}*/
 
-/*<View
-style={[ StyleSheet.absoluteFill, styles.progress_bar_filler_update, {width: newProgressionProjet} ]}>
-</View>
-
-<ImageBackground
-source={require("../Images/test.png")}
-style={[ StyleSheet.absoluteFill, styles.progress_bar_filler_update, {width: newProgressionProjet} ]}>
-</ImageBackground>
-*/
 
   render() {
    const {oldProgressionProjet,newProgressionProjet}=this.props
@@ -44,8 +29,7 @@ style={[ StyleSheet.absoluteFill, styles.progress_bar_filler_update, {width: new
     )
   }
 }
-//style={[ StyleSheet.absoluteFill, { backgroundColor: 'powderblue' , width: progression_projet} ]}>
-// marginLeft:progression_temps
+
 
 const styles = StyleSheet.create({
   main_container:{

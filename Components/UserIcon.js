@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native'
+import { StyleSheet, View, Image, Text} from 'react-native'
 
 
 class UserIcon extends React.Component {
@@ -9,13 +9,10 @@ class UserIcon extends React.Component {
     return (
       <View
       style={styles.main_container}>
-        <TouchableOpacity
-        onPress={() => console.log("Pressed user avatar")}>
-          <Image
-            style={styles.user_image}
-            source= {imageSource}
-          />
-        </TouchableOpacity>
+        <Image
+        style={styles.user_image}
+        source= {imageSource}
+        />
         <Text
         style={styles.user_name_text}
         numberOfLines={1}

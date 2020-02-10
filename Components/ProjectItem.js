@@ -12,7 +12,7 @@ class ProjectItem extends React.Component {
       <TouchableOpacity
       style={styles.main_container}
       onPress={ () => displayDetailForProject(project)}>
-        <View style = {{flex:1}} >
+        <View style = {styles.project_image_container}>
           <View>
              <ProjectIcon
              imageSource={imageSource}/>
@@ -56,12 +56,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   project_image_container: {
-    flex:1
+    flex:1,
   },
   text_container:{
     flexDirection:'column',
     flex:3.5,
-    marginRight:15
+    marginRight:"3%",
+    marginLeft:"2%"
+  },
+  project_image_container:{
+    flex:1,
+    alignItems:'center'
   }
 })
 

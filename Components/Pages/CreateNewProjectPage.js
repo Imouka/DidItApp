@@ -71,7 +71,7 @@ class CreateNewProjectPage extends React.Component {
       }
     }
 
-  _display_number_of_steps=(target_val, step_size)=> {
+_display_number_of_steps=(target_val, step_size)=> {
     if (! isNaN(Math.round(target_val / step_size))){
       return (
         <Text>
@@ -129,7 +129,7 @@ _valid_dates=()=>{
   }
   }
 
-  _valid_target_value=()=>{
+_valid_target_value=()=>{
     if ((this.state.targetValue != null) && (! isNaN(this.state.targetValue)) &&  (1<= this.state.targetValue)) {
       return (true)
     }
@@ -139,7 +139,7 @@ _valid_dates=()=>{
     }
   }
 
-  _valid_step_size=()=>{
+_valid_step_size=()=>{
     if ((this.state.stepSize !== null) && (! isNaN(this.state.stepSize)) &&  (1<= Number.parseInt(this.state.stepSize)) &&   (Number.parseInt(this.state.targetValue) >= Number.parseInt(this.state.stepSize))) {
       return (true)
     }
@@ -164,6 +164,7 @@ _valid_dates=()=>{
               <TextInput
                 placeholderTextColor="black"
                 placeholder={'Insert your project title'}
+                maxLength = {40}
                 onChangeText={title=>this.setState({
                           title
                       })}/>
@@ -233,7 +234,7 @@ _valid_dates=()=>{
           </View>
           <View style={styles.sub_container2}>
               <Text style={styles.instruction_text}>
-                &#10171;  {"Specify a quantitative size the steps of your project"}
+                &#10171;  {"Specify a size for the steps of your project"}
               </Text>
               <View   style={styles.row_container}>
                 <View style={styles.left} >
@@ -333,9 +334,6 @@ const styles = StyleSheet.create({
  left:{
    flex :0.9,
 //   backgroundColor:'red'
- },
- center:{
-   flex :1
  },
  right:{
    marginLeft:"3%",

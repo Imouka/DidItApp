@@ -4,17 +4,26 @@ import {View,StyleSheet,Text, Image, TouchableOpacity} from 'react-native'
 import ProjectIcon from '../../Components/ProjectIcon'
 import ProgressBar from '../../Components/ProgressBar'
 import ProgressBarWithImage from '../../Components/ProgressBarWithImage'
-
 import Description from '../../Components/Description'
 import moment from 'moment'
-
 import Panel from '../../Components/Panel';  // Step 1
-
 import ButtonSmallImage from '../../Components/ButtonSmallImage'
 import ProjectDetails from '../../Components/ProjectDetails'
+import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger} from 'react-native-popup-menu';
+import MoreButton from '../../Components/MoreButton'
+import AddProgression from '../../Components/AddProgression'
+
 
 class ProjectPageHeader extends React.Component {
 
+/*
+<TouchableOpacity
+onPress={displayProjectSettings}>
+  <Image
+    style={styles.settings_image}
+    source=  {require("../../Images/settings.png")}
+  />
+</TouchableOpacity>*/
 
   render() {
     const {project,imageProject,displayProjectSettings}=this.props
@@ -25,13 +34,21 @@ class ProjectPageHeader extends React.Component {
         style={styles.project_title_text}>
         {project.title}
         </Text>
-        <TouchableOpacity
-        onPress={displayProjectSettings}>
-          <Image
-            style={styles.settings_image}
-            source=  {require("../../Images/settings.png")}
-          />
-        </TouchableOpacity>
+
+        <Menu onSelect={() => console.log}>
+            <MenuTrigger>
+            <Image
+              style={styles.more_button_image}
+              source= {require('../../Images/more.png')}
+            />
+           </MenuTrigger>
+            <MenuOptions>
+              <MenuOption value={ "modify"}
+              text={'  Modify project'} />
+              <MenuOption value={ "delete"}
+              text={'  Delete project'} />
+          </MenuOptions>
+        </Menu>
       </View>
       <View
       style={styles.row_container}>
@@ -47,7 +64,7 @@ class ProjectPageHeader extends React.Component {
             imageSource={require('../../Images/goal.png')}/>
           <ProgressBarWithImage
             progression={Math.round(project.time_progression * 100) + "%"}
-            imageSource={require('../../Images/hourglass.png')}/>
+            imageSource={require('../../Images/hourglass6.png')}/>
             <View
             style={styles.date_container}>
               <Text  style={styles.date}>
@@ -60,11 +77,7 @@ class ProjectPageHeader extends React.Component {
         </View>
         <View
         style={styles.image_container}>
-          <TouchableOpacity>
-            <Image
-              style={styles.update_image}
-              source= {require('../../Images/progress.png')}/>
-          </TouchableOpacity>
+          <AddProgression/>
         </View>
       </View>
       <View
@@ -102,12 +115,12 @@ const styles = StyleSheet.create({
     marginTop:"5%"
   },
   progress_container: {
-      flex:0.90,
+      flex:0.9,
       flexDirection: 'column',
       justifyContent:"space-around"
   },
    image_container:{
-    alignSelf:"center"
+    alignSelf:"center",
   },
   support_image:{
     width: 35,
@@ -148,6 +161,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems:'center',
     marginTop:"3%"
-  }
+  },
+  more_button_image:{
+    width: 25,
+    height: 25,
+   },
 })
 export default ProjectPageHeader

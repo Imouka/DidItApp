@@ -3,6 +3,7 @@ import {View, StyleSheet, TextInput, FlatList, Alert, ActivityIndicator} from 'r
 import FriendItem from '../../Components/FriendItem'
 import SearchBar from '../../Components/SearchBar'
 import {getFriendsFromUserId } from '../../API/APITest'
+import {handleFriendship} from '../../API/APITest'
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react-native-popup-menu';
 
 
@@ -49,7 +50,9 @@ class FriendsListPage extends React.Component {
 
 handleFriendship=(friend, action_type) =>{
   this.setState({ isLoading: true })
+  console.log(friend)
   if (action_type=="refuseFriendship") {
+    //handleFriendship(this.state.user_id, friend.id, action_type)
     getFriendsFromUserId("2")
     .then(data => {
             this.setState({ isLoading: false })
