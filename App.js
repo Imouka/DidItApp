@@ -5,12 +5,16 @@ import TestComponent from './Components/Pages/TestComponent'
 import ProfilePage from './Components/Pages/ProfilePage'
 import Navigation from './Navigation/Navigation'
 import { MenuProvider } from 'react-native-popup-menu';
+import { Provider } from 'react-redux'
+import Store from './Store/configureStore'
 
 export default class App extends React.Component {
   render() {
     return (
       <MenuProvider>
-       <Navigation/>
+        <Provider store={Store}>
+          <Navigation/>
+        </Provider>
       </MenuProvider>
     )
   }

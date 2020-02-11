@@ -10,7 +10,7 @@ import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger} from 'react-n
 class FriendItem extends React.Component {
 
   _renderButton =(frienditem,handleFriendship) => {
-    console.log(frienditem.status)
+
     if (frienditem.status=="SENDED") {
         return (
           <View>
@@ -31,20 +31,20 @@ class FriendItem extends React.Component {
             color={"#2ccce4"}
             friend={frienditem}
             action={handleFriendship}
-            action_type={"confirmFriendship"}/>
+            action_type={"confirm"}/>
             <ConfirmDeleteButton
             text={"Delete"}
             color={"#EEF0F1"}
             friend={frienditem}
             action={handleFriendship}
-            action_type={"refuseFriendship"}/>
+            action_type={"refuse"}/>
           </View>
         );
     }
     else if (frienditem.status=="ACCEPTED") {
       return (
         <View>
-        <Menu onSelect={() => handleFriendship(frienditem, "unFriend")}>
+        <Menu onSelect={() => handleFriendship(frienditem, "unfriend")}>
             <MenuTrigger>
             <Image
               style={styles.more_button_image}

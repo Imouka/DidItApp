@@ -16,17 +16,9 @@ import AddProgression from '../../Components/AddProgression'
 
 class ProjectPageHeader extends React.Component {
 
-/*
-<TouchableOpacity
-onPress={displayProjectSettings}>
-  <Image
-    style={styles.settings_image}
-    source=  {require("../../Images/settings.png")}
-  />
-</TouchableOpacity>*/
 
   render() {
-    const {project,imageProject,displayProjectSettings}=this.props
+    const {project,imageProject,displayProjectSettings,deleteProject}=this.props
     return (
       <View>
       <View style={{flexDirection:"row",justifyContent:"space-between",  alignItems:"center"}}>
@@ -35,7 +27,7 @@ onPress={displayProjectSettings}>
         {project.title}
         </Text>
 
-        <Menu onSelect={() => console.log}>
+        <Menu >
             <MenuTrigger>
             <Image
               style={styles.more_button_image}
@@ -43,9 +35,11 @@ onPress={displayProjectSettings}>
             />
            </MenuTrigger>
             <MenuOptions>
-              <MenuOption value={ "modify"}
+              <MenuOption
+              onSelect={() => displayProjectSettings()}
               text={'  Modify project'} />
-              <MenuOption value={ "delete"}
+              <MenuOption
+              onSelect={() => deleteProject()}
               text={'  Delete project'} />
           </MenuOptions>
         </Menu>

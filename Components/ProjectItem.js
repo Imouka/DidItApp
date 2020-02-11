@@ -11,7 +11,7 @@ class ProjectItem extends React.Component {
     return (
       <TouchableOpacity
       style={styles.main_container}
-      onPress={ () => displayDetailForProject(project)}>
+      onPress={ () => displayDetailForProject(project.id)}>
         <View style = {styles.project_image_container}>
           <View>
              <ProjectIcon

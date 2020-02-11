@@ -36,17 +36,28 @@ export function getFriendsFromUserId(id){
     .catch((error)=>console.log(error))
 }
 
-export function handleFriendship(id, friendid, action){
-  const url = "https://did-it-server.herokuapp.com/users/"+id+"/friends"
+export function postHandleFriendship(id, friendid, action){
+  const url = "http://did-it-server.herokuapp.com/users/"+id+"/friends/update"
   /*const url = 'https://api.themoviedb.org/3/search/movie?api_key=' + API_TOKEN
   + '&language=fr&query=' + text*/
+  console.log(url)
+  console.log(friendid)
+  console.log(action)
   return fetch(url, {
      method: 'POST',
+     redirect:'follow',
+     headers: {
+       Accept: 'application/json',
+       'Content-Type': 'application/json',
+     },
      body: JSON.stringify({
        action: action,
        friendid: friendid,
      }),
 })
     .then((response)=>response.json())
-    .catch((error)=>console.log(error))
+    .catch((error)=>{
+      console.log(error);
+      throw error;
+  })
 }

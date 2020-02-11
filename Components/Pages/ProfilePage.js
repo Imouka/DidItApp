@@ -1,5 +1,6 @@
 
 import React from 'react'
+import {connect} from 'react-redux'
 import {View,StyleSheet,Text, FlatList} from 'react-native'
 import ProfileHeader from '../../Components/Headers/ProfileHeader'
 import ButtonBigImageAndText from '../../Components/ButtonBigImageAndText'
@@ -8,33 +9,37 @@ import { getUserFromId, getProjectFromUserId } from '../../API/APITest'
 
 
 class ProfilePage extends React.Component {
+
  constructor(props) {
     super(props)
-    this.state = {
-      projects: [],
-      user:{},
-    }
-  //this._scrollToIndex=this._scrollToIndex.bind(this)
   }
 
   componentDidMount(){
+    this._update_user()
+    //this._update_projects()
+  }
+
+  componentDidUpdate(prevProps){
+    if(prevProps.user.id != this.props.user.id){
+        this._update_projects()
+    }
+  }
+
+  _update_user(){
     getUserFromId("1").then(data => {
-      this.setState ({
-        user:data
-      })
-    })
-    getProjectFromUserId("1").then(data => {
-      this.setState ({
-        projects:data.projects
-      })
+      this.props.dispatch({ type: "UPDATE_USER", value: data })
     })
   }
 
+  _update_projects(){
+    getProjectFromUserId(this.props.user.id).then(data => {
+      this.props.dispatch({ type: "UPDATE_PROJECTS", value: data.projects })
+    })
+  }
 
-  _displayDetailForProject=(project)=>{
-    this.props.navigation.navigate('ProjectPage',{project :project})
-      console.log("Display project with id " + project.id)
-}
+  _displayDetailForProject=(project_id)=>{
+    this.props.navigation.navigate('ProjectPage',{project_id : project_id})
+    }
 
 _displayCreateNewProjectPage= () => {
   this.props.navigation.navigate('CreateNewProjectPage')
@@ -65,9 +70,9 @@ return (
   <View>
       <ProfileHeader
        imageSource={require('../../Images/profile_icon.png')}
-       user={this.state.user}
+       user={this.props.user}
        friendsNb='XXX'
-       projectNb={this.state.projects.length}
+       projectNb={this.props.projects.length}
        scrollToIndex={this._scrollToIndex}
        displayFriendsList={this._displayFriendsListPage}/>
   </View>
@@ -83,7 +88,6 @@ return (
 };
 
 _scrollToIndex = () => {
-  console.log(this.flatListRef)
   this.flatListRef.scrollToIndex({animated: true, index:0});
 }
 
@@ -92,7 +96,7 @@ _scrollToIndex = () => {
       <View
       style={styles.main_container}>
       <FlatList
-        data={this.state.projects}
+        data={this.props.projects}
         keyExtractor={(item) => item.id.toString()}
         ref={(ref) => { this.flatListRef = ref; }}
         ItemSeparatorComponent={this._renderSeparator}
@@ -121,4 +125,11 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ProfilePage
+const mapStateToProps = (state) => {
+  return {
+    projects : state.handleProject.projects,
+    user: state.handleUser.user
+  }
+}
+
+export default connect(mapStateToProps)(ProfilePage)

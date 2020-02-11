@@ -10,7 +10,7 @@ class AddFriendButton extends React.Component {
       <View>
         <TouchableOpacity
                  style={[styles.button, {backgroundColor: backgroundcolor} ]}
-                 onPress={() => action(friend,"sendFriendRequest")}
+                 onPress={() => action(friend,"send")}
                  disabled={disabled}>
                  <Text style={{color: textcolor}}> {text} </Text>
          </TouchableOpacity>

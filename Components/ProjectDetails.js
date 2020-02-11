@@ -40,7 +40,7 @@ class ProjectDetails extends React.Component {
             <Text  style={styles.categorie_text}>Goal:</Text>
           </View>
           <View style={styles.response_text}>
-            <Text>   {project.project.objective}  {project.project.label_objective}</Text>
+            <Text>   {project.project.objective} </Text>
           </View>
           <View>
             <Text  style={styles.categorie_text}>Done:</Text>

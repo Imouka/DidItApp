@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Modal, Text, TouchableHighlight, TouchableOpacity, View , Image, StyleSheet, TextInput, Alert} from 'react-native';
+import { Modal, Text, TouchableHighlight, TouchableOpacity, View , Image, StyleSheet, TextInput, Alert, Keyboard} from 'react-native';
+import { getFriendsFromUserId } from '../API/APITest'
+
 
 class AddProgression extends Component {
 
@@ -13,16 +15,45 @@ class AddProgression extends Component {
          modalVisible: false,
          description:"",
          progressValue:null,
+         height: '50%'
      }
    //this._scrollToIndex=this._scrollToIndex.bind(this)
    }
+
+   componentDidMount() {
+    this.keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      this._keyboardDidShow,
+    );
+    this.keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      this._keyboardDidHide,
+    );
+  }
+     componentWillUnmount() {
+       this.keyboardDidShowListener.remove();
+       this.keyboardDidHideListener.remove();
+     }
+
+     _keyboardDidShow = ()=> {
+       this.setState({
+         height:"90%"
+       })
+     }
+
+     _keyboardDidHide = ()=> {
+       this.setState({
+         height:"50%"
+       })
+     }
 
    _check_form=()=>{
      if (this.state.progressValue < 1 ) {
         Alert.alert("Error", "The progress value must be grater or equal to one")
       }
      else {
-       if (this.state.progressValue="hello1" ) {
+       console.log(this.state.progressValue)
+       if (this.state.progressValue=="hello1" ) {
          this.setState({ isLoading: true })
          console.log(this.state.isLoading)
          getFriendsFromUserId("2")
@@ -35,7 +66,7 @@ class AddProgression extends Component {
                  Alert.alert("Error", "The action could not be performed, please try again later")
                })
        }
-       else if (this.state.progressValue ="hello") {
+       else if (this.state.progressValue=="hello") {
          this.setState({ isLoading: true })
          console.log(this.state.isLoading)
          getFriendsFromUserId("2")
@@ -58,7 +89,7 @@ class AddProgression extends Component {
             <Modal animationType={'slide'} transparent={true} visible={this.state.modalVisible}>
                 <View style={{ width: '100%', height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ width: '100%', height: '100%', backgroundColor: 'black', opacity: .6 }}/>
-                    <View style={{ position: 'absolute', width: '80%', height: '55%', backgroundColor: 'white', flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={[{ position: 'absolute', width: '80%', height:this.state.height, backgroundColor: 'white', flex: 1, justifyContent: 'center', alignItems: 'center'}]}>
                         <View style={styles.main_container}>
                             <Text style ={styles.text_title} >Update your project</Text>
                             <View>
@@ -75,7 +106,11 @@ class AddProgression extends Component {
                                 <TextInput
                                   keyboardType="numeric"
                                   placeholderTextColor="grey"
-                                  placeholder={" "}/>
+                                  placeholder={" "}
+                                  onChangeText={progressValue=>this.setState({
+                                            progressValue
+                                        })}
+                                  />
                               </View>
                             </View>
                             </View>
@@ -84,7 +119,7 @@ class AddProgression extends Component {
                                 placeholder={'Describe your progress'}
                                 multiline={true}
                                 blurOnSubmit={true}
-                                maxHeight={60}
+                                maxHeight={80}
                                 onChangeText={description=>this.setState({
                                           description
                                       })}/>
@@ -102,7 +137,7 @@ class AddProgression extends Component {
                               </TouchableOpacity>
                             </View>
                         </View>
-                      </View>
+                    </View>
                 </View>
             </Modal>
             <TouchableOpacity
@@ -134,7 +169,7 @@ class AddProgression extends Component {
       height:40,
     },
     text_input_container:{
-      marginTop:3,
+      marginTop:"3%",
       borderWidth:1,
       borderColor:'#D5D5D5',
       borderRadius:10,
@@ -154,12 +189,10 @@ class AddProgression extends Component {
      },
      button_container:{
        flexDirection:"row",
-        justifyContent :'space-around',
+       justifyContent :'space-around',
      },
      button_text: {
-       fontWeight: 'bold',
        fontSize:14,
-       color:"#406B83",
      },
   })
 export default AddProgression

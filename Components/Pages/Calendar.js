@@ -29,11 +29,13 @@ class Calendar extends React.Component {
       console.log(this.state)
     }
 
-    _displayNewProjectPage= (selectedStartDate,selectedEndDate ) => {
-      this.props.navigation.navigate('CreateNewProjectPage',{selectedStartDate :selectedStartDate, selectedEndDate: selectedEndDate})
+    _displayReturnPage= (selectedStartDate,selectedEndDate, returnPage) => {
+      this.props.navigation.navigate( returnPage,{selectedStartDate :selectedStartDate, selectedEndDate: selectedEndDate})
     }
 
     render() {
+      const returnPage =this.props.navigation.state.params.returnPage
+      const selectableStartDate =this.props.navigation.state.params.selectableStartDate
       const { selectedStartDate, selectedEndDate } = this.state;
       const minDate = new Date(); // Today
       const maxDate = new Date(2050, 6, 3);
@@ -42,7 +44,7 @@ class Calendar extends React.Component {
         <View style={styles.container}>
           <CalendarPicker
             startFromMonday={true}
-            allowRangeSelection={true}
+            allowRangeSelection={selectableStartDate}
             minDate={minDate}
             maxDate={maxDate}
             todayBackgroundColor="#f2e6ff"
@@ -53,7 +55,7 @@ class Calendar extends React.Component {
           <Button
          color="#4F5866"
          title="OK"
-         onPress={() =>  this._displayNewProjectPage(this.state.selectedStartDate,this.state.selectedEndDate) }
+         onPress={() =>  this._displayReturnPage(this.state.selectedStartDate,this.state.selectedEndDate, returnPage) }
          />
         </View>
       );

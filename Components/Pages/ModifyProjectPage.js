@@ -5,7 +5,7 @@ import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
 import {getFriendsFromUserId } from '../../API/APITest'
 
-class CreateNewProjectPage extends React.Component {
+class ModifyProjectPage extends React.Component {
 
   constructor(props) {
      super(props);
@@ -14,32 +14,43 @@ class CreateNewProjectPage extends React.Component {
        description:"",
        selectedStartDate: null,
        selectedEndDate: null,
-       targetValue:null,
-       stepSize:null,
-       stepNumber:null,
-       stepSizeTmp:null,
+       targetValue:"",
+       stepSize:"null",
+       stepNumber:"null",
        isLoading:false,
      };
    }
 
-  _displayCalendar=(selectedStartDate,selectedEndDate )=> {
-    this.props.navigation.navigate('Calendar',{selectedStartDate :selectedStartDate , selectedEndDate: selectedEndDate,  returnPage:"CreateNewProjectPage", selectableStartDate:true})
+
+
+   componentDidMount(){
+     console.log(this.props.navigation.state.params.project)
+    this.setState ({
+         title:this.props.navigation.state.params.project.title,
+         description:this.props.navigation.state.params.project.description,
+         selectedStartDate:this.props.navigation.state.params.project.project_start_date,
+         selectedEndDate:this.props.navigation.state.params.project.project_end_date,
+         targetValue:this.props.navigation.state.params.project.objective,
+         stepSize:this.props.navigation.state.params.project.pas,
+       })
+
+   }
+
+_displayCalendar=(selectedStartDate,selectedEndDate )=> {
+    this.props.navigation.navigate('Calendar',{selectedStartDate :selectedStartDate , selectedEndDate: selectedEndDate, returnPage:"ModifyProjectPage", selectableStartDate:false})
   }
 
-  _displayProfilePage=()=>{
-    this.props.navigation.navigate('ProfilePage')
-    }
+_displayProjectSettings=()=>{
+       this.props.navigation.navigate('ModifyProjectPage')
+ }
+
+ _displayProjectPage=(project_id)=>{
+   this.props.navigation.navigate('ProjectPage',{project_id : project_id})
+   }
 
    componentDidUpdate(prevProps){
-     prevHasParam = (typeof prevProps.navigation.state.params === "object")
-     newHasParam = (typeof this.props.navigation.state.params === "object")
-
+     newHasParam = (typeof this.props.navigation.state.params.selectedEndDate === "object")
      if(newHasParam){
-       if(this.state.selectedStartDate != this.props.navigation.state.params.selectedStartDate ){
-         this.setState ({
-           selectedStartDate:this.props.navigation.state.params.selectedStartDate,
-         })
-       }
        if(this.state.selectedEndDate != this.props.navigation.state.params.selectedEndDate ){
          this.setState ({
            selectedEndDate:this.props.navigation.state.params.selectedEndDate
@@ -48,22 +59,33 @@ class CreateNewProjectPage extends React.Component {
      }
   }
 
-  _displaydate=(date)=> {
+  _displaydate=(date, editable)=> {
     if (date==null){
       return (
-        <Text>
+        <Text style={[{color:"#999EA5"}]}>
          {"   Select date"}
         </Text>
       )
     }
     else {
-      return (
-        <Text>
-         {"   "+moment(new Date(date)).format('DD/MM/YYYY')}
-        </Text>
-      )
+      if (editable==true){
+        return (
+          <Text>
+           {"   "+moment(new Date(date)).format('DD/MM/YYYY')}
+          </Text>
+        )
+      }
+      else {
+        return (
+          <Text style={[{color:"#999EA5"}]}>
+           {"   "+moment(new Date(date)).format('DD/MM/YYYY')}
+          </Text>
+        )
+      }
     }
   }
+
+
 
   _displayLoading() {
       if (this.state.isLoading) {
@@ -78,27 +100,22 @@ class CreateNewProjectPage extends React.Component {
 _display_number_of_steps=(target_val, step_size)=> {
     if (! isNaN(Math.round(target_val / step_size))){
       return (
-        <Text>
+        <Text style={[{color:"#999EA5"}]}>
          {"Your project will be divided in "+ Math.round(target_val / step_size)+" steps"}
         </Text>
       )
     }
 }
 
-_default_step_size=(target_val)=> {
-       this.setState({
-         stepSize: Math.max(1, Math.round(target_val /10)).toString()
-       });
-  }
-
 _check_form=()=>{
-  if (this._valid_title() && this._valid_description() && this._valid_dates() && this._valid_target_value() && this._valid_step_size() ) {
+  if (this._valid_title() && this._valid_description() && this._valid_dates()) {
     this.setState({ isLoading: true })
+    console.log(this.state.isLoading)
     getFriendsFromUserId("2")
     .then(data => {
-           this.setState({ isLoading: false })
-           this._displayProfilePage()
-           Alert.alert("New project created ","your new project has been created")
+            this.setState({ isLoading: false })
+            this._displayProjectPage(this.props.navigation.state.params.project.id)
+           Alert.alert("Project modified ","Your project has been modified")
           })
     .catch(data => {
             this.setState({ isLoading: false })
@@ -106,7 +123,7 @@ _check_form=()=>{
           })
    }
   else {
-    Alert.alert("Something went wrong ", " Please check the following fields:  \n -> Title: mandatory  \n -> Dates: mandatory  \n -> Target value: must be a number greater or equal to 1\n -> Step size: must be a number between 1 and Target value")
+    Alert.alert("Something went wrong ", " Please check the following fields:  \n -> Title: mandatory  \n -> Dates: mandatory")
   }
 }
 
@@ -133,26 +150,6 @@ _valid_dates=()=>{
   }
   }
 
-_valid_target_value=()=>{
-    if ((this.state.targetValue != null) && (! isNaN(this.state.targetValue)) &&  (1<= this.state.targetValue)) {
-      return (true)
-    }
-    else {
-      console.log("target NOT ok")
-      return (false)
-    }
-  }
-
-_valid_step_size=()=>{
-    if ((this.state.stepSize !== null) && (! isNaN(this.state.stepSize)) &&  (1<= Number.parseInt(this.state.stepSize)) &&   (Number.parseInt(this.state.targetValue) >= Number.parseInt(this.state.stepSize))) {
-      return (true)
-    }
-    else {
-      console.log(this.state.stepSize)
-      console.log("step NOT ok")
-      return (false)
-    }
-  }
 
   render() {
     return (
@@ -167,7 +164,7 @@ _valid_step_size=()=>{
             <View style ={styles.text_input_container}>
               <TextInput
                 placeholderTextColor="black"
-                placeholder={'Insert your project title'}
+                placeholder={this.state.title}
                 maxLength = {40}
                 onChangeText={title=>this.setState({
                           title
@@ -178,7 +175,7 @@ _valid_step_size=()=>{
             <View style ={styles.text_input_container}>
               <TextInput
               placeholderTextColor="black"
-              placeholder='Insert a description for your project'
+              placeholder={this.state.description}
               multiline={true}
               blurOnSubmit={true}
               onChangeText={description=>this.setState({
@@ -194,67 +191,61 @@ _valid_step_size=()=>{
               </Text>
               <View   style={styles.row_container_dates}>
                 <TouchableOpacity
-                  style={styles.bouton_date}
-                  onPress={() =>  this._displayCalendar(this.state.selectedStartDate,this.state.selectedEndDate)}>
-                  <Text style={styles.from_to_text}>{"From:"}  </Text>
-                  {this._displaydate(this.state.selectedStartDate)}
+                  style={styles.bouton_date_disabled}
+                  onPress={() =>  this._displayCalendar(this.state.selectedStartDate,this.state.selectedEndDate)}
+                  disabled={true}>
+                  <Text style={styles.from_to_text_disabled}>{"From:"}  </Text>
+                  {this._displaydate(this.state.selectedStartDate, false)}
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.bouton_date}
                   onPress={() =>  this._displayCalendar(this.state.selectedStartDate,this.state.selectedEndDate)}>
                   <Text style={styles.from_to_text}>{"To:"}  </Text>
-                  {this._displaydate(this.state.selectedEndDate)}
+                  {this._displaydate(this.state.selectedEndDate, true)}
                 </TouchableOpacity>
               </View>
           </View>
 
           <View style={styles.sub_container2}>
-              <Text style={styles.instruction_text}>
+              <Text style={styles.instruction_text_disabled}>
               &#10171; {"Specify a quantitative target for your project"}
               </Text>
-
-
               <View   style={styles.row_container}>
                 <View style={styles.left} >
-                  <Text style={styles.from_to_text}>
+                  <Text style={styles.from_to_text_disabled}>
                   {"Target value: "}
                   </Text>
                 </View>
                 <View
-                style ={[styles.text_input_container, ]}>
+                style ={[styles.text_input_container_disabled, ]}>
                   <TextInput
                     keyboardType="numeric"
                     placeholderTextColor="grey"
-                    placeholder={''}
-                    onChangeText={(targetValue)=>this.setState({targetValue})}
-                    onEndEditing={() => this._default_step_size(this.state.targetValue)}/>
+                    placeholder={this.state.targetValue.toString()}
+                    editable ={false}
+                  />
                 </View>
                 <View style={styles.right} >
-                  <Text >
-                  {"eg: Choose 8 if you wnat to read 8 books"}
-                  </Text>
                 </View>
               </View>
           </View>
           <View style={styles.sub_container2}>
-              <Text style={styles.instruction_text}>
+              <Text style={styles.instruction_text_disabled}>
                 &#10171;  {"Specify a size for the steps of your project"}
               </Text>
               <View   style={styles.row_container}>
                 <View style={styles.left} >
-                  <Text style={styles.from_to_text}>
+                  <Text style={styles.from_to_text_disabled}>
                   {"Step size: "}
                   </Text>
                 </View>
-                <View  style ={[styles.text_input_container, ]}>
+                <View  style ={[styles.text_input_container_disabled, ]}>
                   <TextInput
                     keyboardType="numeric"
                     placeholderTextColor="grey"
-                    placeholder={this.state.stepSize}
-                    onChangeText={(stepSizeTmp)=>this.setState({
-                              stepSizeTmp
-                          })}
-                    onEndEditing={()=>this.setState({stepSize:this.state.stepSizeTmp})}/>
+                    placeholder={this.state.stepSize.toString()}
+                    editable ={false}
+                   />
                 </View>
                 <View style={styles.right} >
                    {  this._display_number_of_steps(this.state.targetValue, this.state.stepSize)}
@@ -263,7 +254,7 @@ _valid_step_size=()=>{
           </View>
           <View  style={styles.sub_container2}>
             <Button
-            title= "Create project"
+            title= "Save project"
             onPress={
               this._check_form
               }
@@ -327,6 +318,31 @@ const styles = StyleSheet.create({
    fontStyle: "italic",
    color:"#4B5E78",
  },
+ instruction_text_disabled: {
+   fontStyle: "italic",
+   color:"#AFB6C0",
+ },
+ from_to_text_disabled: {
+   fontWeight: 'bold',
+   fontSize:15,
+   color:"#AFB6C0",
+ },
+ text_input_container_disabled:{
+   borderWidth:1,
+   borderColor:"#AFB6C0",
+   borderRadius:10,
+   backgroundColor:'#E3E7ED'
+ },
+ bouton_date_disabled:{
+  flex:0.45,
+  borderWidth:1,
+  paddingBottom:"1%",
+  paddingTop:"1%",
+  paddingLeft:"5%",
+  borderColor:"#AFB6C0",
+  borderRadius:10,
+  backgroundColor:'#E3E7ED'
+},
  sub_container:{
    flex:1,
    marginTop:'4%'
@@ -354,4 +370,4 @@ const styles = StyleSheet.create({
 }
   })
 
-export default CreateNewProjectPage
+export default ModifyProjectPage
