@@ -3,7 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { createAppContainer } from 'react-navigation'
 import{createBottomTabNavigator} from 'react-navigation-tabs'
 import React from 'react'
-import {StyleSheet, Image } from 'react-native'
+import {StyleSheet, Image, TouchableOpacity } from 'react-native'
 
 import HomePage from '../Components/Pages/HomePage'
 import ProfilePage from '../Components/Pages/ProfilePage'
@@ -13,7 +13,7 @@ import CreateNewProjectPage from '../Components/Pages/CreateNewProjectPage'
 import ModifyProjectPage from '../Components/Pages/ModifyProjectPage'
 import FriendsListPage from '../Components/Pages/FriendsListPage'
 import Calendar from '../Components/Pages/Calendar'
-
+import Notifications from '../Components/Notifications'
 
 const ProfileStackNavigator = createStackNavigator({
   ProfilePage: {
@@ -43,10 +43,20 @@ const HomeStackNavigator = createStackNavigator({
     HomePage: {
     screen:HomePage,
     navigationOptions: {
-      title: 'Home'
+      title: 'Your Profile',
+      headerTitle: (
+           <Image style={{ width: 150, height: 40 }} source={require('../Images/app_logo.png')}/>
+            ),
+      headerRight: (navigation) => {
+            return <Notifications />;
+          },
     }
   },
+  ProjectPage: {
+   screen: ProjectPage,
+ },
 })
+
 
 const DidItTabNavigator=createBottomTabNavigator(
   {
@@ -70,7 +80,7 @@ const DidItTabNavigator=createBottomTabNavigator(
       }
      }
    },
-   TestComponent:{
+   FriendsListPage:{
      screen:TestComponent,
      navigationOptions:{
        tabBarIcon:()=>{
@@ -90,13 +100,10 @@ const DidItTabNavigator=createBottomTabNavigator(
     inactiveBackgroundColor: '#FFFFFF', // Couleur d'arrière-plan des onglets non sélectionnés
   }
 })
-
-
 const styles = StyleSheet.create({
     icon: {
       width: 20,
       height:20,
   },
 })
-
 export default createAppContainer(DidItTabNavigator)

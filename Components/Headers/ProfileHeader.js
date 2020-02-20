@@ -8,7 +8,7 @@ class ProfileHeader extends React.Component {
 
 
   render() {
-    const{user, imageSource, friendsNb, projectNb, scrollToIndex, displayFriendsList}=this.props
+    const{user, imageSource, friendsNb, projectNb, scrollToIndex, displayFriendsList, nbNewRequests}=this.props
     return (
       <View>
         <View
@@ -24,13 +24,15 @@ class ProfileHeader extends React.Component {
             <IconTextAndNumber
             text="Projects"
             number={projectNb}
-            action={scrollToIndex}/>
+            action={scrollToIndex}
+            request_nb={"0"}/>
           </View>
           <View
             style={styles.nb_container}>
             <IconTextAndNumber
             text="Friends"
             number={friendsNb}
+            request_nb={nbNewRequests}
             action={()=>displayFriendsList(user.id)}/>
           </View>
         </View>

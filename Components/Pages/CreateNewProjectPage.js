@@ -31,7 +31,6 @@ class CreateNewProjectPage extends React.Component {
     }
 
    componentDidUpdate(prevProps){
-     prevHasParam = (typeof prevProps.navigation.state.params === "object")
      newHasParam = (typeof this.props.navigation.state.params === "object")
 
      if(newHasParam){
@@ -48,7 +47,7 @@ class CreateNewProjectPage extends React.Component {
      }
   }
 
-  _displaydate=(date)=> {
+  _displaydate(date){
     if (date==null){
       return (
         <Text>
@@ -75,7 +74,7 @@ class CreateNewProjectPage extends React.Component {
       }
     }
 
-_display_number_of_steps=(target_val, step_size)=> {
+_display_number_of_steps(target_val, step_size){
     if (! isNaN(Math.round(target_val / step_size))){
       return (
         <Text>
@@ -212,8 +211,6 @@ _valid_step_size=()=>{
               <Text style={styles.instruction_text}>
               &#10171; {"Specify a quantitative target for your project"}
               </Text>
-
-
               <View   style={styles.row_container}>
                 <View style={styles.left} >
                   <Text style={styles.from_to_text}>

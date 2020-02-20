@@ -11,7 +11,7 @@ class Panel extends React.Component{
         };
 
         this.state = {
-          minHeight   : 25,
+          minHeight   : 20,
           title_expanded      : props.title_expanded,
           title_closed   : props.title_closed,
           expanded    : false,
@@ -21,8 +21,14 @@ class Panel extends React.Component{
 
     toggle(){
       //Step 1
-      let initialValue    = this.state.expanded? this.state.maxHeight + this.state.minHeight : this.state.minHeight,
-          finalValue      = this.state.expanded? this.state.minHeight : this.state.maxHeight + this.state.minHeight;
+      if (this.props.title_is_displayed==true) {
+        var initialValue    = this.state.expanded? this.state.maxHeight + this.state.minHeight : this.state.minHeight,
+            finalValue      = this.state.expanded? this.state.minHeight : this.state.maxHeight + this.state.minHeight;
+      }
+      else {
+        var initialValue    = this.state.expanded? this.state.maxHeight  : this.state.minHeight;
+            finalValue      = this.state.expanded? this.state.minHeight : this.state.maxHeight ;
+      }
       this.setState({
           expanded : !this.state.expanded
       });
@@ -48,14 +54,25 @@ class Panel extends React.Component{
         });
     }
 
-    _renderTitle(icon) {
+    _renderTitle(icon, title_is_displayed) {
         if (!this.state.expanded) {
+          if (this.props.discrete) {
             return (
               <View>
                 <TouchableOpacity
                     onPress={this.toggle.bind(this)}
-                    underlayColor="#f1f1f1"
-                    style={styles.button}>
+                    underlayColor="#f1f1f1">
+                      <Text style={styles.title_discrete}>{this.state.title_closed}</Text>
+                </TouchableOpacity>
+              </View>
+            )
+          }
+          else {
+            return (
+              <View>
+                <TouchableOpacity
+                    onPress={this.toggle.bind(this)}
+                    underlayColor="#f1f1f1">
                     <View
                       style={styles.header}>
                       <Text style={styles.title}>{this.state.title_closed}</Text>
@@ -67,15 +84,57 @@ class Panel extends React.Component{
                 </TouchableOpacity>
               </View>
             );
+          }
+
         } else {
-            return (
-                <Text style={styles.title}>{this.state.title_expanded}</Text>
-            );
+            if (title_is_displayed==true) {
+              return (
+                  <Text style={styles.title}>{this.state.title_expanded}</Text>
+              );
+            }
         }
     }
 
+    _renderBottomSeparator(icon) {
+        if (this.props.discrete) {
+            return (
+              <View style={{flexDirection:"row",justifyContent:"space-between"}}>
+                <TouchableOpacity
+                onPress={this.toggle.bind(this)}
+                underlayColor="#f1f1f1">
+                  <Image
+                  style={styles.buttonImage}
+                  source={icon}>
+                  </Image>
+                </TouchableOpacity>
+                </View>
+            );
+        } else {
+            return (
+              <View style={{flexDirection:"row",justifyContent:"space-between"}}>
+                <View
+                  style={{
+                    marginTop:'2%',
+                    height: 1,
+                    width: "86%",
+                    backgroundColor: "#CED0CE",
+                  }}
+                />
+                <TouchableOpacity
+                onPress={this.toggle.bind(this)}
+                underlayColor="#f1f1f1">
+                  <Image
+                  style={styles.buttonImage}
+                  source={icon}>
+                  </Image>
+                </TouchableOpacity>
+                </View>
+            )
+        }
+    }
 
     render(){
+        const{paddingLeft, title_is_displayed}=this.props
         let icon = this.icons['down'];
 
         if(this.state.expanded){
@@ -87,33 +146,16 @@ class Panel extends React.Component{
           <Animated.View
           style={[styles.container,{height: this.state.animation}]}>
             <View>
-                  {this._renderTitle(icon)}
+                  {this._renderTitle(icon, title_is_displayed)}
             </View>
             <View
-            style={styles.body}
+            style={[{paddingLeft: paddingLeft}]}
             onLayout={this._setMaxHeight.bind(this)}>
               <View>
                 {this.props.children}
+                {this._renderBottomSeparator(icon)}
               </View>
-              <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-                <View
-                  style={{
-                    marginTop:'3%',
-                    height: 1,
-                    width: "86%",
-                    backgroundColor: "#CED0CE",
-                  }}
-                />
-                <TouchableOpacity
-                style={styles.button}
-                onPress={this.toggle.bind(this)}
-                underlayColor="#f1f1f1">
-                  <Image
-                  style={styles.buttonImage}
-                  source={icon}>
-                  </Image>
-                </TouchableOpacity>
-                </View>
+
 
               </View>
 
@@ -125,26 +167,24 @@ export default Panel;
 
 var styles = StyleSheet.create({
     container   : {
-        backgroundColor: '#FFF',
+        backgroundColor: '#fff',
         overflow:'hidden',
-        height:25
+        height:20
     },
     title       : {
-        color   :'#2a2f43',
+        color   :'black',
         fontWeight:'bold',
     },
     buttonImage : {
         width   : 20,
         height  : 20
     },
-    body        : {
-        paddingLeft :10,
-    },
     header :{
       flexDirection: 'row',
       justifyContent: 'flex-end'
     },
-    button:{
-      alignSelf: "flex-end",
-    }
+    title_discrete       : {
+        textDecorationLine:"underline"
+    },
+
 });

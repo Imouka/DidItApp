@@ -28,7 +28,8 @@ class ProjectItem extends React.Component {
         style={styles.text_container}>
         <View>
           <Text
-          style={styles.project_title_text}>
+          style={styles.project_title_text}
+          numberOfLines={2}>
             {project.title}
           </Text>
           </View>
@@ -48,8 +49,10 @@ class ProjectItem extends React.Component {
 const styles = StyleSheet.create({
   main_container: {
     flexDirection:'row',
-    marginTop: 20,
+    marginTop: 15,
     width: "100%",
+    marginBottom:5,
+  //  backgroundColor:'red'
   },
   project_title_text: {
     fontWeight: 'bold',
@@ -57,16 +60,18 @@ const styles = StyleSheet.create({
   },
   project_image_container: {
     flex:1,
+    alignSelf:'flex-start'
   },
   text_container:{
     flexDirection:'column',
     flex:3.5,
     marginRight:"3%",
-    marginLeft:"2%"
+  //  marginLeft:"2%",
+  //  backgroundColor:'green'
   },
   project_image_container:{
     flex:1,
-    alignItems:'center'
+    //backgroundColor:'blue'
   }
 })
 

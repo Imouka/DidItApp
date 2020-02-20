@@ -8,14 +8,10 @@ class UpdateItem extends React.Component {
 
   constructor(props) {
      super(props)
-     this.state = {
-       projectDidProgress:props.didProgress,
-       withMessage:props.withMessage,
-     }
    }
 
    _displayProgression(oldProgressionProjet,newProgressionProjet) {
-      if (this.state.projectDidProgress) { {
+      if (this.props.didProgress) { {
           return (
           <View style={{marginTop:5}}>
             <View style={{alignSelf:'center'}}>
@@ -30,32 +26,62 @@ class UpdateItem extends React.Component {
 }
 
 _displayMessage(message) {
-   if (this.state.withMessage) { {
+   if (this.props.withMessage) {
        return (
        <Text
         style={styles.update}>
         {message}
         </Text>)
+      }
+    else {
+      if (! this.props.UsernameIsDisplayed) {
+        return(
+          <Text
+          style={styles.USername_text}>
+          {"  Progress !  "}
+          </Text>)
+      }
+    }
+}
+
+_displayUserName() {
+   if (this.props.UsernameIsDisplayed) {
+       return (
+         <Text>
+           <Text
+           style={styles.USername_text}>
+           User name
+           </Text>
+           <Text>
+           {" "}
+           </Text>
+        </Text>
+      )
+ }
+}
+
+_displayUserImage() {
+   if (this.props.UsernameIsDisplayed) { {
+       return (
+         <View  style={{flex:1}}>
+         <ButtonSmallImage
+           imageSource= {require("../Images/profile_icon.png")}
+           action={console.log}/>
+         </View>)
      }
  }
 }
+
 
   render() {
     const {oldProgressionProjet, newProgressionProjet,message}=this.props
     return (
       <View
       style={styles.main_container}>
-        <View  style={{flex:1}}>
-        <ButtonSmallImage
-          imageSource= {require("../Images/profile_icon.png")}
-          action={console.log}/>
-        </View>
-        <View style={{flex:10}} >
+        {this._displayUserImage()}
+        <View style={{flex:10}}  >
           <Text>
-            <Text
-            style={styles.USername_text}>
-            User name
-            </Text>
+          {this._displayUserName()}
           {this._displayMessage(message)}
           </Text>
           {this._displayProgression(oldProgressionProjet,newProgressionProjet)}

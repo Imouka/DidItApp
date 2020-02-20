@@ -15,7 +15,6 @@ class ProjectDetails extends React.Component {
   render() {
     const project=this.props
     const date = new Date(); //Current Date
-    console.log(date)
     return (
       <View>
         <View

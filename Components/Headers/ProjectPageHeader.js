@@ -37,7 +37,7 @@ class ProjectPageHeader extends React.Component {
             <MenuOptions>
               <MenuOption
               onSelect={() => displayProjectSettings()}
-              text={'  Modify project'} />
+              text={'  Edit project'} />
               <MenuOption
               onSelect={() => deleteProject()}
               text={'  Delete project'} />
@@ -92,7 +92,9 @@ class ProjectPageHeader extends React.Component {
       </View>
       <Panel
       title_closed="See Details"
-      title_expanded="Details">
+      title_expanded="Details"
+      title_is_displayed={true}
+      paddingLeft="3%">
         <ProjectDetails
          project={project}/>
       </Panel>

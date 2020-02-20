@@ -24,7 +24,6 @@ class ModifyProjectPage extends React.Component {
 
 
    componentDidMount(){
-     console.log(this.props.navigation.state.params.project)
     this.setState ({
          title:this.props.navigation.state.params.project.title,
          description:this.props.navigation.state.params.project.description,
@@ -59,7 +58,7 @@ _displayProjectSettings=()=>{
      }
   }
 
-  _displaydate=(date, editable)=> {
+  _displaydate(date, editable){
     if (date==null){
       return (
         <Text style={[{color:"#999EA5"}]}>
@@ -97,7 +96,7 @@ _displayProjectSettings=()=>{
       }
     }
 
-_display_number_of_steps=(target_val, step_size)=> {
+_display_number_of_steps(target_val, step_size){
     if (! isNaN(Math.round(target_val / step_size))){
       return (
         <Text style={[{color:"#999EA5"}]}>
@@ -110,7 +109,6 @@ _display_number_of_steps=(target_val, step_size)=> {
 _check_form=()=>{
   if (this._valid_title() && this._valid_description() && this._valid_dates()) {
     this.setState({ isLoading: true })
-    console.log(this.state.isLoading)
     getFriendsFromUserId("2")
     .then(data => {
             this.setState({ isLoading: false })
@@ -152,6 +150,8 @@ _valid_dates=()=>{
 
 
   render() {
+    const titlePlaceholder=this.props.navigation.state.params.project.title
+    const descPlaceholder=this.props.navigation.state.params.project.description
     return (
         <ScrollView style={styles.Container_scrollView} >
         <View style={styles.main_container}>
@@ -164,7 +164,7 @@ _valid_dates=()=>{
             <View style ={styles.text_input_container}>
               <TextInput
                 placeholderTextColor="black"
-                placeholder={this.state.title}
+                placeholder={titlePlaceholder}
                 maxLength = {40}
                 onChangeText={title=>this.setState({
                           title
@@ -175,7 +175,7 @@ _valid_dates=()=>{
             <View style ={styles.text_input_container}>
               <TextInput
               placeholderTextColor="black"
-              placeholder={this.state.description}
+              placeholder={descPlaceholder}
               multiline={true}
               blurOnSubmit={true}
               onChangeText={description=>this.setState({

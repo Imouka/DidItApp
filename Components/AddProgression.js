@@ -52,10 +52,8 @@ class AddProgression extends Component {
         Alert.alert("Error", "The progress value must be grater or equal to one")
       }
      else {
-       console.log(this.state.progressValue)
        if (this.state.progressValue=="hello1" ) {
          this.setState({ isLoading: true })
-         console.log(this.state.isLoading)
          getFriendsFromUserId("2")
          .then(data => {
                  this.setState({ isLoading: false })
@@ -68,7 +66,6 @@ class AddProgression extends Component {
        }
        else if (this.state.progressValue=="hello") {
          this.setState({ isLoading: true })
-         console.log(this.state.isLoading)
          getFriendsFromUserId("2")
          .then(data => {
                  this.setState({ isLoading: false })
@@ -83,7 +80,6 @@ class AddProgression extends Component {
    }
 
     render() {
-      console.log(this.state);
       return (
         <View style={{ justifyContent: 'center', alignItems:'center', flex:1}}>
             <Modal animationType={'slide'} transparent={true} visible={this.state.modalVisible}>

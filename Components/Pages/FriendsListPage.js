@@ -15,19 +15,18 @@ class FriendsListPage extends React.Component {
        user_id: "",
        isLoading:false,
      }
-       this.handleFriendship=this.handleFriendship.bind(this)
+      this.handleFriendship=this.handleFriendship.bind(this)
    }
 
-   componentDidMount(){
+   componentDidMount=()=>{
      this.setState ({
        user_id:this.props.navigation.state.params.user_id
      })
      this._update_friendlist()
    }
 
-   _update_friendlist(){
+   _update_friendlist=()=>{
      getFriendsFromUserId(this.props.navigation.state.params.user_id).then(data => {
-       console.log(data)
        this.props.dispatch({ type: "UPDATE_FRIENDSHIP", value: data.friends })
      })
    }
@@ -42,7 +41,7 @@ class FriendsListPage extends React.Component {
        }
      }
 
-  _renderHeader = () => {
+  _renderHeader (){
   return (
   <View>
     <SearchBar/>
@@ -50,7 +49,7 @@ class FriendsListPage extends React.Component {
   )
   };
 
-handleFriendship=(friend, action_type) =>{
+handleFriendship(friend, action_type){
   this.setState({ isLoading: true })
   console.log(friend)
   if (action_type=="refuse") {
@@ -112,7 +111,7 @@ handleFriendship=(friend, action_type) =>{
 
 }
 
-  _renderSeparator = () => {
+  _renderSeparator() {
   return (
     <View
       style={{
@@ -164,15 +163,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    user: state.handleUser.user,
     friends : state.handleUser.friends
   }
 }
-/*
-const mapStateToProps = (state) => {
-  return {
-    friends : state.friends
-  }
-}
-*/
+
 
 export default connect(mapStateToProps)(FriendsListPage)

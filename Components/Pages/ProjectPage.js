@@ -1,7 +1,7 @@
 
 import React from 'react'
 import {connect} from 'react-redux'
-import {View,StyleSheet,ScrollView, Alert, ActivityIndicator} from 'react-native'
+import {View,StyleSheet,ScrollView, Alert, ActivityIndicator, FlatList} from 'react-native'
 import ProjectPageHeader from '../../Components/Headers/ProjectPageHeader'
 
 import CommentItem from '../../Components/CommentItem'
@@ -11,6 +11,50 @@ import ButtonBigImageAndText from '../../Components/ButtonBigImageAndText'
 import TextInputWithImage from '../../Components/TextInputWithImage'
 
 import { getUserFromId} from '../../API/APITest'
+
+const DATA = [
+  {
+    id :0,
+    type:'comment',
+    date_is_displayed:true,
+    comment:'Voici mon commentaire, Je commente ton projet avec un long commentaire blablabla bravo franchement tu geres. Ton projet est vraiment super'
+  },
+  {
+    id:1,
+    type:'update',
+    UsernameIsDisplayed:true,
+    didProgress:true,
+    withMessage:true,
+    oldProgressionProjet:'38%',
+    newProgressionProjet:'60%',
+    message:"C'est le meilleur projet dans lequel je me suis jamais lancé ! Encouragez moi !",
+  },
+ {
+   id:2,
+   type:'support',
+   support:"hello",
+ },
+ {
+   id:3,
+   type:'update',
+   UsernameIsDisplayed:true,
+   withMessage:true,
+   message:"C'est le meilleur projet dans lequel je me suis jamais lancé ! Encouragez moi !",
+},
+{
+  id:4,
+  type:'comment',
+  date_is_displayed:true,
+  comment:'Voici mon commentaire, Je commente ton projet avec un long commentaire blablabla bravo franchement tu geres. Ton projet est vraiment super'
+},
+{
+  id:5,
+  type:'update',
+  UsernameIsDisplayed:true,
+  withMessage:true,
+  message:"C'est le meilleur projet dans lequel je me suis jamais lancé ! Encouragez moi !",
+},
+]
 
 
 class ProjectPage extends React.Component {
@@ -25,7 +69,6 @@ class ProjectPage extends React.Component {
 
 
    componentDidMount(){
-       console.log(this.props.navigation.state.params.project_id)
        this._retrieve_project()
    }
 
@@ -103,57 +146,92 @@ _displayLoading() {
     </View>
     <View style={styles.add_update_container} >
        <TextInputWithImage
-       text={"Add Update"}
+       text={"Add an update"}
        imageSource= {require("../../Images/profile_icon.png")}
+       size={35}
        action={console.log}/>
      </View>
   </View>
  )}
 
+
+_display_item=(item)=>{
+   if (item.type=="comment") {
+     return (
+      <View style={{  paddingLeft:'2%'}}>
+         <CommentItem
+         fontsize={15}
+         date_is_displayed={item.date_is_displayed}
+         comment={item.comment}/>
+      </View>
+     )
+   }
+   if (item.type=="update"){
+     return (
+       <View style={{backgroundColor:'#F1F4F8', paddingLeft:'2%', paddingTop:'1%', paddingBottom:'1%'}}>
+         <UpdateItem
+         UsernameIsDisplayed={item.UsernameIsDisplayed}
+         didProgress={item.didProgress}
+         withMessage={item.withMessage}
+         oldProgressionProjet={item.oldProgressionProjet}
+         newProgressionProjet={item.newProgressionProjet}
+         message={item.message}/>
+       </View>
+     )
+   }
+   if (item.type=="support"){
+      return (
+      <View style={{  paddingLeft:'2%'}}>
+         <SupportItem
+         support={this.support}/>
+      </View>
+      )
+   }
+   else{
+     console.log("projectPage -> _display_item -> type not recognized")
+   }
+ }
+
+ _renderSeparator () {
+ return (
+   <View
+     style={{
+       marginTop:'2%',
+       marginBottom:'2%',
+       height: 1,
+       height: 1,
+       backgroundColor: "#CED0CE",
+       marginLeft: "10%",
+       marginRight: "10%"
+     }}
+   />
+ );
+ };
+
   render() {
     return (
-      <ScrollView style={styles.main_container} >
-      <View>
-        {this._renderHeader()}
-       </View>
-       <View>
-         <CommentItem
-          comment='Voici mon commentaire, Je commente ton projet avec un long commentaire blablabla bravo franchement tu geres. Ton projet est vraiment super'/>
-         <View style={{marginTop:20, backgroundColor:'#F1F4F8'}}>
-          <UpdateItem
-          didProgress={true}
-          withMessage={true}
-          oldProgressionProjet='38%'
-          newProgressionProjet='60%'
-          message="C'est le meilleur projet dans lequel je me suis jamais lancé ! Encouragez moi !"/>
-         </View>
-         <SupportItem/>
-      </View>
-      {this._displayLoading()}
-    </ScrollView>
-
-
+      <FlatList
+        data={DATA}
+        keyExtractor={(item) => item.id.toString()}
+        ref={(ref) => { this.flatListRef = ref; }}
+        ListHeaderComponent={ this._renderHeader}
+        ItemSeparatorComponent={this._renderSeparator}
+        renderItem={({item}) =>this._display_item(item) }
+        />
     )
   }
 }
 
+
 const styles = StyleSheet.create({
-  main_container: {
-    flex:1,
-  },
   header_container: {
     marginTop: "1%",
-    marginLeft:"3%",
     marginRight:"2%"  ,
-  },
-  support_container:{
-    flexDirection :'row',
-    alignItems:"center",
-    marginTop:"2%",
-
+    marginLeft:"2%",
   },
   add_update_container:{
-    marginBottom:'2%'
+    marginBottom:'2%',
+    marginLeft:"2%",
   },
   loading_container: {
     position: 'absolute',

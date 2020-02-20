@@ -4,8 +4,22 @@ import {View,Text,StyleSheet,Image} from 'react-native'
 import ButtonSmallImage from '../Components/ButtonSmallImage'
 
 class CommentItem extends React.Component {
+
+  _displaydate(date_is_displayed){
+      if (date_is_displayed==true){
+        return (
+          <View style={{marginTop:3}}>
+            <Text
+            style={styles.date}>
+              XX/XX/XXXX
+            </Text>
+          </View>
+      )
+    }
+  }
+
   render() {
-    const {comment}=this.props
+    const {comment, fontsize, date_is_displayed}=this.props
     return (
         <View
         style={styles.main_container}>
@@ -17,21 +31,19 @@ class CommentItem extends React.Component {
           <View style={{flex:10}} >
             <Text>
               <Text
-              style={styles.USername_text}>
+              style={[styles.username_text,{fontSize: fontsize}]}>
               User name
               </Text>
+              <Text>
+              {" "}
+              </Text>
               <Text
-              style={styles.comment}>
+              style={[{fontSize: fontsize}]}>
               {comment}
               </Text>
             </Text>
-            <View style={{marginTop:3}}>
-              <Text
-              style={styles.date}>
-                XX/XX/XXXX
-              </Text>
-            </View>
-          </View>
+          {this._displaydate(date_is_displayed)}
+         </View>
       </View>
 
     )
@@ -43,16 +55,10 @@ const styles = StyleSheet.create({
   main_container: {
     flexDirection: 'row',
     alignItems :'center',
-    alignItems:'flex-start'
+    alignItems:'flex-start',
   },
-  USername_text: {
-    fontSize: 15,
-    textAlign: 'left',
+  username_text: {
     fontWeight:'bold',
-  },
-  comment:{
-    fontSize: 15,
-    textAlign: 'left',
   },
   date:{
     fontSize: 12,

@@ -3,8 +3,9 @@ import React from 'react'
 import {View,Text,StyleSheet,Image} from 'react-native'
 import ButtonSmallImage from '../Components/ButtonSmallImage'
 
-class CommentItem extends React.Component {
+class SupportItem extends React.Component {
   render() {
+    const {support}=this.props
     return (
         <View
         style={styles.main_container}>
@@ -27,8 +28,7 @@ class CommentItem extends React.Component {
             </Text>
             <Image
               style={styles.support_image}
-              source= {require("../Images/support2.png")}
-            />
+              source= {require("../Images/support2.png")}  />
             </View>
             <View style={{marginTop:3}}>
               <Text
@@ -44,7 +44,7 @@ class CommentItem extends React.Component {
     )
   }
 }
-export default CommentItem
+export default SupportItem
 
 const styles = StyleSheet.create({
   main_container: {

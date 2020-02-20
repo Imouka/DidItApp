@@ -10,7 +10,6 @@ function handleUser(state = initialState, action) {
       }
       return nextState || state
     case 'UPDATE_FRIENDSHIP':
-      console.log(action)
       nextState = {
         ...state,
         friends : action.value

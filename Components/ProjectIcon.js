@@ -5,10 +5,10 @@ import Icon from 'react-native-elements'
 
 class ProjectIcon extends React.Component {
 
-  _edit_project_icon=()=>{
+  _edit_project_icon(){
     console.log("Edit project icon")
   }
-  _displayeditbutton=(iseditable)=> {
+  _displayeditbutton(iseditable){
     if (iseditable=="true"){
       return (
         <TouchableOpacity

@@ -13,28 +13,30 @@ class TextInputWithImage extends React.Component {
 
 
   render() {
-    const{text, imageSource, action}=this.props
-    console.log(this.state.clearInput)
+    const{text, imageSource, action, size}=this.props
     return (
       <View style={styles.main_container}>
           <Image
-            style={styles.button_image}
+            style={[styles.button_image, {width: size, height: size}]}
             source= {imageSource}
           />
-          <TextInput
-          style={styles.text_input}
-          placeholder={text}
-          multiline={true}
-          blurOnSubmit={true}
-          onChangeText={(typedText)=>this.setState({
-                    typedText
-                })}
-          value={this.state.typedText =="" ? null : this.state.typedText}
-          onSubmitEditing={()=>{
-              this.setState({typedText:"",
-                    })
-              }}>
-          </TextInput>
+          <View style={styles.sub_container}>
+          <View style ={[styles.text_input_container, ]}>
+            <TextInput
+            placeholder={text}
+            multiline={true}
+            blurOnSubmit={true}
+            onChangeText={(typedText)=>this.setState({
+                      typedText
+                  })}
+            value={this.state.typedText =="" ? null : this.state.typedText}
+            onSubmitEditing={()=>{
+                this.setState({typedText:"",
+                      })
+                }}>
+            </TextInput>
+          </View>
+          </View>
       </View>
     )}
 }
@@ -43,19 +45,22 @@ class TextInputWithImage extends React.Component {
 const styles = StyleSheet.create({
   main_container: {
     flexDirection: 'row',
-    alignItems :'center'
+    alignItems :'center',
+    marginRight: 5
   },
-  text_input: {
-    marginLeft: 5,
-    fontSize: 15,
-    textAlign: 'left',
+  text_input_container: {
+    marginLeft: "2%",
+    marginRight: "2%",
+//  borderBottomColor:"#CED0CE",
+  //  borderBottomWidth:1
   },
  button_image:{
-    width: 35,
-    height: 35,
     borderRadius:360,
     borderWidth:2,
     borderColor:'#000000'
+  },
+  sub_container:{
+    flex:1,
   },
 })
 
