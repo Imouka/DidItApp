@@ -40,8 +40,8 @@ const styles = StyleSheet.create({
     flex:1,
     marginTop:"1%",
     backgroundColor:"white",
-    paddingBottom:8,
-
+    paddingBottom:"3%",
+    marginLeft: 3,
   },
   titleView:{
     width:80,

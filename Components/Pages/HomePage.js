@@ -147,7 +147,7 @@ _displayDetailForProject=(project_id)=>{
 
 _renderHeader=()=>{
   return (
-    <View>
+    <View >
       <LateralBar
       imageSource={require('../../Images/project.png')}
       projects={this.props.projects}

@@ -1,7 +1,7 @@
 
 import React from 'react'
 import {connect} from 'react-redux'
-import {View,StyleSheet,Text, FlatList, ActivityIndicator} from 'react-native'
+import {View,StyleSheet,Text, FlatList, ActivityIndicator, TouchableOpacity} from 'react-native'
 import ProfileHeader from '../../Components/Headers/ProfileHeader'
 import ButtonBigImageAndText from '../../Components/ButtonBigImageAndText'
 import ProjectItem from '../../Components/ProjectItem'
@@ -30,7 +30,7 @@ class ProfilePage extends React.Component {
 
   _update_user(){
     this.setState({ isLoading: true })
-    getUserFromId("2").then(data => {
+    getUserFromId("1").then(data => {
       this.props.dispatch({ type: "UPDATE_USER", value: data })
       this.setState({
             isLoading: false
@@ -63,8 +63,12 @@ _displayCreateNewProjectPage= () => {
 
 }
 
-_displayFriendsListPage=(user_id)=>{
-  this.props.navigation.navigate('FriendsListPage',{user_id :user_id})
+_displayFriendsListPage=()=>{
+  this.props.navigation.navigate('FriendsListPage')
+}
+
+_displayEditProfilePage=()=>{
+  this.props.navigation.navigate('EditProfilePage')
 }
 
 _renderSeparator = () => {
@@ -94,6 +98,14 @@ return (
        scrollToIndex={this._scrollToIndex}
        displayFriendsList={this._displayFriendsListPage}/>
   </View>
+  <TouchableOpacity
+  style={styles.button_edit_project}
+  onPress={this._displayEditProfilePage}>
+    <Text
+    style={styles.edit_project_text}>
+    {"Edit profile"}
+    </Text>
+  </TouchableOpacity>
   <View
   style={styles.button_create_new_project}>
      <ButtonBigImageAndText
@@ -140,7 +152,10 @@ const styles = StyleSheet.create({
     flex:1,
   },
   button_create_new_project:{
-    marginTop: 10,
+    marginTop: "6%",
+  },
+  button_edit_project:{
+    marginTop: "2%",
   },
   loading_container: {
     position: 'absolute',
@@ -150,6 +165,10 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'center'
+},
+edit_project_text:{
+  fontStyle:"italic",
+  textDecorationLine:"underline"
 }
 })
 

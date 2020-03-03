@@ -32,8 +32,10 @@ const styles = StyleSheet.create({
   },
   button_text: {
     marginLeft: 5,
-    fontSize: 15,
+    fontSize: 16,
     textAlign: 'left',
+  //  fontWeight: 'bold',
+  //  textDecorationLine:'underline'
   },
  button_image:{
     width: 35,

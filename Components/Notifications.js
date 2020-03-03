@@ -1,7 +1,62 @@
 import React, { Component } from 'react';
-import { Modal, Text, TouchableOpacity, View , Image, StyleSheet, ScrollView} from 'react-native';
+import { Modal, Text, TouchableOpacity, View , Image, StyleSheet, FlatList} from 'react-native';
 import { getFriendsFromUserId } from '../API/APITest'
 
+import NotificationItem  from '../Components/NotificationItem'
+
+
+
+const DATA = [
+  {
+    id :0,
+    type:'newfrienship',
+    user:'username',
+  },
+  {
+    id:2,
+    type:'support',
+    user:'username',
+    project:'project title'
+
+  },
+  {
+    id:3,
+    type:'comment',
+    user:'username',
+    project:'project title'
+  },
+  {
+    id:4,
+    type:'comment',
+    user:'username',
+    project:'project title'
+  },
+  {
+    id:5,
+    type:'support',
+    user:'username',
+    project:'project title'
+
+  },
+  {
+    id:6,
+    type:'support',
+    user:'username',
+    project:'project title'
+
+  },
+  {
+    id :7,
+    type:'newfrienship',
+    user:'username',
+  },
+  {
+    id :8,
+    type:'friendrequest',
+    user:'username',
+  },
+
+]
 
 class Notifications extends Component {
 
@@ -46,27 +101,64 @@ class Notifications extends Component {
      }
    }
 
+   _renderSeparator = () => {
+   return (
+     <View
+       style={{
+         marginBottom:'3%',
+         marginTop:'3%',
+         height: 1,
+         width: "86%",
+         backgroundColor: "#CED0CE",
+         marginLeft: "3%"
+       }}
+     />
+   );
+   };
+
+   _renderHeader = () => {
+   return (
+   <View style={{ marginBottom:"6%",}}>
+     <Text style={styles.title_text}>
+     New notifications !
+     </Text>
+   </View>
+   )
+   };
+
     render() {
       return (
         <View style={{ justifyContent: 'center', alignItems:'center', flex:1}}>
             <Modal animationType={'slide'} transparent={true} visible={this.state.modalVisible}>
                 <View style={{ width: '100%', height: '100%', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                     <View style={{ width: '100%', height: '100%', backgroundColor: 'black', opacity: .6 }}/>
-                    <View style={[{ position: 'absolute', width: '80%', height:"80%", backgroundColor: 'white', flex: 1, justifyContent: 'center', alignItems: 'center'}]}>
-                        <ScrollView style={styles.main_container}>
+                    <View style={[{ position: 'absolute', width: '80%', height:"60%", backgroundColor: 'white', flex: 1, justifyContent: 'center', alignItems: 'center'}]}>
+                        <View style={styles.main_container}>
+                            <FlatList
+                              data={DATA}
+                              ItemSeparatorComponent={this._renderSeparator}
+                              ListHeaderComponent={this._renderHeader}
+                              keyExtractor={(item) => item.id.toString()}
+                              ref={(ref) => { this.flatListRef = ref; }}
+                              renderItem={({item}) =>
+                              <NotificationItem
+                                  notification={item}
+                              />}
+                              />
                             <View style={styles.button_container}>
                               <TouchableOpacity
+                                style ={{marginTop:"10%"}}
                                 onPress={() => {this.setState({modalVisible: false})}
                                   }>
-                                <Text  style ={styles.button_text} >OK</Text>
+                                <Text>CLOSE</Text>
                               </TouchableOpacity>
                             </View>
-                        </ScrollView>
+                        </View>
                     </View>
                 </View>
             </Modal>
             <View>
-            {this._displayBell(3)}
+            {this._displayBell(DATA.length)}
             </View>
         </View>
       );
@@ -101,5 +193,9 @@ class Notifications extends Component {
        fontWeight: 'bold',
        textAlign: 'center',
        },
+    title_text:{
+      fontWeight:'bold',
+      fontSize: 20,
+    }
   })
 export default Notifications

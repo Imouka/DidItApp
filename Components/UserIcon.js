@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { StyleSheet, View, Image, Text} from 'react-native'
 
@@ -11,8 +10,7 @@ class UserIcon extends React.Component {
       style={styles.main_container}>
         <Image
         style={styles.user_image}
-        source= {imageSource}
-        />
+        source= {imageSource}/>
         <Text
         style={styles.user_name_text}
         numberOfLines={1}
@@ -30,7 +28,6 @@ const styles = StyleSheet.create({
   },
   user_name_text: {
     fontSize: 15,
-  //  textAlign: 'center',
   },
   user_image:{
     width: 70,
@@ -42,4 +39,3 @@ const styles = StyleSheet.create({
 })
 
 export default UserIcon
-//style={{flex: 1, flexDirection: 'column'}}

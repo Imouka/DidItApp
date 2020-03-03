@@ -5,6 +5,7 @@ import FriendItem from '../../Components/FriendItem'
 import SearchBar from '../../Components/SearchBar'
 import {getFriendsFromUserId } from '../../API/APITest'
 import {postHandleFriendship} from '../../API/APITest'
+import { getUserFromId} from '../../API/APITest'
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react-native-popup-menu';
 
 class FriendsListPage extends React.Component {
@@ -12,21 +13,35 @@ class FriendsListPage extends React.Component {
   constructor(props) {
      super(props)
      this.state = {
-       user_id: "",
        isLoading:false,
      }
       this.handleFriendship=this.handleFriendship.bind(this)
    }
 
    componentDidMount=()=>{
-     this.setState ({
-       user_id:this.props.navigation.state.params.user_id
-     })
-     this._update_friendlist()
+    this._update_user()
+    this._update_friendlist()
    }
 
-   _update_friendlist=()=>{
-     getFriendsFromUserId(this.props.navigation.state.params.user_id).then(data => {
+   componentDidUpdate(prevProps){
+     if(prevProps.user.id != this.props.user.id){
+         this._update_friendlist()
+     }
+   }
+
+   _update_user(){
+     this.setState({ isLoading: true })
+     getUserFromId("1").then(data => {
+       this.props.dispatch({ type: "UPDATE_USER", value: data })
+       this.setState({
+             isLoading: false
+           })
+     })
+   }
+
+
+   _update_friendlist(){
+     getFriendsFromUserId(this.props.user.id).then(data => {
        this.props.dispatch({ type: "UPDATE_FRIENDSHIP", value: data.friends })
      })
    }
@@ -51,9 +66,9 @@ class FriendsListPage extends React.Component {
 
 handleFriendship(friend, action_type){
   this.setState({ isLoading: true })
-  console.log(friend)
+  console.log("FriendsListPage->handleFriendship-> appel API, friend id" + friend)
   if (action_type=="refuse") {
-    postHandleFriendship(this.state.user_id, friend.id, action_type)
+    postHandleFriendship(this.props.user.id, friend.id, action_type)
     .then(data => {
       this._update_friendlist()
       this.setState({ isLoading: false })
@@ -64,11 +79,15 @@ handleFriendship(friend, action_type){
         Alert.alert("Error", "Something went wrong please try again later" )
       }
       })
-      .catch((error)=>console.log("error"))
+      .catch((error)=>{
+        console.log("error")
+        this.setState({ isLoading: false })
+       Alert.alert("Error", "Something went wrong please try again later" )})
   }
   else if (action_type=="confirm")  {
-    postHandleFriendship(this.state.user_id, friend.id, action_type)
+    postHandleFriendship(this.props.user.id, friend.id, action_type)
     .then(data => {
+      console.log("FriendsListPage->handleFriendship-> appel API")
       this._update_friendlist()
       this.setState({ isLoading: false })
       if (data.status=="ok") {
@@ -78,10 +97,13 @@ handleFriendship(friend, action_type){
         Alert.alert("Error", "Something went wrong please try again later" )
     }
     })
-    .catch((error)=>console.log("error"))
+    .catch((error)=>{
+      console.log("error")
+      this.setState({ isLoading: false })
+     Alert.alert("Error", "Something went wrong please try again later" )})
   }
   else if (action_type=="send")  {
-    postHandleFriendship(this.state.user_id, friend.id, action_type)
+    postHandleFriendship(this.props.user.id, friend.id, action_type)
     .then(data => {
       this._update_friendlist()
       this.setState({ isLoading: false })
@@ -92,10 +114,13 @@ handleFriendship(friend, action_type){
         Alert.alert("Error", "Something went wrong please try again later" )
     }
     })
-    .catch((error)=>console.log("error"))
+    .catch((error)=>{
+      console.log("error")
+      this.setState({ isLoading: false })
+     Alert.alert("Error", "Something went wrong please try again later" )})
   }
   else if (action_type=="unfriend")  {
-     postHandleFriendship(this.state.user_id, friend.id, action_type)
+     postHandleFriendship(this.props.user.id, friend.id, action_type)
     .then(data => {
       this._update_friendlist()
       this.setState({ isLoading: false })
@@ -106,7 +131,10 @@ handleFriendship(friend, action_type){
         Alert.alert("Error", "Something went wrong please try again later" )
     }
   })
-  .catch((error)=>console.log("error"))
+  .catch((error)=>{
+    console.log("error")
+    this.setState({ isLoading: false })
+   Alert.alert("Error", "Something went wrong please try again later" )})
   }
 
 }

@@ -14,6 +14,7 @@ import ModifyProjectPage from '../Components/Pages/ModifyProjectPage'
 import FriendsListPage from '../Components/Pages/FriendsListPage'
 import Calendar from '../Components/Pages/Calendar'
 import Notifications from '../Components/Notifications'
+import EditProfilePage from '../Components/Pages/EditProfilePage'
 
 const ProfileStackNavigator = createStackNavigator({
   ProfilePage: {
@@ -37,13 +38,24 @@ const ProfileStackNavigator = createStackNavigator({
  Calendar:{
    screen : Calendar,
  },
+ EditProfilePage:{
+   screen : EditProfilePage,
+ },
+})
+
+const SearchStackNavigator = createStackNavigator({
+  FriendsListPage: {
+    screen: FriendsListPage,
+    navigationOptions: {
+      title: 'Search'
+    }
+  },
 })
 
 const HomeStackNavigator = createStackNavigator({
     HomePage: {
     screen:HomePage,
     navigationOptions: {
-      title: 'Your Profile',
       headerTitle: (
            <Image style={{ width: 150, height: 40 }} source={require('../Images/app_logo.png')}/>
             ),
@@ -81,7 +93,7 @@ const DidItTabNavigator=createBottomTabNavigator(
      }
    },
    FriendsListPage:{
-     screen:TestComponent,
+     screen:SearchStackNavigator,
      navigationOptions:{
        tabBarIcon:()=>{
          return <Image

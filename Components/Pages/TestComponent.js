@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, Button} from 'react-native'
 
 import { getUserFromId } from '../../API/APITest'
 import { getFilmDetailFromApi} from '../../API/APITest'
+import {postHandleFriendship} from '../../API/APITest'
 
 class TestComponent extends React.Component {
 
@@ -20,6 +21,7 @@ class TestComponent extends React.Component {
         this.setState({
           first_name: data.title,
         })
+    postHandleFriendship(5,1, "send")
     })
     /*getUserFromId("2").then(data => {
         this.setState({

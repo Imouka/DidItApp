@@ -47,11 +47,10 @@ const styles = StyleSheet.create({
   },
 
   icon: {
-  // zIndex: 1,
    backgroundColor:'white',
    position: 'absolute',
    borderRadius: 360,
-   right: -3,
+   left: 50,
    bottom: -3,
    width: 25,
    height: 25,
