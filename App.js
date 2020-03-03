@@ -1,5 +1,5 @@
 // App.js
-
+/*
 import React from 'react'
 import TestComponent from './Components/Pages/TestComponent'
 import ProfilePage from './Components/Pages/ProfilePage'
@@ -24,7 +24,35 @@ export default class App extends React.Component {
   }
 }
 
+*/
 
-/*<Provider store={Store}>
-  <Navigation/>
-</Provider>*/
+import React from 'react';
+import {View} from 'react-native';
+import {LoginButton, AccessToken} from 'react-native-fbsdk'
+
+
+const App: () => React$Node = () => {
+  return (
+    <View>
+      <LoginButton
+      onLoginFinished={
+        (error, result) =>{
+          if (error){
+            console.log("login has error: "+ result.error);
+          } else if (result.isCancelled){
+            console.log("login is cancelled");
+          } else {
+            AccessToken.getCurrentAccessToken().then(
+              (data) => {
+                console.log(data.accessToken.toString())
+              }
+            )
+          }
+        }
+      }
+      onLogoutFinished={() => console.log("logout")} />
+    </View>
+  );
+};
+
+export default App;
