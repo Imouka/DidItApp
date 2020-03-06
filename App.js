@@ -1,5 +1,4 @@
 // App.js
-/*
 import React from 'react'
 import TestComponent from './Components/Pages/TestComponent'
 import ProfilePage from './Components/Pages/ProfilePage'
@@ -11,7 +10,7 @@ import Store from './Store/configureStore'
 
 import LoginPage from './Components/Pages/LoginPage'
 
-
+    
 export default class App extends React.Component {
   render() {
     return (
@@ -24,12 +23,13 @@ export default class App extends React.Component {
   }
 }
 
-*/
+
+/*
+ 
 
 import React from 'react';
 import {View} from 'react-native';
 import {LoginButton, AccessToken} from 'react-native-fbsdk'
-
 
 const App: () => React$Node = () => {
   return (
@@ -56,3 +56,6 @@ const App: () => React$Node = () => {
 };
 
 export default App;
+
+
+*/
