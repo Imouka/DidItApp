@@ -31,7 +31,7 @@ class FriendsListPage extends React.Component {
 
    _update_user(){
      this.setState({ isLoading: true })
-     getUserFromId("1").then(data => {
+     getUserFromId("3").then(data => {
        this.props.dispatch({ type: "UPDATE_USER", value: data })
        this.setState({
              isLoading: false

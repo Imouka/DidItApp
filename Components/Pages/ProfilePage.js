@@ -93,7 +93,6 @@ return (
       <ProfileHeader
        imageSource={require('../../Images/profile_icon.png')}
        user={this.props.user}
-       friendsNb='XXX'
        nbNewRequests='xxx'
        projectNb={this.props.projects.length}
        scrollToIndex={this._scrollToIndex}
