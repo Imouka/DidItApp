@@ -1,9 +1,10 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import {View,StyleSheet, Text, TouchableOpacity, TextInput, Button, ScrollView, Alert, ActivityIndicator} from 'react-native';
 import ProjectIcon from '../../Components/ProjectIcon';
 import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
-import {getFriendsFromUserId } from '../../API/APITest'
+import { getProjectFromUserId, postModifyProject } from '../../API/APITest'
 
 class ModifyProjectPage extends React.Component {
 
@@ -84,7 +85,12 @@ _displayProjectSettings=()=>{
     }
   }
 
-
+  _update_projects(){
+    console.log(this.props.user.id)
+    getProjectFromUserId(this.props.user.id).then(data => {
+      this.props.dispatch({ type: "UPDATE_PROJECTS", value: data.projects })
+    })
+  }
 
   _displayLoading() {
       if (this.state.isLoading) {
@@ -106,12 +112,20 @@ _display_number_of_steps(target_val, step_size){
     }
 }
 
+_manageDate(date){
+  return (
+    moment(new Date(date)).format('YYYY/MM/DD')
+  )
+}
+
 _check_form=()=>{
   if (this._valid_title() && this._valid_description() && this._valid_dates()) {
     this.setState({ isLoading: true })
-    getFriendsFromUserId("2")
+    console.log("ModifyProjectPage "+this.state.title )
+    postModifyProject(this.props.navigation.state.params.project.id, this.state.title,this.state.description,this._manageDate(this.state.selectedEndDate))
     .then(data => {
             this.setState({ isLoading: false })
+            this._update_projects()
             this._displayProjectPage(this.props.navigation.state.params.project.id)
            Alert.alert("Project modified ","Your project has been modified")
           })
@@ -370,4 +384,12 @@ const styles = StyleSheet.create({
 }
   })
 
-export default ModifyProjectPage
+  const mapStateToProps = (state) => {
+    return {
+      projects : state.handleProject.projects,
+      user: state.handleUser.user
+    }
+  }
+
+
+export default connect(mapStateToProps) (ModifyProjectPage)

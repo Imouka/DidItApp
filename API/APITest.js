@@ -61,3 +61,70 @@ export function postHandleFriendship(id, friendid, action){
       throw error;
   })
 }
+
+export function postCreateNewProject(id, title,description,start_date,end_date, target_value, step_size){
+  const url ="https://did-it-server.herokuapp.com/users/"+id+"/projects/new"
+  console.log(start_date)
+  console.log(end_date)
+  return fetch(url, {
+     method: 'POST',
+     redirect:'follow',
+     headers: {
+       Accept: 'application/json',
+       'Content-Type': 'application/json',
+     },
+     body: JSON.stringify({
+       title:title,
+       description:description,
+       start_date:start_date,
+       end_date:end_date,
+       target_value:target_value,
+       step_size:step_size,
+     }),
+})
+    .then((response)=>response.json())
+    .catch((error)=>{
+      console.log(error);
+      throw error;
+  })
+}
+
+export function postDeleteProject(id){
+  const url ="https://did-it-server.herokuapp.com/projects/"+id+"/delete"
+  console.log(id)
+  return fetch(url, {
+     method: 'POST',
+     redirect:'follow',
+     headers: {
+       Accept: 'application/json',
+       'Content-Type': 'application/json',
+     }})
+    .then((response)=>response.json())
+    .catch((error)=>{
+      console.log(error);
+      throw error;
+  })
+}
+
+export function postModifyProject(id,title,description,end_date){
+  const url ="https://did-it-server.herokuapp.com/projects/"+id+"/modify"
+  console.log(id)
+  return fetch(url, {
+     method: 'POST',
+     redirect:'follow',
+     headers: {
+       Accept: 'application/json',
+       'Content-Type': 'application/json',
+     },
+     body: JSON.stringify({
+       title:title,
+       description:description,
+       end_date:end_date,
+     })
+   })
+    .then((response)=>response.json())
+    .catch((error)=>{
+      console.log(error);
+      throw error;
+  })
+}

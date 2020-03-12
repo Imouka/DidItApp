@@ -10,7 +10,7 @@ import SupportItem from '../../Components/SupportItem'
 import ButtonBigImageAndText from '../../Components/ButtonBigImageAndText'
 import TextInputWithImage from '../../Components/TextInputWithImage'
 
-import { getUserFromId} from '../../API/APITest'
+import { getUserFromId, postDeleteProject, getProjectFromUserId} from '../../API/APITest'
 
 const DATA = [
   {
@@ -91,6 +91,13 @@ class ProjectPage extends React.Component {
      }
    }
 
+   _update_projects(){
+     console.log(this.props.user.id)
+     getProjectFromUserId(this.props.user.id).then(data => {
+       this.props.dispatch({ type: "UPDATE_PROJECTS", value: data.projects })
+     })
+   }
+
   displayProjectSettings=()=>{
       this.props.navigation.navigate('ModifyProjectPage',{project :this.state.project})
  }
@@ -107,12 +114,14 @@ class ProjectPage extends React.Component {
     { text: 'OK',
      onPress: () => {
        this.setState({ isLoading: true })
-       getUserFromId("1")
+       this.props.navigation.navigate('ProfilePage')
+       postDeleteProject(this.state.project.id)
        .then(data => {
          this.setState({ isLoading: false })
+         this._update_projects()
          if (true) {
            Alert.alert("Confirmed", "Your project has been deleted")
-           this.props.navigation.navigate('ProfilePage')
+          // this.props.navigation.navigate('ProfilePage')
         }
          else {
            Alert.alert("Error", "Something went wrong please try again later" )
@@ -247,6 +256,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     projects : state.handleProject.projects,
+    user: state.handleUser.user
   }
 }
 

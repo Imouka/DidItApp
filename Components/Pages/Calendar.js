@@ -30,6 +30,7 @@ class Calendar extends React.Component {
     }
 
     _displayReturnPage= (selectedStartDate,selectedEndDate, returnPage) => {
+      console.log('calendar.js _displayReturnPage selectedStartDate '+selectedStartDate+'  selectedEndDate '+ selectedEndDate)
       this.props.navigation.navigate( returnPage,{selectedStartDate :selectedStartDate, selectedEndDate: selectedEndDate})
     }
 

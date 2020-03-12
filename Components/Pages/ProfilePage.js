@@ -19,7 +19,7 @@ class ProfilePage extends React.Component {
 
   componentDidMount(){
     this._update_user()
-    //this._update_projects()
+    this._update_projects()
   }
 
   componentDidUpdate(prevProps){
@@ -39,6 +39,7 @@ class ProfilePage extends React.Component {
   }
 
   _update_projects(){
+    console.log(this.props.user.id)
     getProjectFromUserId(this.props.user.id).then(data => {
       this.props.dispatch({ type: "UPDATE_PROJECTS", value: data.projects })
     })

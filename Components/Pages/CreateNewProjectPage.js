@@ -1,9 +1,10 @@
 import React from 'react'
+import {connect} from 'react-redux'
 import {View,StyleSheet, Text, TouchableOpacity, TextInput, Button, ScrollView, Alert, ActivityIndicator} from 'react-native';
 import ProjectIcon from '../../Components/ProjectIcon';
 import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
-import {getFriendsFromUserId } from '../../API/APITest'
+import{postCreateNewProject, getProjectFromUserId} from '../../API/APITest'
 
 class CreateNewProjectPage extends React.Component {
 
@@ -36,7 +37,7 @@ class CreateNewProjectPage extends React.Component {
      if(newHasParam){
        if(this.state.selectedStartDate != this.props.navigation.state.params.selectedStartDate ){
          this.setState ({
-           selectedStartDate:this.props.navigation.state.params.selectedStartDate,
+           selectedStartDate:this.props.navigation.state.params.selectedStartDate
          })
        }
        if(this.state.selectedEndDate != this.props.navigation.state.params.selectedEndDate ){
@@ -84,6 +85,19 @@ _display_number_of_steps(target_val, step_size){
     }
 }
 
+_manageDate(date){
+  return (
+    moment(new Date(date)).format('YYYY/MM/DD')
+  )
+}
+
+_update_projects(){
+  console.log(this.props.user.id)
+  getProjectFromUserId(this.props.user.id).then(data => {
+    this.props.dispatch({ type: "UPDATE_PROJECTS", value: data.projects })
+  })
+}
+
 _default_step_size=(target_val)=> {
        this.setState({
          stepSize: Math.max(1, Math.round(target_val /10)).toString()
@@ -93,9 +107,11 @@ _default_step_size=(target_val)=> {
 _check_form=()=>{
   if (this._valid_title() && this._valid_description() && this._valid_dates() && this._valid_target_value() && this._valid_step_size() ) {
     this.setState({ isLoading: true })
-    getFriendsFromUserId("2")
+    //getFriendsFromUserId("4")
+    postCreateNewProject(this.props.user.id, this.state.title,this.state.description,this._manageDate(this.state.selectedStartDate),this._manageDate(this.state.selectedEndDate), this.state.targetValue, this.state.stepSize)
     .then(data => {
            this.setState({ isLoading: false })
+           this._update_projects()
            this._displayProfilePage()
            Alert.alert("New project created ","your new project has been created")
           })
@@ -351,4 +367,11 @@ const styles = StyleSheet.create({
 }
   })
 
-export default CreateNewProjectPage
+  const mapStateToProps = (state) => {
+    return {
+      projects : state.handleProject.projects,
+      user: state.handleUser.user
+    }
+  }
+
+export default connect(mapStateToProps)(CreateNewProjectPage)
