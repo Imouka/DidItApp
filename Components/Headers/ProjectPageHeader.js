@@ -71,7 +71,8 @@ class ProjectPageHeader extends React.Component {
         </View>
         <View
         style={styles.image_container}>
-          <AddProgression/>
+          <AddProgression
+          project={project}/>
         </View>
       </View>
       <View

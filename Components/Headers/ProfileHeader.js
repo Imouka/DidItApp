@@ -9,7 +9,6 @@ class ProfileHeader extends React.Component {
 
   render() {
     const{user, imageSource, projectNb, scrollToIndex, displayFriendsList, nbNewRequests}=this.props
-    console.log(user.nb_friends)
     return (
       <View>
         <View

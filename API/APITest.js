@@ -128,3 +128,31 @@ export function postModifyProject(id,title,description,end_date){
       throw error;
   })
 }
+
+export function postUpdateProject(project_id,user_id,date,progression,message){
+  const url ="https://did-it-server.herokuapp.com/projects/"+project_id+"/addUpdate"
+  console.log(project_id)
+  console.log(user_id)
+  console.log(date)
+  console.log(progression)
+  console.log(message)
+  return fetch(url, {
+     method: 'POST',
+     redirect:'follow',
+     headers: {
+       Accept: 'application/json',
+       'Content-Type': 'application/json',
+     },
+     body: JSON.stringify({
+            user_id : user_id,
+            date: date,
+            progression : progression,
+            message :message
+          })
+   })
+    .then((response)=>response.json())
+    .catch((error)=>{
+      console.log(error);
+      throw error;
+  })
+}

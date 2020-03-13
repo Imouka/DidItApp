@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux'
 import { Modal, Text, TouchableHighlight, TouchableOpacity, View , Image, StyleSheet, TextInput, Alert, Keyboard} from 'react-native';
-import { getFriendsFromUserId } from '../API/APITest'
-
+import { getProjectFromUserId , postUpdateProject} from '../API/APITest'
+import moment from 'moment'
 
 class AddProgression extends Component {
 
@@ -20,7 +21,7 @@ class AddProgression extends Component {
    //this._scrollToIndex=this._scrollToIndex.bind(this)
    }
 
-   componentDidMount() {
+    componentDidMount() {
     this.keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       this._keyboardDidShow,
@@ -30,33 +31,51 @@ class AddProgression extends Component {
       this._keyboardDidHide,
     );
   }
-     componentWillUnmount() {
+    componentWillUnmount() {
        this.keyboardDidShowListener.remove();
        this.keyboardDidHideListener.remove();
      }
 
-     _keyboardDidShow = ()=> {
+    _update_projects(){
+       getProjectFromUserId(this.props.user.id).then(data => {
+         this.props.dispatch({ type: "UPDATE_PROJECTS", value: data.projects })
+       })
+     }
+
+     _today_date(){
+      return (moment(new Date()).format('YYYY/MM/DD'))
+    }
+
+    _keyboardDidShow = ()=> {
        this.setState({
          height:"90%"
        })
      }
 
-     _keyboardDidHide = ()=> {
+    _keyboardDidHide = ()=> {
        this.setState({
          height:"50%"
        })
      }
 
-   _check_form=()=>{
+    _check_form=()=>{
      if (this.state.progressValue < 1 ) {
         Alert.alert("Error", "The progress value must be grater or equal to one")
       }
      else {
-       if (this.state.progressValue=="hello1" ) {
+       if (this.state.progressValue + this.props.project.progression >= this.props.project.target_value  ) {
+         var progress =  parseInt( this.props.project.target_value-this.props.project.progression , 10 )
          this.setState({ isLoading: true })
-         getFriendsFromUserId("2")
+         console.log("CAS 1")
+         console.log(this.props.project.id)
+         console.log(this.props.user.id)
+         console.log(this._today_date())
+         console.log(progress)
+         console.log(this.state.description)
+         postUpdateProject(this.props.project.id,this.props.user.id, this._today_date(),progress,this.state.description)
          .then(data => {
                  this.setState({ isLoading: false })
+                 this._update_projects()
                  Alert.alert("Project finished", "You finished your project")
                })
          .catch(data => {
@@ -64,11 +83,18 @@ class AddProgression extends Component {
                  Alert.alert("Error", "The action could not be performed, please try again later")
                })
        }
-       else if (this.state.progressValue=="hello") {
+       else  {
+         console.log("CAS 2")
+         console.log(this.props.project.id)
+         console.log(this.props.user.id)
+         console.log(this._today_date())
+         console.log(this.state.progressValue)
+         console.log(this.state.description)
          this.setState({ isLoading: true })
-         getFriendsFromUserId("2")
+         postUpdateProject(this.props.project.id,this.props.user.id, this._today_date(), parseInt(this.state.progressValue , 10 ) ,this.state.description)
          .then(data => {
                  this.setState({ isLoading: false })
+                 this._update_projects()
                  Alert.alert("Project updated", "Your update is saved")
                })
          .catch(data => {
@@ -191,4 +217,12 @@ class AddProgression extends Component {
        fontSize:14,
      },
   })
-export default AddProgression
+
+  const mapStateToProps = (state) => {
+    return {
+      projects : state.handleProject.projects,
+      user: state.handleUser.user
+    }
+  }
+
+export default connect (mapStateToProps) (AddProgression)
