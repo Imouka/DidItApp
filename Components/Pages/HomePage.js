@@ -150,7 +150,7 @@ _renderHeader=()=>{
     <View >
       <LateralBar
       imageSource={require('../../Images/project.png')}
-      projects={this.props.projects}
+      projects={this.props.projects.reverse()}
       displayDetailForProject={this._displayDetailForProject}/>
       {this._renderSeparatortop()}
     </View>

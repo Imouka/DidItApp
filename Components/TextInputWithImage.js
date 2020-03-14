@@ -31,8 +31,8 @@ class TextInputWithImage extends React.Component {
                   })}
             value={this.state.typedText =="" ? null : this.state.typedText}
             onSubmitEditing={()=>{
-                this.setState({typedText:"",
-                      })
+              console.log(this.state.typedText)
+                action(this.state.typedText)
                 }}>
             </TextInput>
           </View>

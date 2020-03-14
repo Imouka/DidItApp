@@ -57,7 +57,7 @@ const HomeStackNavigator = createStackNavigator({
     screen:HomePage,
     navigationOptions: {
       headerTitle: (
-           <Image style={{ width: 150, height: 40 }} source={require('../Images/app_logo.png')}/>
+           <Image style={{ width: 150, height: 40 }} source={require('../Images/app_logo2.png')}/>
             ),
       headerRight: (navigation) => {
             return <Notifications />;

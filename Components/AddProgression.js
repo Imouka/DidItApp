@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import { Modal, Text, TouchableHighlight, TouchableOpacity, View , Image, StyleSheet, TextInput, Alert, Keyboard} from 'react-native';
-import { getProjectFromUserId , postUpdateProject} from '../API/APITest'
 import moment from 'moment'
 
 class AddProgression extends Component {
@@ -36,15 +35,6 @@ class AddProgression extends Component {
        this.keyboardDidHideListener.remove();
      }
 
-    _update_projects(){
-       getProjectFromUserId(this.props.user.id).then(data => {
-         this.props.dispatch({ type: "UPDATE_PROJECTS", value: data.projects })
-       })
-     }
-
-     _today_date(){
-      return (moment(new Date()).format('YYYY/MM/DD'))
-    }
 
     _keyboardDidShow = ()=> {
        this.setState({
@@ -58,54 +48,9 @@ class AddProgression extends Component {
        })
      }
 
-    _check_form=()=>{
-     if (this.state.progressValue < 1 ) {
-        Alert.alert("Error", "The progress value must be grater or equal to one")
-      }
-     else {
-       if (this.state.progressValue + this.props.project.progression >= this.props.project.target_value  ) {
-         var progress =  parseInt( this.props.project.target_value-this.props.project.progression , 10 )
-         this.setState({ isLoading: true })
-         console.log("CAS 1")
-         console.log(this.props.project.id)
-         console.log(this.props.user.id)
-         console.log(this._today_date())
-         console.log(progress)
-         console.log(this.state.description)
-         postUpdateProject(this.props.project.id,this.props.user.id, this._today_date(),progress,this.state.description)
-         .then(data => {
-                 this.setState({ isLoading: false })
-                 this._update_projects()
-                 Alert.alert("Project finished", "You finished your project")
-               })
-         .catch(data => {
-                 this.setState({ isLoading: false })
-                 Alert.alert("Error", "The action could not be performed, please try again later")
-               })
-       }
-       else  {
-         console.log("CAS 2")
-         console.log(this.props.project.id)
-         console.log(this.props.user.id)
-         console.log(this._today_date())
-         console.log(this.state.progressValue)
-         console.log(this.state.description)
-         this.setState({ isLoading: true })
-         postUpdateProject(this.props.project.id,this.props.user.id, this._today_date(), parseInt(this.state.progressValue , 10 ) ,this.state.description)
-         .then(data => {
-                 this.setState({ isLoading: false })
-                 this._update_projects()
-                 Alert.alert("Project updated", "Your update is saved")
-               })
-         .catch(data => {
-                 this.setState({ isLoading: false })
-                 Alert.alert("Error", "The action could not be performed, please try again later")
-               })
-       }
-     }
-   }
 
     render() {
+      const {addProgression}=this.props
       return (
         <View style={{ justifyContent: 'center', alignItems:'center', flex:1}}>
             <Modal animationType={'slide'} transparent={true} visible={this.state.modalVisible}>
@@ -153,7 +98,7 @@ class AddProgression extends Component {
                               <Text  style ={styles.button_text} >CANCEL</Text>
                             </TouchableOpacity>
                               <TouchableOpacity
-                                onPress={() => {this.setState({modalVisible: false}),  this._check_form()}
+                                onPress={() => {this.setState({modalVisible: false}),  addProgression(parseInt(this.state.progressValue, 10 ), this.state.description)}
                                   }>
                                 <Text  style ={styles.button_text} >OK</Text>
                               </TouchableOpacity>

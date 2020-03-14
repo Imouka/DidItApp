@@ -16,9 +16,21 @@ import AddProgression from '../../Components/AddProgression'
 
 class ProjectPageHeader extends React.Component {
 
+  display_update_button(is_over,addProgression) {
+    if (is_over==false){
+      return(
+        <View
+        style={styles.image_container}>
+          <AddProgression
+          addProgression={addProgression}/>
+        </View>
+      )
+    }
+   }
+
 
   render() {
-    const {project,imageProject,displayProjectSettings,deleteProject}=this.props
+    const {project,imageProject,displayProjectSettings,deleteProject,addProgression,is_over}=this.props
     return (
       <View>
       <View style={{flexDirection:"row",justifyContent:"space-between",  alignItems:"center"}}>
@@ -69,11 +81,7 @@ class ProjectPageHeader extends React.Component {
               </Text>
             </View>
         </View>
-        <View
-        style={styles.image_container}>
-          <AddProgression
-          project={project}/>
-        </View>
+      {this.display_update_button(is_over, addProgression)}
       </View>
       <View
       style={styles.support_container} >

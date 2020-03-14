@@ -1,16 +1,16 @@
 
 import React from 'react'
 import {connect} from 'react-redux'
+import moment from 'moment'
 import {View,StyleSheet,ScrollView, Alert, ActivityIndicator, FlatList} from 'react-native'
 import ProjectPageHeader from '../../Components/Headers/ProjectPageHeader'
-
 import CommentItem from '../../Components/CommentItem'
 import UpdateItem from '../../Components/UpdateItem'
 import SupportItem from '../../Components/SupportItem'
 import ButtonBigImageAndText from '../../Components/ButtonBigImageAndText'
 import TextInputWithImage from '../../Components/TextInputWithImage'
 
-import { getUserFromId, postDeleteProject, getProjectFromUserId} from '../../API/APITest'
+import { postDeleteProject, getProjectFromUserId, postUpdateProject} from '../../API/APITest'
 
 const DATA = [
   {
@@ -65,6 +65,8 @@ class ProjectPage extends React.Component {
        project: {},
        isLoading: false,
      }
+      this._add_update_to_project = this._add_update_to_project.bind(this)
+      this._add_progression_to_project =this._add_progression_to_project.bind(this)
    }
 
 
@@ -133,6 +135,55 @@ class ProjectPage extends React.Component {
 );
 }
 
+  _add_update_to_project=(message)=>{
+    this.setState({ isLoading: true })
+    postUpdateProject(this.state.project.id,this.props.user.id, moment(new Date()).format('YYYY/MM/DD'),null,message)
+    .then(data => {
+            this.setState({ isLoading: false })
+            this._update_projects()
+            Alert.alert("Update", "You project has been updated")
+          })
+    .catch(data => {
+            this.setState({ isLoading: false })
+            Alert.alert("Error", "The action could not be performed, please try again later")
+          })
+    }
+
+  _add_progression_to_project=(progressValue, message)=>{
+     if (progressValue < 1 ) {
+        Alert.alert("Error", "The progress value must be grater or equal to one")
+      }
+     else {
+       if (progressValue + this.state.project.progression >= this.state.project.objective  ) {
+         progressValue =  this.state.project.objective-this.state.project.progression
+         this.setState({ isLoading: true })
+         postUpdateProject(this.state.project.id,this.props.user.id, moment(new Date()).format('YYYY/MM/DD'),progressValue,message)
+         .then(data => {
+                 this.setState({ isLoading: false })
+                 this._update_projects()
+                 Alert.alert("Project finished", "You finished your project")
+               })
+         .catch(data => {
+                 this.setState({ isLoading: false })
+                 Alert.alert("Error", "The action could not be performed, please try again later")
+               })
+       }
+       else  {
+         this.setState({ isLoading: true })
+         postUpdateProject(this.state.project.id,this.props.user.id, moment(new Date()).format('YYYY/MM/DD'), progressValue ,message)
+         .then(data => {
+                 this.setState({ isLoading: false })
+                 this._update_projects()
+                 Alert.alert("Project updated", "Your update is saved")
+               })
+         .catch(data => {
+                 this.setState({ isLoading: false })
+                 Alert.alert("Error", "The action could not be performed, please try again later")
+               })
+       }
+     }
+    }
+
 _displayLoading() {
     if (this.state.isLoading) {
       return (
@@ -143,25 +194,36 @@ _displayLoading() {
     }
   }
 
- _renderHeader = () => {
- return (
-   <View>
-    <View style={styles.header_container}>
-     <ProjectPageHeader
-     project={this.state.project}
-     imageProject={require('../../Images/project.png')}
-     displayProjectSettings={this.displayProjectSettings}
-     deleteProject={this.deleteProject}/>
-    </View>
-    <View style={styles.add_update_container} >
-       <TextInputWithImage
-       text={"Add an update"}
-       imageSource= {require("../../Images/profile_icon.png")}
-       size={35}
-       action={console.log}/>
+_render_add_update_input(is_over){
+  if (is_over==false){
+    return(
+      <View style={styles.add_update_container} >
+         <TextInputWithImage
+         text={"Add an update"}
+         imageSource= {require("../../Images/profile_icon.png")}
+         size={35}
+         action={this._add_update_to_project}/>
      </View>
-  </View>
- )}
+    )
+  }
+}
+ _renderHeader = () => {
+     return(
+       <View>
+        <View style={styles.header_container}>
+         <ProjectPageHeader
+         project={this.state.project}
+         imageProject={require('../../Images/project.png')}
+         displayProjectSettings={this.displayProjectSettings}
+         deleteProject={this.deleteProject}
+         addProgression={this._add_progression_to_project}
+         is_over={false}/>
+        </View>
+        {this._render_add_update_input(false)}
+      </View>
+     )
+  }
+
 
 
 _display_item=(item)=>{
