@@ -16,11 +16,10 @@ class LateralBar extends React.Component {
         keyExtractor={(item) => item.id.toString()}
         ref={(ref) => { this.flatListRef = ref; }}
         renderItem={({item}) =>
-        <LateralProjectItem
-          project={item}
-          imageSource={imageSource}
-          displayDetailForProject={displayDetailForProject}/>}
-        />
+          <LateralProjectItem
+            project={item}
+            imageSource={imageSource}
+            displayDetailForProject={displayDetailForProject}/>}/>
         </View>
 
     )

@@ -5,9 +5,6 @@ import moment from 'moment'
 
 class AddProgression extends Component {
 
-  // You can import from local files
-
-  // or any pure javascript modules available in npm
 
   constructor(props) {
      super(props)
@@ -48,9 +45,30 @@ class AddProgression extends Component {
        })
      }
 
+     display_update_button(is_over) {
+       if (is_over==false){
+         return(
+           <TouchableOpacity
+           onPress={() => {this.setState({modalVisible:true})}}>
+             <Image
+               style={styles.update_image}
+               source= {require('../Images/progress.png')}/>
+           </TouchableOpacity>
+         )}
+         else{
+           return(
+             <TouchableOpacity
+             onPress={() => {this.setState({modalVisible:true})}}
+             disabled={true}>
+               <Image
+                 style={[styles.update_image,{opacity: 0.2}]}
+                 source= {require('../Images/progress.png')}/>
+             </TouchableOpacity>
+           )}
+      }
 
     render() {
-      const {addProgression}=this.props
+      const {addProgression,disabled}=this.props
       return (
         <View style={{ justifyContent: 'center', alignItems:'center', flex:1}}>
             <Modal animationType={'slide'} transparent={true} visible={this.state.modalVisible}>
@@ -98,8 +116,7 @@ class AddProgression extends Component {
                               <Text  style ={styles.button_text} >CANCEL</Text>
                             </TouchableOpacity>
                               <TouchableOpacity
-                                onPress={() => {this.setState({modalVisible: false}),  addProgression(parseInt(this.state.progressValue, 10 ), this.state.description)}
-                                  }>
+                                onPress={() => {this.setState({modalVisible: false}),  addProgression(parseInt(this.state.progressValue, 10 ), this.state.description)}}>
                                 <Text  style ={styles.button_text} >OK</Text>
                               </TouchableOpacity>
                             </View>
@@ -107,12 +124,7 @@ class AddProgression extends Component {
                     </View>
                 </View>
             </Modal>
-            <TouchableOpacity
-            onPress={() => {this.setState({modalVisible:true})}}>
-              <Image
-                style={styles.update_image}
-                source= {require('../Images/progress.png')}/>
-            </TouchableOpacity>
+            {this.display_update_button(disabled)}
         </View>
       );
     }

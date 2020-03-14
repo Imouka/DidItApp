@@ -197,7 +197,7 @@ _displayLoading() {
 _render_add_update_input(is_over){
   if (is_over==false){
     return(
-      <View style={styles.add_update_container} >
+      <View style={[styles.add_update_container]} >
          <TextInputWithImage
          text={"Add an update"}
          imageSource= {require("../../Images/profile_icon.png")}

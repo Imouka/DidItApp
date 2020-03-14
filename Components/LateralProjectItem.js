@@ -10,24 +10,25 @@ class LateralProjectItem extends React.Component {
     <TouchableOpacity
     style = {styles.project_image_container}
     onPress={ () => displayDetailForProject(project.id)}>
-      <View
-       style = {styles.titleView}>
-        <Text
-         numberOfLines={2}
-          style={styles.project_title_text}>
-          {project.title}
-        </Text>
-      </View>
-      <View>
-         <ProjectIcon
-         imageSource={imageSource}/>
-      </View>
-      <View
-      style={{marginTop:8}}>
-         <ProgressBar
-         progressionProjet={Math.round(project.progression_percentage * 100) + "%"}
-         progressionTemps={Math.round(project.time_progression * 100) + "%"}/>
-      </View>
+        <View
+         style = {styles.titleView}>
+          <Text
+           numberOfLines={2}
+            style={styles.project_title_text}>
+            {project.title}
+          </Text>
+        </View>
+        <View>
+            <ProjectIcon
+            style = {[{justifyContent:'center'}]}
+            imageSource={imageSource}/>
+        </View>
+        <View
+        style={{marginTop:8}}>
+            <ProgressBar
+            progressionProjet={Math.round(project.progression_percentage * 100) + "%"}
+            progressionTemps={Math.round(project.time_progression * 100) + "%"}/>
+        </View>
     </TouchableOpacity>
   )
  }
@@ -38,10 +39,11 @@ const styles = StyleSheet.create({
     alignItems:'center',
     marginRight:15,
     flex:1,
-    marginTop:"1%",
     backgroundColor:"white",
-    paddingBottom:"3%",
+    paddingBottom:20,
     marginLeft: 3,
+    //backgroundColor:'green',
+    justifyContent:'flex-end'
   },
   titleView:{
     width:80,
