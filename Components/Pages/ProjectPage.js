@@ -195,7 +195,7 @@ _displayLoading() {
   }
 
 _render_add_update_input(is_over){
-  if (is_over==false){
+  if (! is_over){
     return(
       <View style={[styles.add_update_container]} >
          <TextInputWithImage
@@ -216,10 +216,9 @@ _render_add_update_input(is_over){
          imageProject={require('../../Images/project.png')}
          displayProjectSettings={this.displayProjectSettings}
          deleteProject={this.deleteProject}
-         addProgression={this._add_progression_to_project}
-         is_over={false}/>
+         addProgression={this._add_progression_to_project}/>
         </View>
-        {this._render_add_update_input(false)}
+        {this._render_add_update_input(this.state.project.is_done)}
       </View>
      )
   }

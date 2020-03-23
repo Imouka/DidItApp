@@ -30,7 +30,7 @@ class ProfilePage extends React.Component {
 
   _update_user(){
     this.setState({ isLoading: true })
-    getUserFromId("2").then(data => {
+    getUserFromId("1").then(data => {
       this.props.dispatch({ type: "UPDATE_USER", value: data })
       this.setState({
             isLoading: false
@@ -127,7 +127,7 @@ _scrollToIndex = () => {
       style={styles.main_container}>
       {this._displayLoading()}
       <FlatList
-        data={this.props.projects.reverse()}
+        data={this.props.projects}
         keyExtractor={(item) => item.id.toString()}
         ref={(ref) => { this.flatListRef = ref; }}
         ItemSeparatorComponent={this._renderSeparator}
@@ -137,7 +137,6 @@ _scrollToIndex = () => {
             project={item}
             imageSource={require('../../Images/project.png')}
             displayDetailForProject={this._displayDetailForProject}
-            is_over={false}
         />}
       />
         </View>

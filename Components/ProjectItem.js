@@ -24,15 +24,16 @@ class ProjectItem extends React.Component {
        return(0.3)}
       else {return(1)}
      }
-    
+
 
   render() {
-    const{imageSource,project, displayDetailForProject, is_over}=this.props
+    const{imageSource,project, displayDetailForProject}=this.props
+    console.log(project.is_done)
     return (
       <View>
         <TouchableOpacity
         onPress={ () => displayDetailForProject(project.id)}>
-          <View style={[styles.main_container, {opacity:this.opacify_item(is_over)}]}>
+          <View style={[styles.main_container, {opacity:this.opacify_item(project.is_done)}]}>
 
             <View style = {styles.project_image_container}>
               <View>
@@ -63,13 +64,13 @@ class ProjectItem extends React.Component {
 
             </View>
           </View>
-         {this.display_overlay_image(is_over)}
+          {this.display_overlay_image(project.is_done)}
         </TouchableOpacity>
       </View>
     )
   }
 }
-// imageSource='../Images/plus.png'/>
+//   {this.display_overlay_image(project.description.is_done)}
 
 const styles = StyleSheet.create({
   main_container: {

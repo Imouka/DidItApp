@@ -17,7 +17,7 @@ import AddProgression from '../../Components/AddProgression'
 class ProjectPageHeader extends React.Component {
 
   render() {
-    const {project,imageProject,displayProjectSettings,deleteProject,addProgression,is_over}=this.props
+    const {project,imageProject,displayProjectSettings,deleteProject,addProgression}=this.props
     return (
       <View>
       <View style={{flexDirection:"row",justifyContent:"space-between",  alignItems:"center"}}>
@@ -72,7 +72,7 @@ class ProjectPageHeader extends React.Component {
         style={styles.image_container}>
           <AddProgression
           addProgression={addProgression}
-          disabled={is_over}/>
+          disabled={project.is_done}/>
         </View>
       </View>
       <View
@@ -82,7 +82,8 @@ class ProjectPageHeader extends React.Component {
           source= {require('../../Images/support.png')}
         />
         <Text   style={styles.support_text} >
-          {"  XXXX people supported this project"}
+          {project.nb_supports}
+          {" people supported this project"}
         </Text>
       </View>
       <View

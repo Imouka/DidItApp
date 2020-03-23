@@ -11,6 +11,15 @@ class ProjectDetails extends React.Component {
              return <Text style={styles.small_text}> Project ended {moment(dateEndProject, "YYYYMMDD").fromNow()}</Text>;
          }
      }
+
+     _displayLastUpdateDateMessage(date) {
+            if (date == 0) {
+                return <Text style={styles.small_text}> Still no updates </Text>;
+            } else {
+                return <Text style={styles.response_text}> {moment(new Date(date)).format('DD/MM/YYYY')}</Text>;
+            }
+        }
+
 //{moment(new Date(project.project.project_end_date)).format('DD/MM/YYYY')}
   render() {
     const project=this.props
@@ -63,9 +72,7 @@ class ProjectDetails extends React.Component {
           <View>
             <Text  style={styles.categorie_text}>Last update:</Text>
           </View>
-          <View style={styles.response_text}>
-            <Text>   XX/XX/XXXX</Text>
-          </View>
+            {this._displayLastUpdateDateMessage(project.project.last_update_date)}
         </View>
 
       </View>
