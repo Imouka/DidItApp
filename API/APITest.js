@@ -156,3 +156,32 @@ export function postUpdateProject(project_id,user_id,date,progression,message){
       throw error;
   })
 }
+
+
+export function postLogin(fbId,first_name,last_name){
+  const url ="https://did-it-server.herokuapp.com/users/"+fbId+"/login"
+  console.log(first_name)
+  console.log(last_name)
+  console.log(fbId)
+  return fetch(url, {
+     method: 'POST',
+     redirect:'follow',
+     headers: {
+       Accept: 'application/json',
+       'Content-Type': 'application/json',
+     },
+     body: JSON.stringify({
+            first_name : first_name,
+            last_name: last_name,
+          })
+   })
+    .then((response)=> {
+    console.log("APITest postLogin => response") ;
+
+    return response.json();
+  })
+    .catch((error)=>{
+      console.log(error);
+      throw error;
+  })
+}

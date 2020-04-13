@@ -30,7 +30,7 @@ class ProfilePage extends React.Component {
 
   _update_user(){
     this.setState({ isLoading: true })
-    getUserFromId("1").then(data => {
+    getUserFromId(this.props.loggedid).then(data => {
       this.props.dispatch({ type: "UPDATE_USER", value: data })
       this.setState({
             isLoading: false
@@ -39,7 +39,6 @@ class ProfilePage extends React.Component {
   }
 
   _update_projects(){
-    console.log(this.props.user.id)
     getProjectFromUserId(this.props.user.id).then(data => {
       this.props.dispatch({ type: "UPDATE_PROJECTS", value: data.projects })
     })
@@ -175,7 +174,8 @@ edit_project_text:{
 const mapStateToProps = (state) => {
   return {
     projects : state.handleProject.projects,
-    user: state.handleUser.user
+    user: state.handleUser.user,
+    loggedid: state.handleLogin.id,
   }
 }
 

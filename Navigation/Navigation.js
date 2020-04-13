@@ -15,6 +15,8 @@ import FriendsListPage from '../Components/Pages/FriendsListPage'
 import Calendar from '../Components/Pages/Calendar'
 import Notifications from '../Components/Notifications'
 import EditProfilePage from '../Components/Pages/EditProfilePage'
+import LoginPage from '../Components/Pages/LoginPage'
+
 
 const ProfileStackNavigator = createStackNavigator({
   ProfilePage: {
@@ -66,6 +68,18 @@ const HomeStackNavigator = createStackNavigator({
   },
   ProjectPage: {
    screen: ProjectPage,
+ },
+})
+
+const LoginStackNavigator = createStackNavigator({
+    LoginPage: {
+    screen:LoginPage,
+    navigationOptions: {
+      title: 'Login'
+    }
+  },
+  HomePage: {
+   screen: HomePage,
  },
 })
 

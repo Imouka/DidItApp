@@ -101,7 +101,7 @@ componentDidUpdate(prevProps){
 }
 
 _update_user(){
-  getUserFromId("2").then(data => {
+  getUserFromId(this.props.loggedid).then(data => {
     this.props.dispatch({ type: "UPDATE_USER", value: data })
   })
 }
@@ -189,7 +189,8 @@ _renderHeader=()=>{
 const mapStateToProps = (state) => {
   return {
     projects : state.handleProject.projects,
-    user: state.handleUser.user
+    user: state.handleUser.user,
+    loggedid: state.handleLogin.id,
   }
 }
 export default connect(mapStateToProps)(HomePage)

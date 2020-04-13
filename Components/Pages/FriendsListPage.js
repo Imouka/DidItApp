@@ -31,7 +31,7 @@ class FriendsListPage extends React.Component {
 
    _update_user(){
      this.setState({ isLoading: true })
-     getUserFromId("6").then(data => {
+     getUserFromId(this.props.loggedid).then(data => {
        this.props.dispatch({ type: "UPDATE_USER", value: data })
        this.setState({
              isLoading: false
@@ -192,7 +192,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     user: state.handleUser.user,
-    friends : state.handleUser.friends
+    friends : state.handleUser.friends,
+    loggedid: state.handleLogin.id,
   }
 }
 
