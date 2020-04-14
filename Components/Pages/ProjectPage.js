@@ -9,8 +9,8 @@ import UpdateItem from '../../Components/UpdateItem'
 import SupportItem from '../../Components/SupportItem'
 import ButtonBigImageAndText from '../../Components/ButtonBigImageAndText'
 import TextInputWithImage from '../../Components/TextInputWithImage'
-
-import { postDeleteProject, getProjectFromUserId, postUpdateProject} from '../../API/APITest'
+import update from '../../Utils/Updaters.js';
+import { postDeleteProject, postUpdateProject} from '../../API/APITest'
 
 const DATA = [
   {
@@ -93,12 +93,6 @@ class ProjectPage extends React.Component {
      }
    }
 
-   _update_projects(){
-     console.log(this.props.user.id)
-     getProjectFromUserId(this.props.user.id).then(data => {
-       this.props.dispatch({ type: "UPDATE_PROJECTS", value: data.projects })
-     })
-   }
 
   displayProjectSettings=()=>{
       this.props.navigation.navigate('ModifyProjectPage',{project :this.state.project})
@@ -120,7 +114,7 @@ class ProjectPage extends React.Component {
        postDeleteProject(this.state.project.id)
        .then(data => {
          this.setState({ isLoading: false })
-         this._update_projects()
+         update.update_projects(this)
          if (true) {
            Alert.alert("Confirmed", "Your project has been deleted")
           // this.props.navigation.navigate('ProfilePage')
@@ -140,7 +134,7 @@ class ProjectPage extends React.Component {
     postUpdateProject(this.state.project.id,this.props.user.id, moment(new Date()).format('YYYY/MM/DD'),null,message)
     .then(data => {
             this.setState({ isLoading: false })
-            this._update_projects()
+            update.update_projects(this)
             Alert.alert("Update", "You project has been updated")
           })
     .catch(data => {
@@ -160,7 +154,7 @@ class ProjectPage extends React.Component {
          postUpdateProject(this.state.project.id,this.props.user.id, moment(new Date()).format('YYYY/MM/DD'),progressValue,message)
          .then(data => {
                  this.setState({ isLoading: false })
-                 this._update_projects()
+                 update.update_projects(this)
                  Alert.alert("Project finished", "You finished your project")
                })
          .catch(data => {
@@ -173,7 +167,7 @@ class ProjectPage extends React.Component {
          postUpdateProject(this.state.project.id,this.props.user.id, moment(new Date()).format('YYYY/MM/DD'), progressValue ,message)
          .then(data => {
                  this.setState({ isLoading: false })
-                 this._update_projects()
+                 update.update_projects(this)
                  Alert.alert("Project updated", "Your update is saved")
                })
          .catch(data => {

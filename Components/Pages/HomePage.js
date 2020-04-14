@@ -5,8 +5,8 @@ import {View, ScrollView,FlatList, StyleSheet} from 'react-native'
 import LateralBar from '../../Components/LateralBar'
 import HomepagePostItem from '../../Components/HomepagePostItem'
 import UpdateItem from '../../Components/UpdateItem'
-import { getUserFromId, getProjectFromUserId } from '../../API/APITest'
-
+import {  getProjectFromUserId } from '../../API/APITest'
+import update from '../../Utils/Updaters.js';
 
 const DATA = [
   {
@@ -87,29 +87,19 @@ class HomePage extends React.Component{
 
   constructor(props) {
      super(props)
+     this.state = {
+       isLoading: false
+   }
    }
 
 componentDidMount(){
-  this._update_user()
-  //this._update_projects()
+    update.update_user(this)
 }
 
 componentDidUpdate(prevProps){
   if(prevProps.user.id != this.props.user.id){
-      this._update_projects()
+    update.update_projects(this)
   }
-}
-
-_update_user(){
-  getUserFromId(this.props.loggedid).then(data => {
-    this.props.dispatch({ type: "UPDATE_USER", value: data })
-  })
-}
-
-_update_projects(){
-  getProjectFromUserId(this.props.user.id).then(data => {
-    this.props.dispatch({ type: "UPDATE_PROJECTS", value: data.projects })
-  })
 }
 
 _renderSeparator () {
@@ -150,7 +140,7 @@ _renderHeader=()=>{
     <View >
       <LateralBar
       imageSource={require('../../Images/project.png')}
-      projects={this.props.projects.reverse()}
+      projects={this.props.projects}
       displayDetailForProject={this._displayDetailForProject}/>
       {this._renderSeparatortop()}
     </View>

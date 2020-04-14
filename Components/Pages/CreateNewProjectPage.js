@@ -5,6 +5,8 @@ import ProjectIcon from '../../Components/ProjectIcon';
 import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
 import{postCreateNewProject, getProjectFromUserId} from '../../API/APITest'
+import update from '../../Utils/Updaters.js';
+
 
 class CreateNewProjectPage extends React.Component {
 
@@ -91,12 +93,6 @@ _manageDate(date){
   )
 }
 
-_update_projects(){
-  console.log(this.props.user.id)
-  getProjectFromUserId(this.props.user.id).then(data => {
-    this.props.dispatch({ type: "UPDATE_PROJECTS", value: data.projects })
-  })
-}
 
 _default_step_size=(target_val)=> {
        this.setState({
@@ -111,7 +107,7 @@ _check_form=()=>{
     postCreateNewProject(this.props.user.id, this.state.title,this.state.description,this._manageDate(this.state.selectedStartDate),this._manageDate(this.state.selectedEndDate), this.state.targetValue, this.state.stepSize)
     .then(data => {
            this.setState({ isLoading: false })
-           this._update_projects()
+           update.update_projects(this)
            this._displayProfilePage()
            Alert.alert("New project created ","your new project has been created")
           })

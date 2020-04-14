@@ -3,10 +3,10 @@ import { connect } from 'react-redux'
 import {View, StyleSheet, TextInput, FlatList, Alert, ActivityIndicator} from 'react-native'
 import FriendItem from '../../Components/FriendItem'
 import SearchBar from '../../Components/SearchBar'
-import {getFriendsFromUserId } from '../../API/APITest'
 import {postHandleFriendship} from '../../API/APITest'
-import { getUserFromId} from '../../API/APITest'
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react-native-popup-menu';
+import update from '../../Utils/Updaters.js';
+
 
 class FriendsListPage extends React.Component {
 
@@ -19,8 +19,8 @@ class FriendsListPage extends React.Component {
    }
 
    componentDidMount=()=>{
-    this._update_user()
-    this._update_friendlist()
+    update.update_user(this)
+    update._update_friendlist(this)
    }
 
    componentDidUpdate(prevProps){
@@ -29,22 +29,6 @@ class FriendsListPage extends React.Component {
      }
    }
 
-   _update_user(){
-     this.setState({ isLoading: true })
-     getUserFromId(this.props.loggedid).then(data => {
-       this.props.dispatch({ type: "UPDATE_USER", value: data })
-       this.setState({
-             isLoading: false
-           })
-     })
-   }
-
-
-   _update_friendlist(){
-     getFriendsFromUserId(this.props.user.id).then(data => {
-       this.props.dispatch({ type: "UPDATE_FRIENDSHIP", value: data.friends })
-     })
-   }
 
    _displayLoading() {
        if (this.state.isLoading) {

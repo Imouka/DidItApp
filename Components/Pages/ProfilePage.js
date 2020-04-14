@@ -5,7 +5,7 @@ import {View,StyleSheet,Text, FlatList, ActivityIndicator, TouchableOpacity} fro
 import ProfileHeader from '../../Components/Headers/ProfileHeader'
 import ButtonBigImageAndText from '../../Components/ButtonBigImageAndText'
 import ProjectItem from '../../Components/ProjectItem'
-import { getUserFromId, getProjectFromUserId } from '../../API/APITest'
+import update from '../../Utils/Updaters.js';
 
 
 class ProfilePage extends React.Component {
@@ -18,31 +18,16 @@ class ProfilePage extends React.Component {
   }
 
   componentDidMount(){
-    this._update_user()
-    this._update_projects()
+    update.update_user(this)
+    update.update_projects(this)
   }
 
   componentDidUpdate(prevProps){
     if(prevProps.user.id != this.props.user.id){
-        this._update_projects()
+        update.update_projects(this)
     }
   }
 
-  _update_user(){
-    this.setState({ isLoading: true })
-    getUserFromId(this.props.loggedid).then(data => {
-      this.props.dispatch({ type: "UPDATE_USER", value: data })
-      this.setState({
-            isLoading: false
-          })
-    })
-  }
-
-  _update_projects(){
-    getProjectFromUserId(this.props.user.id).then(data => {
-      this.props.dispatch({ type: "UPDATE_PROJECTS", value: data.projects })
-    })
-  }
 
   _displayLoading() {
       if (this.state.isLoading) {

@@ -1,14 +1,10 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import {AppRegistry, StyleSheet, Text, View} from 'react-native';
-import { TextInput } from 'react-native';
+import {AppRegistry, StyleSheet, Text, View, Button, TextInput} from 'react-native';
 import { getUserFromId, postLogin} from '../../API/APITest'
 import Navigation from '../../Navigation/Navigation'
-//var FBLoginButton = require('../../Components/FBLoginButton');
-//import FBLoginButton from '../../Components/FBLoginButton';
-import {LoginButton, AccessToken} from 'react-native-fbsdk'
-import { Button } from 'react-native'
-import { LoginManager } from 'react-native-fbsdk'
+import {LoginButton, AccessToken, LoginManager} from 'react-native-fbsdk'
+
 
 
  class LoginPage extends Component {
@@ -27,12 +23,7 @@ import { LoginManager } from 'react-native-fbsdk'
     }
 
     login2 = (id) => {
-       // Faire une API qui se connecte à facebook et récupére les informations renvoyer par Facebook (token + id)
-       //
          this.props.dispatch({ type: "LOGIN", value: {id:id,logged:true} })
-
-  //  this.props.dispatch({ type: "LOGIN", value: {id:userId,logged:true} })
-
      }
 
 

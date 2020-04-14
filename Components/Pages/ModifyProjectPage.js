@@ -4,7 +4,9 @@ import {View,StyleSheet, Text, TouchableOpacity, TextInput, Button, ScrollView, 
 import ProjectIcon from '../../Components/ProjectIcon';
 import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
-import { getProjectFromUserId, postModifyProject } from '../../API/APITest'
+import {postModifyProject } from '../../API/APITest'
+import update from '../../Utils/Updaters.js';
+
 
 class ModifyProjectPage extends React.Component {
 
@@ -85,12 +87,6 @@ _displayProjectSettings=()=>{
     }
   }
 
-  _update_projects(){
-    console.log(this.props.user.id)
-    getProjectFromUserId(this.props.user.id).then(data => {
-      this.props.dispatch({ type: "UPDATE_PROJECTS", value: data.projects })
-    })
-  }
 
   _displayLoading() {
       if (this.state.isLoading) {
@@ -125,7 +121,7 @@ _check_form=()=>{
     postModifyProject(this.props.navigation.state.params.project.id, this.state.title,this.state.description,this._manageDate(this.state.selectedEndDate))
     .then(data => {
             this.setState({ isLoading: false })
-            this._update_projects()
+            update.update_projects(this)
             this._displayProjectPage(this.props.navigation.state.params.project.id)
            Alert.alert("Project modified ","Your project has been modified")
           })
