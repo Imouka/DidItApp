@@ -44,7 +44,7 @@ class ProfilePage extends React.Component {
     }
 
 _displayCreateNewProjectPage= () => {
-  this.props.navigation.navigate('CreateNewProjectPage')
+  this.props.navigation.navigate('CreateNewProjectPage',{project_id : project_id})
 
 }
 
@@ -78,9 +78,9 @@ return (
        imageSource={require('../../Images/profile_icon.png')}
        user={this.props.user}
        nbNewRequests='xxx'
-       projectNb={this.props.projects.length}
        scrollToIndex={this._scrollToIndex}
-       displayFriendsList={this._displayFriendsListPage}/>
+       displayFriendsList={this._displayFriendsListPage}
+       notification_icon={true}/>
   </View>
   <TouchableOpacity
   style={styles.button_edit_project}

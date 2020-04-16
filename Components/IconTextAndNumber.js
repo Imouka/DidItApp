@@ -5,8 +5,8 @@ import { StyleSheet, View, Text,TouchableOpacity, ImageBackground} from 'react-n
 class IconTextAndNumber extends React.Component {
 
 
-  _displayNewRequests(request_nb, number){
-    if (request_nb!=0){
+  _displayNewRequests(request_nb, number, notification_icon){
+    if ((request_nb!=0) && (notification_icon==true)){
         return (
           <View style={{ alignSelf: 'center', paddingRight:35}} >
             <Text
@@ -51,11 +51,11 @@ class IconTextAndNumber extends React.Component {
 
 
   render() {
-    const {text,number, action, request_nb}=this.props
+    const {text,number, action, request_nb,notification_icon}=this.props
     return (
         <TouchableOpacity
         onPress={() => action()}>
-          {this._displayNewRequests(request_nb, number)}
+          {this._displayNewRequests(request_nb, number, notification_icon)}
           <Text
           style={styles.text_friends} >
           {text}

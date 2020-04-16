@@ -29,8 +29,6 @@ export function getFilmDetailFromApi(id){
 
 export function getFriendsFromUserId(id){
   const url = "https://did-it-server.herokuapp.com/users/"+id+"/friends"
-  /*const url = 'https://api.themoviedb.org/3/search/movie?api_key=' + API_TOKEN
-  + '&language=fr&query=' + text*/
   return fetch(url)
     .then((response)=>response.json())
     .catch((error)=>console.log(error))
@@ -184,4 +182,12 @@ export function postLogin(fbId,first_name,last_name){
       console.log(error);
       throw error;
   })
+}
+
+export function getUserInfoById(user_id, friend_id){
+  const url = "https://did-it-server.herokuapp.com/users/"+user_id+"/friend/"+friend_id
+  return fetch(url)
+    .then((response)=>response.json())
+    .catch((error)=>console.log(error))
+
 }

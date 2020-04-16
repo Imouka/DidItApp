@@ -4,11 +4,15 @@ import {View,StyleSheet} from 'react-native'
 import UserIcon from '../../Components/UserIcon'
 import IconTextAndNumber from '../../Components/IconTextAndNumber'
 import Description from '../../Components/Description'
+
+
 class ProfileHeader extends React.Component {
 
 
   render() {
-    const{user, imageSource, projectNb, scrollToIndex, displayFriendsList, nbNewRequests}=this.props
+    const{user, imageSource, scrollToIndex, displayFriendsList, nbNewRequests, notification_icon}=this.props
+    console.log("ProfileHeader")
+    console.log(user)
     return (
       <View>
         <View
@@ -23,8 +27,9 @@ class ProfileHeader extends React.Component {
             style={styles.nb_container}>
             <IconTextAndNumber
             text="Projects"
-            number={projectNb}
+            number={user.nb_projects}
             action={scrollToIndex}
+            notification_icon={notification_icon}
             request_nb={"0"}/>
           </View>
           <View
@@ -32,6 +37,7 @@ class ProfileHeader extends React.Component {
             <IconTextAndNumber
             text="Friends"
             number={user.nb_friends}
+            notification_icon={notification_icon}
             request_nb={nbNewRequests}
             action={()=>displayFriendsList(user.id)}/>
           </View>

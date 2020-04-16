@@ -76,12 +76,12 @@ class FriendItem extends React.Component {
 
 
   render() {
-    const{imageSource,frienditem,handleFriendship}=this.props
+    const{imageSource,frienditem,handleFriendship, displayFriendProfilePage}=this.props
     return (
       <View style={styles.main_container}>
         <View style={{flex:4}}>
           <TouchableOpacity
-          onPress={() => console.log("Pressed user avatar")}
+          onPress={() => displayFriendProfilePage(frienditem)}
           style={styles.container_image_name}>
             <View style={styles.user_image_container}>
               <Image

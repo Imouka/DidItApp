@@ -6,7 +6,10 @@ import SearchBar from '../../Components/SearchBar'
 import {postHandleFriendship} from '../../API/APITest'
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react-native-popup-menu';
 import update from '../../Utils/Updaters.js';
+import {NavigationEvents} from 'react-navigation';
 
+
+import FriendProfilePage from '../../Components/Pages/OtherUserPages/FriendProfilePage'
 
 class FriendsListPage extends React.Component {
 
@@ -20,12 +23,12 @@ class FriendsListPage extends React.Component {
 
    componentDidMount=()=>{
     update.update_user(this)
-    update._update_friendlist(this)
+    update.update_friendlist(this)
    }
 
    componentDidUpdate(prevProps){
      if(prevProps.user.id != this.props.user.id){
-         this._update_friendlist()
+         this.update_friendlist()
      }
    }
 
@@ -48,80 +51,45 @@ class FriendsListPage extends React.Component {
   )
   };
 
+
+displayFriendProfilePage=(friend_item)=>{
+  console.log("displayFriendProfilePage")
+   update.update_friend_user(this, friend_item.id).then(()=>{
+    this.props.navigation.navigate('FriendProfilePage', {action:this.handleFriendship, friend_id:friend_item.id})
+  }
+)
+  }
+
 handleFriendship(friend, action_type){
   this.setState({ isLoading: true })
   console.log("FriendsListPage->handleFriendship-> appel API, friend id" + friend)
-  if (action_type=="refuse") {
-    postHandleFriendship(this.props.user.id, friend.id, action_type)
-    .then(data => {
-      this._update_friendlist()
-      this.setState({ isLoading: false })
-      if (data.status=="ok") {
-        Alert.alert("Deleted", "The friend request from "+friend.first_name+ " has been deleted")
-      }
-      else {
-        Alert.alert("Error", "Something went wrong please try again later" )
-      }
-      })
-      .catch((error)=>{
-        console.log("error")
-        this.setState({ isLoading: false })
-       Alert.alert("Error", "Something went wrong please try again later" )})
-  }
-  else if (action_type=="confirm")  {
-    postHandleFriendship(this.props.user.id, friend.id, action_type)
-    .then(data => {
-      console.log("FriendsListPage->handleFriendship-> appel API")
-      this._update_friendlist()
-      this.setState({ isLoading: false })
-      if (data.status=="ok") {
-        Alert.alert("Confirmed", "The friend request from "+ friend.first_name+ " has been confirmed")
-     }
-      else {
-        Alert.alert("Error", "Something went wrong please try again later" )
-    }
-    })
-    .catch((error)=>{
-      console.log("error")
-      this.setState({ isLoading: false })
-     Alert.alert("Error", "Something went wrong please try again later" )})
-  }
-  else if (action_type=="send")  {
-    postHandleFriendship(this.props.user.id, friend.id, action_type)
-    .then(data => {
-      this._update_friendlist()
-      this.setState({ isLoading: false })
-      if (data.status=="ok") {
-       Alert.alert("Request send", "You sent a friend request to "+ friend.first_name)
-     }
-      else {
-        Alert.alert("Error", "Something went wrong please try again later" )
-    }
-    })
-    .catch((error)=>{
-      console.log("error")
-      this.setState({ isLoading: false })
-     Alert.alert("Error", "Something went wrong please try again later" )})
-  }
-  else if (action_type=="unfriend")  {
-     postHandleFriendship(this.props.user.id, friend.id, action_type)
-    .then(data => {
-      this._update_friendlist()
-      this.setState({ isLoading: false })
-      if (data.status=="ok") {
-       Alert.alert("Unfriended", friend.first_name+ "  has been unfriended")
-     }
-      else {
-        Alert.alert("Error", "Something went wrong please try again later" )
-    }
-  })
-  .catch((error)=>{
-    console.log("error")
+  postHandleFriendship(this.props.user.id, friend.id, action_type)
+  .then(data => {
+    update.update_friendlist(this)
     this.setState({ isLoading: false })
-   Alert.alert("Error", "Something went wrong please try again later" )})
+    if (data.status=="ok") {
+      if (action_type=="refuse") {
+      Alert.alert("Deleted", "The friend request from "+friend.first_name+ " has been deleted")
+      }
+      else if (action_type=="confirm")  {
+        Alert.alert("Confirmed", "The friend request from "+ friend.first_name+ " has been confirmed")
+      }
+      else if (action_type=="send"){
+        Alert.alert("Request send", "You sent a friend request to "+ friend.first_name)
+      }
+      else if (action_type=="unfriend"){
+        Alert.alert("Unfriended", friend.first_name+ "  has been unfriended")
+      }
+    }
+    else {
+      Alert.alert("Error", "Something went wrong please try again later" )
+    }
+    })
+    .catch((error)=>{
+      console.log("error")
+      this.setState({ isLoading: false })
+     Alert.alert("Error", "Something went wrong please try again later" )})
   }
-
-}
 
   _renderSeparator() {
   return (
@@ -135,7 +103,9 @@ handleFriendship(friend, action_type){
 
  render() {
     return (
+
         <View style={styles.main_container}>
+              <NavigationEvents onWillFocus={() => update.update_friendlist(this)} />
         <FlatList
           data={this.props.friends}
           keyExtractor={(item) => item.id.toString()}
@@ -147,6 +117,7 @@ handleFriendship(friend, action_type){
             frienditem={item}
             imageSource={require('../../Images/profile_icon.png')}
             handleFriendship={this.handleFriendship}
+            displayFriendProfilePage ={this.displayFriendProfilePage}
 
           />}
         />

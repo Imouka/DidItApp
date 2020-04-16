@@ -17,6 +17,8 @@ import Notifications from '../Components/Notifications'
 import EditProfilePage from '../Components/Pages/EditProfilePage'
 import LoginPage from '../Components/Pages/LoginPage'
 
+import FriendProfilePage from '../Components/Pages/OtherUserPages/FriendProfilePage'
+import FriendProjectPage from '../Components/Pages/OtherUserPages/FriendProjectPage'
 
 const ProfileStackNavigator = createStackNavigator({
   ProfilePage: {
@@ -52,6 +54,9 @@ const SearchStackNavigator = createStackNavigator({
       title: 'Search'
     }
   },
+  FriendProfilePage: {
+   screen: FriendProfilePage,
+ },
 })
 
 const HomeStackNavigator = createStackNavigator({
@@ -83,6 +88,22 @@ const LoginStackNavigator = createStackNavigator({
  },
 })
 
+const FriendProfileStackNavigator = createStackNavigator({
+  FriendProfilePage: {
+    screen: FriendProfilePage,
+    navigationOptions: {
+      title: 'Your Profile'
+    }
+  },
+  FriendProjectPage: {
+   screen: FriendProjectPage,
+ },
+ FriendsListPage:{
+   screen : FriendsListPage,
+ },
+})
+
+
 
 const DidItTabNavigator=createBottomTabNavigator(
   {
@@ -113,10 +134,14 @@ const DidItTabNavigator=createBottomTabNavigator(
          return <Image
            source={require('../Images/search.png')}
            style={styles.icon}/>
-         }
-       }
+         },
+      unmountOnBlur: true,
+        },
   },
   },
+
+
+
 
   {
   tabBarOptions:{

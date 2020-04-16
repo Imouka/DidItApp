@@ -1,5 +1,4 @@
-import { getUserFromId, getProjectFromUserId, getFriendsFromUserId} from '../API/APITest'
-
+import { getUserFromId, getProjectFromUserId, getFriendsFromUserId, getUserInfoById} from '../API/APITest'
 
 class Updaters {
 
@@ -14,20 +13,28 @@ class Updaters {
     }
 
     update_projects(ctx){
-      console.log("hello")
       getProjectFromUserId(ctx.props.user.id).then(data => {
         ctx.props.dispatch({ type: "UPDATE_PROJECTS", value: data.projects.reverse() })
       })
     }
 
-    _update_friendlist(ctx){
+    update_friendlist(ctx){
       getFriendsFromUserId(ctx.props.user.id).then(data => {
         ctx.props.dispatch({ type: "UPDATE_FRIENDSHIP", value: data.friends })
       })
     }
 
+    update_friend_user(ctx, friend_id){
+      return (getUserInfoById(ctx.props.user.id,friend_id).then(data => {
+        console.log(data)
+        return ctx.props.dispatch({ type: "UPDATE_FRIEND", value: data })
+      }))
+    }
+
+
 
 
 }
+
 const update = new Updaters();
 export default update;
