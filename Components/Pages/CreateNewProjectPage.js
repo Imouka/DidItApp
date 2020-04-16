@@ -108,6 +108,7 @@ _check_form=()=>{
     .then(data => {
            this.setState({ isLoading: false })
            update.update_projects(this)
+           update.update_user(this)
            this._displayProfilePage()
            Alert.alert("New project created ","your new project has been created")
           })
@@ -366,7 +367,8 @@ const styles = StyleSheet.create({
   const mapStateToProps = (state) => {
     return {
       projects : state.handleProject.projects,
-      user: state.handleUser.user
+      user: state.handleUser.user,
+      loggedid: state.handleLogin.id, 
     }
   }
 

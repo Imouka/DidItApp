@@ -1,36 +1,36 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {View, StyleSheet, TextInput, FlatList, Alert, ActivityIndicator} from 'react-native'
-import FriendItem from '../../Components/FriendItem'
-import SearchBar from '../../Components/SearchBar'
-import {postHandleFriendship} from '../../API/APITest'
+import FriendItem from '../../../Components/FriendItem'
+import SearchBar from '../../../Components/SearchBar'
+import {postHandleFriendship} from '../../../API/APITest'
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react-native-popup-menu';
-import update from '../../Utils/Updaters.js';
-import {NavigationEvents} from 'react-navigation';
+import update from '../../../Utils/Updaters.js';
 
 
-import FriendProfilePage from '../../Components/Pages/OtherUserPages/FriendProfilePage'
+import FriendProfilePage from '../../../Components/Pages/OtherUserPages/FriendProfilePage'
+import ProfilePage from '../../../Components/Pages/ProfilePage'
 
-class FriendsListPage extends React.Component {
+class FriendFriendsListPage extends React.Component {
 
   constructor(props) {
      super(props)
      this.state = {
        isLoading:false,
      }
-      this.handleFriendship=this.handleFriendship.bind(this)
    }
 
    componentDidMount=()=>{
-    update.update_user(this)
-    update.update_friendlist(this)
-   }
+     console.log("FriendFriendsListPage componentDidMount ")
+  //  update.update_user(this)
+    //update.update_friendlist(this)
+  }
 
-   componentDidUpdate(prevProps){
+   /*componentDidUpdate(prevProps){
      if(prevProps.user.id != this.props.user.id){
          this.update_friendlist()
      }
-   }
+   }*/
 
 
    _displayLoading() {
@@ -56,8 +56,23 @@ displayFriendProfilePage=(friend_item)=>{
   console.log("displayFriendProfilePage")
    update.update_friend_user(this, friend_item.id).then(()=>{
     this.props.navigation.navigate('FriendProfilePage', { friend_id:friend_item.id})
+    }
+    )
   }
-)
+
+  displayProfilePage=()=>{
+    this.props.navigation.navigate('ProfilePage')
+  }
+
+
+  displayCorrectProfilePage=(friend_item)=>{
+    if (friend_item.status=="MYSELF"){
+        console.log("frienditem.status")
+      this.displayProfilePage()
+    }
+    else {
+      this.displayFriendProfilePage(friend_item)
+    }
   }
 
 handleFriendship(friend, action_type){
@@ -103,23 +118,20 @@ handleFriendship(friend, action_type){
 
  render() {
     return (
-
         <View style={styles.main_container}>
-              <NavigationEvents onWillFocus={() => update.update_friendlist(this)} />
-        <FlatList
-          data={this.props.friends}
-          keyExtractor={(item) => item.id.toString()}
-          ref={(ref) => { this.flatListRef = ref; }}
-          ItemSeparatorComponent={this._renderSeparator}
-          ListHeaderComponent={this._renderHeader}
-          renderItem={({item}) =>
-          <FriendItem
-            frienditem={item}
-            imageSource={require('../../Images/profile_icon.png')}
-            handleFriendship={this.handleFriendship}
-            displayFriendProfilePage ={this.displayFriendProfilePage}
-
-          />}
+          <FlatList
+            data={this.props.friend_user.friends}
+            keyExtractor={(item) => item.id.toString()}
+            ref={(ref) => { this.flatListRef = ref; }}
+            ItemSeparatorComponent={this._renderSeparator}
+            ListHeaderComponent={this._renderHeader}
+            renderItem={({item}) =>
+            <FriendItem
+              frienditem={item}
+              imageSource={require('../../../Images/profile_icon.png')}
+              handleFriendship={this.handleFriendship}
+              displayFriendProfilePage ={this.displayCorrectProfilePage}
+            />}
         />
         {this._displayLoading()}
         </View>
@@ -148,9 +160,9 @@ const mapStateToProps = (state) => {
   return {
     user: state.handleUser.user,
     friends : state.handleUser.friends,
-    loggedid: state.handleLogin.id,
+    friend_user: state.handleFriend.friend
   }
 }
 
 
-export default connect(mapStateToProps)(FriendsListPage)
+export default connect(mapStateToProps)(FriendFriendsListPage)

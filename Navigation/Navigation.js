@@ -19,6 +19,7 @@ import LoginPage from '../Components/Pages/LoginPage'
 
 import FriendProfilePage from '../Components/Pages/OtherUserPages/FriendProfilePage'
 import FriendProjectPage from '../Components/Pages/OtherUserPages/FriendProjectPage'
+import FriendFriendsListPage from '../Components/Pages/OtherUserPages/FriendFriendsListPage'
 
 const ProfileStackNavigator = createStackNavigator({
   ProfilePage: {
@@ -45,6 +46,17 @@ const ProfileStackNavigator = createStackNavigator({
  EditProfilePage:{
    screen : EditProfilePage,
  },
+ FriendProfilePage: {
+   screen: FriendProfilePage,
+ },
+ FriendProjectPage: {
+  screen: FriendProjectPage,
+},
+FriendFriendsListPage:{
+  screen : FriendFriendsListPage,
+},
+
+
 })
 
 const SearchStackNavigator = createStackNavigator({
@@ -57,6 +69,15 @@ const SearchStackNavigator = createStackNavigator({
   FriendProfilePage: {
    screen: FriendProfilePage,
  },
+ FriendProfilePage: {
+   screen: FriendProfilePage,
+ },
+ FriendProjectPage: {
+  screen: FriendProjectPage,
+},
+FriendFriendsListPage:{
+  screen : FriendFriendsListPage,
+},
 })
 
 const HomeStackNavigator = createStackNavigator({
@@ -74,9 +95,10 @@ const HomeStackNavigator = createStackNavigator({
   ProjectPage: {
    screen: ProjectPage,
  },
+
 })
 
-const LoginStackNavigator = createStackNavigator({
+/*const LoginStackNavigator = createStackNavigator({
     LoginPage: {
     screen:LoginPage,
     navigationOptions: {
@@ -86,23 +108,7 @@ const LoginStackNavigator = createStackNavigator({
   HomePage: {
    screen: HomePage,
  },
-})
-
-const FriendProfileStackNavigator = createStackNavigator({
-  FriendProfilePage: {
-    screen: FriendProfilePage,
-    navigationOptions: {
-      title: 'Your Profile'
-    }
-  },
-  FriendProjectPage: {
-   screen: FriendProjectPage,
- },
- FriendsListPage:{
-   screen : FriendsListPage,
- },
-})
-
+})*/
 
 
 const DidItTabNavigator=createBottomTabNavigator(
@@ -151,6 +157,7 @@ const DidItTabNavigator=createBottomTabNavigator(
     inactiveBackgroundColor: '#FFFFFF', // Couleur d'arrière-plan des onglets non sélectionnés
   }
 })
+
 const styles = StyleSheet.create({
     icon: {
       width: 20,

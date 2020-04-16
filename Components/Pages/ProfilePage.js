@@ -44,7 +44,7 @@ class ProfilePage extends React.Component {
     }
 
 _displayCreateNewProjectPage= () => {
-  this.props.navigation.navigate('CreateNewProjectPage',{project_id : project_id})
+  this.props.navigation.navigate('CreateNewProjectPage')
 
 }
 
@@ -102,7 +102,9 @@ return (
 };
 
 _scrollToIndex = () => {
-  this.flatListRef.scrollToIndex({animated: true, index:0});
+  if (this.props.user.nb_projects != 0) {
+    this.flatListRef.scrollToIndex({animated: true, index:0});
+  }
 }
 
   render() {

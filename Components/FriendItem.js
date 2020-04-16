@@ -59,8 +59,8 @@ class FriendItem extends React.Component {
         </View>
       );
     }
-      else {
-        return (
+    else if (frienditem.status=="STRANGER_DANGER") {
+      return (
           <View>
             <AddFriendButton
             text={"Add Friend"}
@@ -71,7 +71,7 @@ class FriendItem extends React.Component {
             disabled={false}/>
           </View>
         );
-      }
+    }    
   };
 
 

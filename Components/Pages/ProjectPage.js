@@ -115,6 +115,7 @@ class ProjectPage extends React.Component {
        .then(data => {
          this.setState({ isLoading: false })
          update.update_projects(this)
+         update.update_user(this)
          if (true) {
            Alert.alert("Confirmed", "Your project has been deleted")
           // this.props.navigation.navigate('ProfilePage')
@@ -311,7 +312,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     projects : state.handleProject.projects,
-    user: state.handleUser.user
+    user: state.handleUser.user,
+    loggedid: state.handleLogin.id,
   }
 }
 
