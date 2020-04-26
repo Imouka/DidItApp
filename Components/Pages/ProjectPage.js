@@ -11,50 +11,7 @@ import ButtonBigImageAndText from '../../Components/ButtonBigImageAndText'
 import TextInputWithImage from '../../Components/TextInputWithImage'
 import update from '../../Utils/Updaters.js';
 import { postDeleteProject, postUpdateProject} from '../../API/APITest'
-
-const DATA = [
-  {
-    id :0,
-    type:'comment',
-    date_is_displayed:true,
-    comment:'Voici mon commentaire, Je commente ton projet avec un long commentaire blablabla bravo franchement tu geres. Ton projet est vraiment super'
-  },
-  {
-    id:1,
-    type:'update',
-    UsernameIsDisplayed:true,
-    didProgress:true,
-    withMessage:true,
-    oldProgressionProjet:'38%',
-    newProgressionProjet:'60%',
-    message:"C'est le meilleur projet dans lequel je me suis jamais lancé ! Encouragez moi !",
-  },
- {
-   id:2,
-   type:'support',
-   support:"hello",
- },
- {
-   id:3,
-   type:'update',
-   UsernameIsDisplayed:true,
-   withMessage:true,
-   message:"C'est le meilleur projet dans lequel je me suis jamais lancé ! Encouragez moi !",
-},
-{
-  id:4,
-  type:'comment',
-  date_is_displayed:true,
-  comment:'Voici mon commentaire, Je commente ton projet avec un long commentaire blablabla bravo franchement tu geres. Ton projet est vraiment super'
-},
-{
-  id:5,
-  type:'update',
-  UsernameIsDisplayed:true,
-  withMessage:true,
-  message:"C'est le meilleur projet dans lequel je me suis jamais lancé ! Encouragez moi !",
-},
-]
+import AddProgression from '../../Components/AddProgression'
 
 
 class ProjectPage extends React.Component {
@@ -202,7 +159,9 @@ _render_add_update_input(is_over){
     )
   }
 }
+
  _renderHeader = () => {
+   console.log("ProjectPage -> _renderHeader : "+this.deleteProject)
      return(
        <View>
         <View style={styles.header_container}>
@@ -211,7 +170,11 @@ _render_add_update_input(is_over){
          imageProject={require('../../Images/project.png')}
          displayProjectSettings={this.displayProjectSettings}
          deleteProject={this.deleteProject}
-         addProgression={this._add_progression_to_project}/>
+         optionsIsDisplayed={true}>
+           <AddProgression
+           addProgression={this._add_progression_to_project}
+           disabled={this.state.project.is_done}/>
+          </ProjectPageHeader>
         </View>
         {this._render_add_update_input(this.state.project.is_done)}
       </View>
@@ -221,34 +184,33 @@ _render_add_update_input(is_over){
 
 
 _display_item=(item)=>{
-   if (item.type=="comment") {
+   if (item.TYPE=="COMMENT") {
      return (
       <View style={{  paddingLeft:'2%'}}>
          <CommentItem
          fontsize={15}
-         date_is_displayed={item.date_is_displayed}
-         comment={item.comment}/>
+         date_is_displayed={true}
+         comment={item}/>
       </View>
      )
    }
-   if (item.type=="update"){
+   if (item.TYPE=="UPDATE"){
      return (
        <View style={{backgroundColor:'#F1F4F8', paddingLeft:'2%', paddingTop:'1%', paddingBottom:'1%'}}>
          <UpdateItem
-         UsernameIsDisplayed={item.UsernameIsDisplayed}
-         didProgress={item.didProgress}
-         withMessage={item.withMessage}
-         oldProgressionProjet={item.oldProgressionProjet}
-         newProgressionProjet={item.newProgressionProjet}
-         message={item.message}/>
+         UsernameIsDisplayed={true}
+         update={item}
+         user_first_name={this.props.user.first_name}
+         user_last_name={this.props.user.last_name}/>
        </View>
      )
    }
-   if (item.type=="support"){
+   if (item.TYPE=="SUPPORT"){
+          console.log("ProjectPage -> _display_item -> SUPPORT")
       return (
       <View style={{  paddingLeft:'2%'}}>
          <SupportItem
-         support={this.support}/>
+         support={item}/>
       </View>
       )
    }
@@ -276,8 +238,8 @@ _display_item=(item)=>{
   render() {
     return (
       <FlatList
-        data={DATA}
-        keyExtractor={(item) => item.id.toString()}
+        data={this.state.project.feed}
+        keyExtractor={(item) => item.feed_id.toString()}
         ref={(ref) => { this.flatListRef = ref; }}
         ListHeaderComponent={ this._renderHeader}
         ItemSeparatorComponent={this._renderSeparator}

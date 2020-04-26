@@ -104,7 +104,7 @@ _check_form=()=>{
   if (this._valid_title() && this._valid_description() && this._valid_dates() && this._valid_target_value() && this._valid_step_size() ) {
     this.setState({ isLoading: true })
     //getFriendsFromUserId("4")
-    postCreateNewProject(this.props.user.id, this.state.title,this.state.description,this._manageDate(this.state.selectedStartDate),this._manageDate(this.state.selectedEndDate), this.state.targetValue, this.state.stepSize)
+    postCreateNewProject(this.props.user.id, this.state.title,this.state.description,this._manageDate(this.state.selectedStartDate),this._manageDate(this.state.selectedEndDate), this.state.targetValue, this.state.stepSize, moment(new Date()).format('YYYY/MM/DD'))
     .then(data => {
            this.setState({ isLoading: false })
            update.update_projects(this)
@@ -368,7 +368,7 @@ const styles = StyleSheet.create({
     return {
       projects : state.handleProject.projects,
       user: state.handleUser.user,
-      loggedid: state.handleLogin.id, 
+      loggedid: state.handleLogin.id,
     }
   }
 

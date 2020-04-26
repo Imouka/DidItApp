@@ -5,6 +5,17 @@ import LateralProjectItem from '../Components/LateralProjectItem'
 
 
 class LateralBar extends React.Component {
+  _renderSeparator () {
+  return (
+    <View
+      style={{
+        paddingHorizontal: 5,
+      }}
+    />
+  );
+  };
+
+
   render() {
     const{imageSource, projects,displayDetailForProject}=this.props
     return (
@@ -15,6 +26,7 @@ class LateralBar extends React.Component {
         data={projects}
         keyExtractor={(item) => item.id.toString()}
         ref={(ref) => { this.flatListRef = ref; }}
+        ItemSeparatorComponent={this._renderSeparator}
         renderItem={({item}) =>
           <LateralProjectItem
             project={item}

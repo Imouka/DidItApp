@@ -1,5 +1,5 @@
 const initialState ={friend :{id:""}
-,friends : [],projects:[],relashionship_status:"ACCEPTED"}
+,friends : [],relashionship_status:"ACCEPTED"}
 
 function handleFriend(state = initialState, action) {
   let nextState

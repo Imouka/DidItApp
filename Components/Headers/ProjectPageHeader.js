@@ -11,22 +11,14 @@ import ButtonSmallImage from '../../Components/ButtonSmallImage'
 import ProjectDetails from '../../Components/ProjectDetails'
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger} from 'react-native-popup-menu';
 import MoreButton from '../../Components/MoreButton'
-import AddProgression from '../../Components/AddProgression'
 
 
 class ProjectPageHeader extends React.Component {
 
-  render() {
-    const {project,imageProject,displayProjectSettings,deleteProject,addProgression}=this.props
-    return (
-      <View>
-      <View style={{flexDirection:"row",justifyContent:"space-between",  alignItems:"center"}}>
-        <Text
-        style={styles.project_title_text}>
-        {project.title}
-        </Text>
-
-        <Menu >
+  display_options(optionsIsDisplayed) {
+    if (optionsIsDisplayed){
+      return(
+        <Menu>
             <MenuTrigger>
             <Image
               style={styles.more_button_image}
@@ -35,13 +27,26 @@ class ProjectPageHeader extends React.Component {
            </MenuTrigger>
             <MenuOptions>
               <MenuOption
-              onSelect={() => displayProjectSettings()}
+              onSelect={() => this.props.displayProjectSettings()}
               text={'  Edit project'} />
               <MenuOption
-              onSelect={() => deleteProject()}
+              onSelect={() => this.props.deleteProject()}
               text={'  Delete project'} />
           </MenuOptions>
         </Menu>
+      )}
+   }
+
+  render() {
+    const {project,imageProject, optionsIsDisplayed}=this.props
+    return (
+      <View>
+      <View style={{flexDirection:"row",justifyContent:"space-between",  alignItems:"center"}}>
+        <Text
+        style={styles.project_title_text}>
+        {project.title}
+        </Text>
+        {this.display_options(optionsIsDisplayed)}
       </View>
       <View
       style={styles.row_container}>
@@ -70,9 +75,7 @@ class ProjectPageHeader extends React.Component {
         </View>
         <View
         style={styles.image_container}>
-          <AddProgression
-          addProgression={addProgression}
-          disabled={project.is_done}/>
+        {this.props.children}
         </View>
       </View>
       <View

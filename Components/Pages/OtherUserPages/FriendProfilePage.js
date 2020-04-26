@@ -9,6 +9,7 @@ import ProjectItem from '../../../Components/ProjectItem'
 import update from '../../../Utils/Updaters.js';
 import {getUserInfoById} from '../../../API/APITest'
 import {postHandleFriendship} from '../../../API/APITest'
+import SupportButton from '../../../Components/SupportButton'
 
 import FriendProjectPage from '../../../Components/Pages/OtherUserPages/FriendProjectPage'
 import FriendFriendsListPage from '../../../Components/Pages/OtherUserPages/FriendFriendsListPage'
@@ -41,7 +42,7 @@ class FriendProfilePage extends React.Component {
      componentDidUpdate(prevProps){
        if(prevProps.friend_user != this.props.friend_user){
         console.log("FriendProfilePage componentDidUpdate")
-
+        console.log("FriendProfilePage componentDidUpdate -> friend_user.id"+this.props.friend_user.id)
        }
      }
 
@@ -94,6 +95,10 @@ _renderHandleFriendshipButton =(frienditem, action) => {
     }
 };
 
+_displayDetailForProject=(project_id)=>{
+  this.props.navigation.navigate('FriendProjectPage',{project_id : project_id})
+  }
+
 _renderHeader = () => {
   return (
     <ProfileHeader
@@ -106,6 +111,33 @@ _renderHeader = () => {
      notification_icon={false}/>
   )
 }
+
+send_support=(userId,friendId) => {
+  console.log("FriendProjectPage send_support userId"+userId)
+  console.log("FriendProjectPage send_support friendId"+friendId)
+   this.setState({ isLoading: true })
+   this.setState({ isLoading: false })
+   if (true) {
+     Alert.alert("Confirmed", "Your supported this project !")
+         // this.props.navigation.navigate('ProfilePage')
+   }else {
+      Alert.alert("Error", "Something went wrong please try again later" )
+
+}
+}
+
+display_support_button(item) {
+  if (!item.item.is_done){
+    return(
+      <View style={{flex:0.2}}>
+        <SupportButton
+        action={this.send_support}
+        userId={this.props.user.id}
+        friendId={this.props.friend_user.friend.id}
+        disabled={item.is_done}/>
+      </View>
+    )}
+  }
 
 _renderProjectsView(){
   if (this.props.friend_user.status!="ACCEPTED") {
@@ -137,11 +169,16 @@ _renderProjectsView(){
           ItemSeparatorComponent={this._renderSeparator}
           ListHeaderComponent={this._renderHeader}
           renderItem={({item}) =>
-          <ProjectItem
-              project={item}
-              imageSource={require('../../../Images/project.png')}
-              displayDetailForProject={console.log}
-          />}
+          <View style={styles.friend_item}>
+            <View style={{flex:1}}>
+              <ProjectItem
+                  project={item}
+                  imageSource={require('../../../Images/project.png')}
+                  displayDetailForProject={this._displayDetailForProject}
+              />
+            </View>
+            {this.display_support_button({item})}
+          </View>}
         />
       </View>
     )
@@ -173,7 +210,7 @@ return (
 
 handleFriendship= (friend, action_type) => {
   this.setState({ isLoading: true })
-  console.log("FriendsListPage->handleFriendship-> appel API, friend id" + friend)
+  console.log("FriendsProfilePage->handleFriendship-> appel API, friend id" + friend.id)
   postHandleFriendship(this.props.user.id,friend.id, action_type)
   .then(data => {
     update.update_friendlist(this)
@@ -198,7 +235,7 @@ handleFriendship= (friend, action_type) => {
     }
     })
     .catch((error)=>{
-      console.log("error")
+      console.log("FriendsListPage->handleFriendship-> error")
       this.setState({ isLoading: false })
      Alert.alert("Error", "Something went wrong please try again later" )})
   }
@@ -255,7 +292,11 @@ NonFriendContainer:{
    flex:0.9,
    //justifyContent:'flex-end',
 },
-
+friend_item :{
+  flexDirection:'row',
+  flex:1,
+  alignItems:"center",
+}
 
 })
 

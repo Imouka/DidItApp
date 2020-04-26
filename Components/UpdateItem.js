@@ -3,6 +3,8 @@ import React from 'react'
 import {View, StyleSheet,Text,Image} from 'react-native'
 import ProgressBarProgressionView from '../Components/ProgressBarProgressionView'
 import ButtonSmallImage from '../Components/ButtonSmallImage'
+import moment from 'moment'
+
 
 class UpdateItem extends React.Component {
 
@@ -10,26 +12,25 @@ class UpdateItem extends React.Component {
      super(props)
    }
 
-   _displayProgression(oldProgressionProjet,newProgressionProjet) {
-      if (this.props.didProgress) { {
+_displayProgression(oldProgressionProjet,newProgressionProjet) {
+      if ((oldProgressionProjet != null) && (newProgressionProjet!=null) && (oldProgressionProjet !=newProgressionProjet) ) { {
           return (
           <View style={{marginTop:5}}>
             <View style={{alignSelf:'center'}}>
               <ProgressBarProgressionView
-              oldProgressionProjet={oldProgressionProjet}
-              newProgressionProjet={newProgressionProjet}/>
+              oldProgressionProjet={Math.round(oldProgressionProjet * 100) + "%"}
+              newProgressionProjet={Math.round(newProgressionProjet * 100) + "%"}/>
             </View>
-            <Text style={styles.small_text}> Project complete at XX % </Text>
+            <Text style={styles.small_text}>{Math.round(newProgressionProjet * 100) + "% Already accomplished"} </Text>
           </View>)
         }
     }
 }
 
 _displayMessage(message) {
-   if (this.props.withMessage) {
+   if (message!="" && message!=null) {
        return (
-       <Text
-        style={styles.update}>
+       <Text>
         {message}
         </Text>)
       }
@@ -44,13 +45,14 @@ _displayMessage(message) {
     }
 }
 
-_displayUserName() {
+_displayUserName(first_name, last_name) {
    if (this.props.UsernameIsDisplayed) {
+     console.log("UpdateItem -> _displayUserName -> first_name "+ first_name)
        return (
          <Text>
            <Text
            style={styles.USername_text}>
-           User name
+           {first_name}  {last_name}
            </Text>
            <Text>
            {" "}
@@ -74,21 +76,25 @@ _displayUserImage() {
 
 
   render() {
-    const {oldProgressionProjet, newProgressionProjet,message}=this.props
+    const { update, user_first_name, user_last_name}=this.props
     return (
       <View
       style={styles.main_container}>
         {this._displayUserImage()}
         <View style={{flex:10}}  >
-          <Text>
-          {this._displayUserName()}
-          {this._displayMessage(message)}
-          </Text>
-          {this._displayProgression(oldProgressionProjet,newProgressionProjet)}
+          {this._displayUserName(user_first_name,user_last_name)}
+
+
+            <Text  style={styles.message}>
+              {this._displayMessage(update.message)}
+            </Text>
+
+
+          {this._displayProgression(update.old_value,update.new_value)}
           <View style={{marginTop:3}}>
             <Text
             style={styles.date}>
-              XX/XX/XXXX
+             {moment(new Date(update.date)).format('DD/MM/YYYY')}
             </Text>
           </View>
         </View>
@@ -106,9 +112,9 @@ const styles = StyleSheet.create({
     alignItems :'center',
     alignItems:'flex-start'
   },
- update:{
+ message:{
     fontSize: 15,
-    textAlign: 'left',
+    textAlign:'center',
   },
   date:{
     fontSize: 12,

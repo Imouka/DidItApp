@@ -1,4 +1,4 @@
-import { getUserFromId, getProjectFromUserId, getFriendsFromUserId, getUserInfoById} from '../API/APITest'
+import { getUserFromId, getProjectFromUserId, getFriendsFromUserId, getUserInfoById, getFeedByuserId} from '../API/APITest'
 
 class Updaters {
 
@@ -28,6 +28,13 @@ class Updaters {
       return (getUserInfoById(ctx.props.user.id,friend_id).then(data => {
         console.log(data)
         return ctx.props.dispatch({ type: "UPDATE_FRIEND", value: data })
+      }))
+    }
+
+    update_feed(ctx){
+      return (getFeedByuserId(ctx.props.user.id).then(data => {
+        console.log(data)
+        return ctx.props.dispatch({ type: "UPDATE_FEED", value: data })
       }))
     }
 

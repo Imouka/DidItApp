@@ -1,4 +1,4 @@
-const initialState ={user :{id:""},friends : []}
+const initialState ={user :{id:""},friends : [], feed :[]}
 
 function handleUser(state = initialState, action) {
   let nextState
@@ -15,8 +15,16 @@ function handleUser(state = initialState, action) {
         friends : action.value
       }
       return nextState || state
+    case 'UPDATE_FEED':
+    nextState = {
+      ...state,
+      feed : action.value
+    }
+    return nextState || state
     default:
       return state
     }
+
+
 }
 export default handleUser

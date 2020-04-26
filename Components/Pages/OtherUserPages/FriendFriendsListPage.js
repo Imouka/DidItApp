@@ -18,6 +18,7 @@ class FriendFriendsListPage extends React.Component {
      this.state = {
        isLoading:false,
      }
+     this.handleFriendship=this.handleFriendship.bind(this)
    }
 
    componentDidMount=()=>{
@@ -53,7 +54,7 @@ class FriendFriendsListPage extends React.Component {
 
 
 displayFriendProfilePage=(friend_item)=>{
-  console.log("displayFriendProfilePage")
+  console.log("FriendListPage -> displayFriendProfilePage")
    update.update_friend_user(this, friend_item.id).then(()=>{
     this.props.navigation.navigate('FriendProfilePage', { friend_id:friend_item.id})
     }
@@ -67,7 +68,7 @@ displayFriendProfilePage=(friend_item)=>{
 
   displayCorrectProfilePage=(friend_item)=>{
     if (friend_item.status=="MYSELF"){
-        console.log("frienditem.status")
+        console.log("FriendListPage ->displayCorrectProfilePage -> frienditem.status")
       this.displayProfilePage()
     }
     else {
@@ -101,7 +102,7 @@ handleFriendship(friend, action_type){
     }
     })
     .catch((error)=>{
-      console.log("error")
+      console.log("FriendsListPage->handleFriendship-> error")
       this.setState({ isLoading: false })
      Alert.alert("Error", "Something went wrong please try again later" )})
   }

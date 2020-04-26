@@ -2,16 +2,19 @@
 import React from 'react'
 import {View,Text,StyleSheet,Image} from 'react-native'
 import ButtonSmallImage from '../Components/ButtonSmallImage'
+import moment from 'moment'
+
+
 
 class CommentItem extends React.Component {
 
-  _displaydate(date_is_displayed){
+  _displaydate(date_is_displayed, date){
       if (date_is_displayed==true){
         return (
           <View style={{marginTop:3}}>
             <Text
             style={styles.date}>
-              XX/XX/XXXX
+             {moment(new Date(this.props.comment.date)).format('DD/MM/YYYY')}
             </Text>
           </View>
       )
@@ -32,14 +35,14 @@ class CommentItem extends React.Component {
             <Text>
               <Text
               style={[styles.username_text,{fontSize: fontsize}]}>
-              User name
+              {comment.first_name} {comment.last_name}
               </Text>
               <Text>
               {" "}
               </Text>
               <Text
               style={[{fontSize: fontsize}]}>
-              {comment}
+              {comment.message}
               </Text>
             </Text>
           {this._displaydate(date_is_displayed)}

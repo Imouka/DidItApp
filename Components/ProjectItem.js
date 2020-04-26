@@ -28,7 +28,6 @@ class ProjectItem extends React.Component {
 
   render() {
     const{imageSource,project, displayDetailForProject}=this.props
-    console.log(project.is_done)
     return (
       <View>
         <TouchableOpacity
@@ -48,19 +47,19 @@ class ProjectItem extends React.Component {
               </View>
             </View>
             <View
-            style={styles.text_container}>
-            <View>
-              <Text
-              style={styles.project_title_text}
-              numberOfLines={2}>
-                {project.title}
-              </Text>
-              </View>
+              style={styles.text_container}>
               <View>
-              <Description
-                description={project.description}
-                lineNb={2}/>
-              </View>
+                <Text
+                style={styles.project_title_text}
+                numberOfLines={2}>
+                  {project.title}
+                </Text>
+                </View>
+                <View>
+                <Description
+                  description={project.description}
+                  lineNb={2}/>
+                </View>
 
             </View>
           </View>
@@ -78,8 +77,8 @@ const styles = StyleSheet.create({
     marginTop: 15,
     width: "100%",
     marginBottom:5,
-
-  //  backgroundColor:'red'
+  //  backgroundColor:'green',
+    flex:1,
   },
   project_title_text: {
     fontWeight: 'bold',
@@ -87,15 +86,19 @@ const styles = StyleSheet.create({
   },
   project_image_container: {
     flex:1,
-    alignSelf:'flex-start'
+    alignSelf:'flex-start',
+//    backgroundColor:"blue"
   },
   text_container:{
     flexDirection:'column',
-    flex:3.5,
+    flex:1,
     marginRight:"3%",
+//    backgroundColor:"red"
   },
   project_image_container:{
-    flex:1,
+    //flex:0.3,
+  //  backgroundColor:"skyblue",
+    paddingRight:"4%",
   },
   overlay:{
     position: 'absolute',

@@ -1,7 +1,7 @@
 
 import React from 'react'
 import {connect} from 'react-redux'
-import {View, ScrollView,FlatList, StyleSheet} from 'react-native'
+import {View, ScrollView,FlatList, StyleSheet, Text} from 'react-native'
 import LateralBar from '../../Components/LateralBar'
 import HomepagePostItem from '../../Components/HomepagePostItem'
 import UpdateItem from '../../Components/UpdateItem'
@@ -10,76 +10,122 @@ import update from '../../Utils/Updaters.js';
 
 const DATA = [
   {
-    id:0,
-    projectname:"Here we put the sjlk ldfjhffffs hjdfh jhjfhsdkj hjhdsfjk hjksdfhkjh khk",
-    userName:"User nameffff kk jl kljleeee eeeeeeeeeffffffffffffffffjl",
-    commentitems:[
-                    {id:0,
-                    message: 'Voici mon commentaire, Je commente ton projet avec un long commentaire blablabla bravo franchement tu geres. Ton projet est vraiment super'}
-
-                ],
-  didProgress:true,
-  withMessage:true,
-  UsernameIsDisplayed:false,
-  oldProgressionProjet:'38%',
-  newProgressionProjet:'60%',
-  message:"C'est le meilleur projet dans lequel je me suis jamais lancé ! Encouragez moi !" ,
-  },
-  {
-    id:1,
-    projectname:"Here we put the sjlk ldfjhffffs hjdfh jhjfhsdkj hjhdsfjk hjksdfhkjh khk",
-    userName:"User nameffff kk jl kljleeee eeeeeeeeeffffffffffffffffjl",
-    commentitems:[
-
-
-                ],
-  didProgress:true,
-  withMessage:true,
-  UsernameIsDisplayed:false,
-  oldProgressionProjet:'38%',
-  newProgressionProjet:'60%',
-  message:"C'est le meilleur projet dans lequel je me suis jamais lancé ! Encouragez moi !" ,
-  },
-  {
-    id:2,
-    projectname:"Here we put the sjlk ldfjhffffs hjdfh jhjfhsdkj hjhdsfjk hjksdfhkjh khk",
-    userName:"User nameffff kk jl kljleeee eeeeeeeeeffffffffffffffffjl",
-    commentitems:[
-                    {id:0,
-                    message: 'Voici mon commentaire, Je commente ton projet avec un long commentaire blablabla bravo franchement tu geres. Ton projet est vraiment super'}
-                  ,
-                  {id:1,
-                  message: 'Voici mon commentaire, Je commente ton projet avec un long commentaire blablabla bravo franchement tu geres. Ton projet est vraiment super'}
-                  ,
-                  {id:2,
-                  message: 'Voici mon commentaire, Je commente ton projet avec un long commentaire blablabla bravo franchement tu geres. Ton projet est vraiment super'}
-                ],
-  didProgress:true,
-  withMessage:true,
-  UsernameIsDisplayed:false,
-  oldProgressionProjet:'38%',
-  newProgressionProjet:'60%',
-  message:"C'est le meilleur projet dans lequel je me suis jamais lancé ! Encouragez moi !" ,
-  },
-  {
-    id:3,
-    projectname:"Here we put the sjlk ldfjhffffs hjdfh jhjfhsdkj hjhdsfjk hjksdfhkjh khk",
-    userName:"User nameffff kk jl kljleeee eeeeeeeeeffffffffffffffffjl",
-    commentitems:[
-                    {id:0,
-                    message: 'Voici mon commentaire, Je commente ton projet avec un long commentaire blablabla bravo franchement tu geres. Ton projet est vraiment super'}
-                  ,
-                  {id:1,
-                  message: 'Voici mon commentaire, Je commente ton projet avec un long commentaire blablabla bravo franchement tu geres. Ton projet est vraiment super'}
-                  ,
-                  {id:2,
-                  message: 'Voici mon commentaire, Je commente ton projet avec un long commentaire blablabla bravo franchement tu geres. Ton projet est vraiment super'}
-                ],
-  didProgress:false,
-  withMessage:true,
-  UsernameIsDisplayed:false,
-  message:"C'est le meilleur projet dans lequel je me suis jamais lancé ! Encouragez moi !" ,
-  },
+            comments: [
+              {
+                  date: "2019/12/31",
+                  first_name: "Eve",
+                  icon: "Good looking picture",
+                  last_name: "What's my name",
+                  message: "En faite j'aime pas",
+                  user_id: 2,
+                  comment_id:1
+              },
+            ],
+            date: "2020/04/25",
+            id: 3,
+            project: {
+                id: 12,
+                logo: "Nice Logo",
+                title: "Fuck Eve"
+            },
+            update: {
+                date: "2020/04/25",
+                message: "Project creation",
+                old_value: 0,
+                new_value: 0
+            },
+            user: {
+                first_name: "Adam",
+                icon: "Good looking picture",
+                id: 1,
+                last_name: "What's my name"
+            }
+        },
+        {
+            comments: [
+                {
+                    date: "2019/12/31",
+                    first_name: "Eve",
+                    icon: "Good looking picture",
+                    last_name: "What's my name",
+                    message: "En faite j'aime pas",
+                    user_id: 2,
+                    comment_id:1
+                },
+                {
+                    date: "2019/12/30",
+                    first_name: "Eve",
+                    icon: "Good looking picture",
+                    last_name: "What's my name",
+                    message: "Trop bien ce projet!",
+                    user_id: 2,
+                    comment_id:2
+                }
+            ],
+            date: "2019/12/31",
+            id: 0,
+            project: {
+                id: 1,
+                logo: "Nice picture",
+                title: "Invite Eve to dinner twice a week"
+            },
+            update: {
+                date: "2019/12/20",
+                message: "",
+                old_value: 0.8,
+                new_value: 1
+            },
+            user: {
+                first_name: "Adam",
+                icon: "Good looking picture",
+                id: 1,
+                last_name: "What's my name"
+            }
+        },
+        {
+            comments: [],
+            date: "2019/12/31",
+            id: 1,
+            project: {
+                id: 2,
+                logo: "Nice picture",
+                title: "Invite Eve to dancing twice a week"
+            },
+            update: {
+                date: "2019/12/20",
+                message: "Nothing to show!",
+                old_value: 0.2,
+                new_value: 1
+            },
+            user: {
+                first_name: "Adam",
+                icon: "Good looking picture",
+                id: 1,
+                last_name: "What's my name"
+            }
+        },
+        {
+            comments: [],
+            date: "2019/12/31",
+            id: 2,
+            project: {
+                id: 3,
+                logo: "Nice picture",
+                title: "Invite Eve to the theater twice a week"
+            },
+            update: {
+                date: "1995/12/30",
+                message: "Project creation",
+                old_value: 0.2,
+                new_value: 0.3
+            },
+            user: {
+                first_name: "GERARD",
+                icon: "Good looking picture",
+                id: 1,
+                last_name: "What's my name"
+            }
+        }
 
 ];
 
@@ -94,6 +140,7 @@ class HomePage extends React.Component{
 
 componentDidMount(){
     update.update_user(this)
+    update.update_feed(this)
 }
 
 componentDidUpdate(prevProps){
@@ -152,7 +199,7 @@ _renderHeader=()=>{
   render() {
     return (
         <FlatList
-          data={DATA}
+          data={this.props.user.feed}
           keyExtractor={(item) => item.id.toString()}
           ref={(ref) => { this.flatListRef = ref; }}
           ItemSeparatorComponent={this._renderSeparator}
@@ -162,18 +209,22 @@ _renderHeader=()=>{
             projectImageSource={require("../../Images/project.png")}
             userImageSource={require("../../Images/profile_icon.png")}
             post={item}>
-              <UpdateItem
-              didProgress={item.didProgress}
-              withMessage={item.withMessage}
-              UsernameIsDisplayed={item.UsernameIsDisplayed}
-              oldProgressionProjet='38%'
-              newProgressionProjet='60%'
-              message={item.message}/>
+            <UpdateItem
+              UsernameIsDisplayed={false}
+              update={item.update}/>
             </HomepagePostItem>}
           />
     )
   }
 }
+
+/*render() {
+    return (
+      <View>
+      <Text> WORK IN PROGRESS </Text>
+      </View>)
+  }
+}*/
 
 
 const mapStateToProps = (state) => {

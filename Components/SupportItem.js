@@ -2,6 +2,8 @@
 import React from 'react'
 import {View,Text,StyleSheet,Image} from 'react-native'
 import ButtonSmallImage from '../Components/ButtonSmallImage'
+import moment from 'moment'
+
 
 class SupportItem extends React.Component {
   render() {
@@ -19,7 +21,7 @@ class SupportItem extends React.Component {
             <Text>
               <Text
               style={styles.USername_text}>
-              User name
+              {support.first_name} {support.last_name}
               </Text>
               <Text
               style={styles.comment}>
@@ -33,7 +35,7 @@ class SupportItem extends React.Component {
             <View style={{marginTop:3}}>
               <Text
               style={styles.date}>
-                XX/XX/XXXX
+               {moment(new Date(support.date)).format('DD/MM/YYYY')}
               </Text>
             </View>
 

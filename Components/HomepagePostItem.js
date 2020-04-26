@@ -13,34 +13,36 @@ import Panel from '../Components/Panel';  // Step 1
 class HomepagePostItem extends React.Component {
 
 _displayComments=(post)=>{
-  if (post.commentitems.length==1){
+  if (post.comments.length==1){
     return (
       <View style={{marginTop:"1%"}}>
-        <CommentItem
-         fontsize={13}
-         comment={post.commentitems[0].message}/>
+         <CommentItem
+           fontsize={13}
+           date_is_displayed={false}
+           comment={post.comments[0]}/>
       </View>
     )
   }
-  if (post.commentitems.length>1){
+  if (post.comments.length>1){
     return (
       <View style={{marginTop:"1%"}}>
         <CommentItem
          fontsize={13}
-         comment={post.commentitems[0].message}/>
+         comment={post.comments[0]}/>
          <Panel
          title_closed="See more"
          title_is_displayed={false}
          discrete={true}>
          <FlatList
-           data={post.commentitems.slice(1)}
+           data={post.comments.slice(1)}
            scrollEnabled={false}
-           keyExtractor={(item) => item.id.toString()}
+           keyExtractor={(item) => item.comment_id.toString()}
            ref={(ref) => { this.flatListRef = ref; }}
            renderItem={({item}) =>
            <CommentItem
-            fontsize={13}
-            comment={item.message}/>}
+             fontsize={13}
+             date_is_displayed={false}
+             comment={item}/>}
            />
          </Panel>
       </View>
@@ -64,7 +66,7 @@ _displayComments=(post)=>{
                   <Text
                   style={styles.project_title_text}
                   numberOfLines={2}>
-                  {post.projectname}
+                  {post.project.title}
                   </Text>
                 </View>
               </TouchableOpacity>
@@ -77,7 +79,7 @@ _displayComments=(post)=>{
                   <Text
                   style={styles.user_name_text}
                   numberOfLines={1}>
-                  {post.userName}
+                  {post.user.first_name} {post.user.last_name}
                   </Text>
                 </View>
                 <View  style={{marginRight:"2%", alignItems:'center'}} >

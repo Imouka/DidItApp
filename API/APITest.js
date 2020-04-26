@@ -39,8 +39,8 @@ export function postHandleFriendship(id, friendid, action){
   /*const url = 'https://api.themoviedb.org/3/search/movie?api_key=' + API_TOKEN
   + '&language=fr&query=' + text*/
   console.log(url)
-  console.log(friendid)
-  console.log(action)
+  console.log("postHandleFriendship friendid ="+friendid)
+  console.log("postHandleFriendship action ="+action)
   return fetch(url, {
      method: 'POST',
      redirect:'follow',
@@ -60,7 +60,7 @@ export function postHandleFriendship(id, friendid, action){
   })
 }
 
-export function postCreateNewProject(id, title,description,start_date,end_date, target_value, step_size){
+export function postCreateNewProject(id, title,description,start_date,end_date, target_value, step_size,date){
   const url ="https://did-it-server.herokuapp.com/users/"+id+"/projects/new"
   console.log(start_date)
   console.log(end_date)
@@ -78,6 +78,7 @@ export function postCreateNewProject(id, title,description,start_date,end_date, 
        end_date:end_date,
        target_value:target_value,
        step_size:step_size,
+       date:date,
      }),
 })
     .then((response)=>response.json())
@@ -186,6 +187,14 @@ export function postLogin(fbId,first_name,last_name){
 
 export function getUserInfoById(user_id, friend_id){
   const url = "https://did-it-server.herokuapp.com/users/"+user_id+"/friend/"+friend_id
+  return fetch(url)
+    .then((response)=>response.json())
+    .catch((error)=>console.log(error))
+
+}
+
+export function getFeedByuserId(user_id){
+  const url =" https://did-it-server.herokuapp.com/users/"+user_id+"/feed"
   return fetch(url)
     .then((response)=>response.json())
     .catch((error)=>console.log(error))
