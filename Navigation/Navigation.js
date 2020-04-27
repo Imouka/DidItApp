@@ -78,6 +78,9 @@ const SearchStackNavigator = createStackNavigator({
 FriendFriendsListPage:{
   screen : FriendFriendsListPage,
 },
+ProjectPage: {
+ screen: ProjectPage,
+},
 })
 
 const HomeStackNavigator = createStackNavigator({
@@ -92,23 +95,24 @@ const HomeStackNavigator = createStackNavigator({
           },
     }
   },
-  ProjectPage: {
-   screen: ProjectPage,
- },
+    ProjectPage: {
+     screen: ProjectPage,
+   },
+   ProfilePage: {
+     screen: ProfilePage,
+     navigationOptions: {
+       title: 'Your Profile'
+     }
+   },
+   FriendProfilePage: {
+     screen: FriendProfilePage,
+   },
+   FriendProjectPage: {
+    screen: FriendProjectPage,
+  },
+
 
 })
-
-/*const LoginStackNavigator = createStackNavigator({
-    LoginPage: {
-    screen:LoginPage,
-    navigationOptions: {
-      title: 'Login'
-    }
-  },
-  HomePage: {
-   screen: HomePage,
- },
-})*/
 
 
 const DidItTabNavigator=createBottomTabNavigator(

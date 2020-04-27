@@ -22,14 +22,14 @@ class CommentItem extends React.Component {
   }
 
   render() {
-    const {comment, fontsize, date_is_displayed}=this.props
+    const {comment, fontsize, date_is_displayed, action,id}=this.props
     return (
         <View
         style={styles.main_container}>
           <View  style={{flex:1}}>
           <ButtonSmallImage
             imageSource= {require("../Images/profile_icon.png")}
-            action={console.log}/>
+            action={()=>action(id)}/>
           </View>
           <View style={{flex:10}} >
             <Text>

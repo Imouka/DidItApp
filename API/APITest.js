@@ -1,7 +1,6 @@
 const API_TOKEN = "b41008c0247a653a1351cfa79312cf45";
 
 export function getUserFromId (id) {
-  console.log("appel API")
   const url = "https://did-it-server.herokuapp.com/users/"+id
   /*const url = 'https://api.themoviedb.org/3/search/movie?api_key=' + API_TOKEN
   + '&language=fr&query=' + text*/
@@ -36,11 +35,6 @@ export function getFriendsFromUserId(id){
 
 export function postHandleFriendship(id, friendid, action){
   const url = "http://did-it-server.herokuapp.com/users/"+id+"/friends/update"
-  /*const url = 'https://api.themoviedb.org/3/search/movie?api_key=' + API_TOKEN
-  + '&language=fr&query=' + text*/
-  console.log(url)
-  console.log("postHandleFriendship friendid ="+friendid)
-  console.log("postHandleFriendship action ="+action)
   return fetch(url, {
      method: 'POST',
      redirect:'follow',
@@ -62,8 +56,6 @@ export function postHandleFriendship(id, friendid, action){
 
 export function postCreateNewProject(id, title,description,start_date,end_date, target_value, step_size,date){
   const url ="https://did-it-server.herokuapp.com/users/"+id+"/projects/new"
-  console.log(start_date)
-  console.log(end_date)
   return fetch(url, {
      method: 'POST',
      redirect:'follow',
@@ -90,7 +82,6 @@ export function postCreateNewProject(id, title,description,start_date,end_date, 
 
 export function postDeleteProject(id){
   const url ="https://did-it-server.herokuapp.com/projects/"+id+"/delete"
-  console.log(id)
   return fetch(url, {
      method: 'POST',
      redirect:'follow',
@@ -107,7 +98,6 @@ export function postDeleteProject(id){
 
 export function postModifyProject(id,title,description,end_date){
   const url ="https://did-it-server.herokuapp.com/projects/"+id+"/modify"
-  console.log(id)
   return fetch(url, {
      method: 'POST',
      redirect:'follow',
@@ -130,11 +120,6 @@ export function postModifyProject(id,title,description,end_date){
 
 export function postUpdateProject(project_id,user_id,date,progression,message){
   const url ="https://did-it-server.herokuapp.com/projects/"+project_id+"/addUpdate"
-  console.log(project_id)
-  console.log(user_id)
-  console.log(date)
-  console.log(progression)
-  console.log(message)
   return fetch(url, {
      method: 'POST',
      redirect:'follow',
@@ -194,9 +179,61 @@ export function getUserInfoById(user_id, friend_id){
 }
 
 export function getFeedByuserId(user_id){
-  const url =" https://did-it-server.herokuapp.com/users/"+user_id+"/feed"
+  const url ="https://did-it-server.herokuapp.com/users/"+user_id+"/feed"
   return fetch(url)
     .then((response)=>response.json())
     .catch((error)=>console.log(error))
 
+}
+
+export function sendSupport(project_id, sender_id, date){
+  const url ="https://did-it-server.herokuapp.com/projects/"+project_id+"/support"
+  console.log("API TEST  sendSupport")
+  console.log("project_id"+project_id)
+  console.log("sender_id"+sender_id)
+  console.log("date"+date)
+  return fetch(url, {
+     method: 'POST',
+     redirect:'follow',
+     headers: {
+       Accept: 'application/json',
+       'Content-Type': 'application/json',
+     },
+     body: JSON.stringify({
+            user_id : sender_id,
+            date: date,
+          })
+   })
+   .then((response)=>response.json())
+   .catch((error)=>{
+     console.log("API TEST -> sendSupport " +error);
+     throw error;
+ })
+}
+
+export function sendComment(project_id, sender_id, date, message){
+  const url ="https://did-it-server.herokuapp.com/projects/"+project_id+"/comment"
+  console.log("API TEST  sendComment")
+  console.log("project_id"+project_id)
+  console.log("sender_id"+sender_id)
+  console.log("date"+date)
+  console.log("message"+message)
+  return fetch(url, {
+     method: 'POST',
+     redirect:'follow',
+     headers: {
+       Accept: 'application/json',
+       'Content-Type': 'application/json',
+     },
+     body: JSON.stringify({
+            user_id : sender_id,
+            date: date,
+            message :message
+          })
+   })
+   .then((response)=>response.json())
+   .catch((error)=>{
+     console.log("API TEST -> sendComment " +error);
+     throw error;
+ })
 }

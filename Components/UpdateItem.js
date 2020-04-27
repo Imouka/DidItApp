@@ -13,7 +13,7 @@ class UpdateItem extends React.Component {
    }
 
 _displayProgression(oldProgressionProjet,newProgressionProjet) {
-      if ((oldProgressionProjet != null) && (newProgressionProjet!=null) && (oldProgressionProjet !=newProgressionProjet) ) { {
+      if ((oldProgressionProjet != null) && (newProgressionProjet!=null)) { {
           return (
           <View style={{marginTop:5}}>
             <View style={{alignSelf:'center'}}>
@@ -47,7 +47,6 @@ _displayMessage(message) {
 
 _displayUserName(first_name, last_name) {
    if (this.props.UsernameIsDisplayed) {
-     console.log("UpdateItem -> _displayUserName -> first_name "+ first_name)
        return (
          <Text>
            <Text
@@ -62,13 +61,13 @@ _displayUserName(first_name, last_name) {
  }
 }
 
-_displayUserImage() {
+_displayUserImage(action,update) {
    if (this.props.UsernameIsDisplayed) { {
        return (
          <View  style={{flex:1}}>
          <ButtonSmallImage
            imageSource= {require("../Images/profile_icon.png")}
-           action={console.log}/>
+           action={()=>action(update.user_id)}/>
          </View>)
      }
  }
@@ -76,11 +75,11 @@ _displayUserImage() {
 
 
   render() {
-    const { update, user_first_name, user_last_name}=this.props
+    const { update, user_first_name, user_last_name, action}=this.props
     return (
       <View
       style={styles.main_container}>
-        {this._displayUserImage()}
+        {this._displayUserImage(action,update)}
         <View style={{flex:10}}  >
           {this._displayUserName(user_first_name,user_last_name)}
 

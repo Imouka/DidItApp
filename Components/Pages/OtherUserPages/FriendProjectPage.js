@@ -10,6 +10,9 @@ import ButtonBigImageAndText from '../../../Components/ButtonBigImageAndText'
 import TextInputWithImage from '../../../Components/TextInputWithImage'
 import SupportButton from '../../../Components/SupportButton'
 import update from '../../../Utils/Updaters.js';
+import {sendSupport, sendComment} from '../../../API/APITest'
+import moment from 'moment'
+
 
 
 class FriendProjectPage extends React.Component {
@@ -28,7 +31,8 @@ class FriendProjectPage extends React.Component {
    }
 
    componentDidUpdate(prevProps){
-     if(prevProps.projects != this.props.projects){
+      console.log("FriendProjectPage ->componentDidUpdate ")
+     if(prevProps.friend_user != this.props.friend_user){
          this._retrieve_project()
      }
    }
@@ -67,9 +71,20 @@ class FriendProjectPage extends React.Component {
            text={"Add a comment"}
            imageSource= {require("../../../Images/profile_icon.png")}
            size={35}
-           action={console.log}/>
+           action={this.send_comment}/>
        </View>
       )
+    }
+  }
+
+  displayProfilePage=(friend_id)=>{
+    if (friend_id==this.props.user.id){
+        this.props.navigation.navigate('ProfilePage')
+    } else{
+       update.update_friend_user(this, friend_id).then(()=>{
+        this.props.navigation.navigate('FriendProfilePage', { friend_id:friend_id})
+       }
+     )
     }
   }
 
@@ -86,8 +101,9 @@ class FriendProjectPage extends React.Component {
            <SupportButton
            action={this.send_support}
            userId={this.props.user.id}
-           friendId={this.props.friend_user.friend.id}
-           disabled={this.state.project.is_done}/>
+           projectid={this.state.project.id}
+           disabled={this.state.project.is_done}
+           date={moment(new Date()).format('YYYY/MM/DD')}/>
         </ProjectPageHeader>
         </View>
           {this._render_add_comment(this.state.project.is_done)}
@@ -95,54 +111,81 @@ class FriendProjectPage extends React.Component {
      )
   }
 
- send_support=(userId,friendId) => {
-   console.log("FriendProjectPage send_support userId"+userId)
-   console.log("FriendProjectPage send_support friendId"+friendId)
-    this.setState({ isLoading: true })
-    this.setState({ isLoading: false })
-    if (true) {
-      Alert.alert("Confirmed", "Your supported this project !")
-          // this.props.navigation.navigate('ProfilePage')
-    }else {
-       Alert.alert("Error", "Something went wrong please try again later" )
+  send_support=(projectid,senderid, date) => {
+     this.setState({ isLoading: true })
+     sendSupport(projectid,senderid, date).then(data => {
+       this.setState({ isLoading: false })
+       update.update_friend_user(this,this.props.friend_user.friend.id)
+       if (data.status=="ok") {
+         Alert.alert("Confirmed", "Your supported this project !")
+       }
+       else {
+         Alert.alert("Error", "Something went wrong please try again later2" )
+       }
+       })
+       .catch((error)=>{
+         console.log("FriendsListPage->send_support-> error")
+         this.setState({ isLoading: false })
+        Alert.alert("Error", "Something went wrong please try again later" )})
+     }
 
- }
-}
+     send_comment=(message) => {
+        this.setState({ isLoading: true })
+        sendComment(this.state.project.id,this.props.user.id, moment(new Date()).format('YYYY/MM/DD'), message).then(data => {
+          this.setState({ isLoading: false })
+          update.update_friend_user(this,this.props.friend_user.friend.id)
+          update.update_feed(this)
+          if (data.status=="ok") {
+            Alert.alert("Confirmed", "You commented this project !")
+          }
+          else {
+            Alert.alert("Error", "Something went wrong please try again later2" )
+          }
+          })
+          .catch((error)=>{
+            console.log("FriendsListPage->send_support-> error")
+            this.setState({ isLoading: false })
+           Alert.alert("Error", "Something went wrong please try again later" )})
+        }
 
   _display_item=(item)=>{
-   if (item.type=="COMMENT") {
+   if (item.TYPE=="COMMENT") {
      return (
       <View style={{  paddingLeft:'2%'}}>
         <CommentItem
           fontsize={15}
           date_is_displayed={true}
-          comment={item}/>
+          comment={item}
+          id={item.user_id}
+          action={this.displayProfilePage}/>
       </View>
      )
    }
-   if (item.type=="UPDATE"){
+   if (item.TYPE=="UPDATE"){
      return (
        <View style={{backgroundColor:'#F1F4F8', paddingLeft:'2%', paddingTop:'1%', paddingBottom:'1%'}}>
          <UpdateItem
            UsernameIsDisplayed={true}
            update={item}
            user_first_name={this.props.friend_user.friend.first_name}
-           user_last_name={this.props.friend_user.friend.last_name}/>
+           user_last_name={this.props.friend_user.friend.last_name}
+           action={this.displayProfilePage}/>
        </View>
      )
    }
-   if (item.type=="SUPPORT"){
+   if (item.TYPE=="SUPPORT"){
       return (
       <View style={{  paddingLeft:'2%'}}>
         <SupportItem
-          support={item}/>
+          support={item}
+          action={this.displayProfilePage}/>
       </View>
       )
    }
    else{
      console.log("FriendprojectPage -> _display_item -> type not recognized")
    }
-  }
+}
 
   _renderSeparator () {
   return (
@@ -164,7 +207,7 @@ class FriendProjectPage extends React.Component {
     return (
       <FlatList
         data={this.state.project.feed}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.feed_id.toString()}
         ref={(ref) => { this.flatListRef = ref; }}
         ListHeaderComponent={ this._renderHeader}
         ItemSeparatorComponent={this._renderSeparator}
@@ -200,7 +243,8 @@ class FriendProjectPage extends React.Component {
     return {
       user: state.handleUser.user,
       friends : state.handleUser.friends,
-      friend_user: state.handleFriend.friend
+      friend_user: state.handleFriend.friend,
+      feed: state.handleUser.feed,
     }
   }
 

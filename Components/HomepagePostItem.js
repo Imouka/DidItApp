@@ -10,16 +10,20 @@ import TextInputWithImage from '../Components/TextInputWithImage'
 import Panel from '../Components/Panel';  // Step 1
 
 
+
 class HomepagePostItem extends React.Component {
 
-_displayComments=(post)=>{
+_displayComments=(post, displayProfilePage)=>{
   if (post.comments.length==1){
     return (
       <View style={{marginTop:"1%"}}>
          <CommentItem
            fontsize={13}
            date_is_displayed={false}
-           comment={post.comments[0]}/>
+           comment={post.comments[0]}
+           id={post.comments[0].user_id}
+           action={displayProfilePage}
+           />
       </View>
     )
   }
@@ -28,7 +32,9 @@ _displayComments=(post)=>{
       <View style={{marginTop:"1%"}}>
         <CommentItem
          fontsize={13}
-         comment={post.comments[0]}/>
+         comment={post.comments[0]}
+         id={post.comments[0].user_id}
+         action={displayProfilePage}/>
          <Panel
          title_closed="See more"
          title_is_displayed={false}
@@ -42,7 +48,9 @@ _displayComments=(post)=>{
            <CommentItem
              fontsize={13}
              date_is_displayed={false}
-             comment={item}/>}
+             comment={item}
+             id={item.user_id}
+             action={displayProfilePage}/>}
            />
          </Panel>
       </View>
@@ -50,15 +58,34 @@ _displayComments=(post)=>{
   }
 }
 
+send_comment=(message) => {
+  const {sendComment, post }= this.props
+  sendComment(post.project.id,message)
+   }
+
+ _display_add_comment(isMyProject) {
+   if (!isMyProject){
+     return (
+       <View style={{marginTop:-10}}>
+         <TextInputWithImage
+         text={"Add a comment"}
+         size={25}
+         imageSource= {require("../Images/profile_icon.png")}
+         action={this.send_comment}/>
+       </View>
+     )
+   }
+}
+
   render() {
-    const {  projectImageSource,userImageSource, post}=this.props
+    const {  projectImageSource,userImageSource, post, displayProfilePage, displayProjectPage, isMyProject}=this.props
     return (
         <View style={styles.main_container}>
           <View style={styles.row_container}>
 
               <TouchableOpacity
                 style={styles.left_container}
-                onPress={console.log}>
+                onPress={() => displayProjectPage(post.user.id, post.project.id)}>
                 <Image
                   style={styles.project_image}
                   source={projectImageSource}/>
@@ -74,7 +101,7 @@ _displayComments=(post)=>{
 
               <TouchableOpacity
               style={styles.right_container}
-              onPress={console.log}>
+              onPress={() => displayProfilePage(post.user.id)}>
                 <View  style={{ width: 0, flexGrow: 1,}}>
                   <Text
                   style={styles.user_name_text}
@@ -95,15 +122,8 @@ _displayComments=(post)=>{
             {this.props.children}
           </View>
 
-          {this._displayComments(post)}
-
-          <View style={{marginTop:-10}}>
-            <TextInputWithImage
-            text={"Add a comment"}
-            size={25}
-            imageSource= {require("../Images/profile_icon.png")}
-            action={console.log}/>
-          </View>
+          {this._displayComments(post,displayProfilePage)}
+          {this._display_add_comment(isMyProject)}
         </View>
     )
   }

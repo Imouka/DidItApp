@@ -7,14 +7,14 @@ import moment from 'moment'
 
 class SupportItem extends React.Component {
   render() {
-    const {support}=this.props
+    const {support, action}=this.props
     return (
         <View
         style={styles.main_container}>
           <View  style={{flex:1}}>
           <ButtonSmallImage
             imageSource= {require("../Images/profile_icon.png")}
-            action={console.log}/>
+            action={()=>action(support.user_id)}/>
           </View>
           <View style={{flex:10}} >
             <View style={{flexDirection: 'row'}}>

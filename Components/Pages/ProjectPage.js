@@ -93,6 +93,7 @@ class ProjectPage extends React.Component {
     .then(data => {
             this.setState({ isLoading: false })
             update.update_projects(this)
+            update.update_feed(this)
             Alert.alert("Update", "You project has been updated")
           })
     .catch(data => {
@@ -113,6 +114,7 @@ class ProjectPage extends React.Component {
          .then(data => {
                  this.setState({ isLoading: false })
                  update.update_projects(this)
+                 update.update_feed(this)
                  Alert.alert("Project finished", "You finished your project")
                })
          .catch(data => {
@@ -134,6 +136,17 @@ class ProjectPage extends React.Component {
                })
        }
      }
+    }
+
+    displayProfilePage=(friend_id)=>{
+      if (friend_id==this.props.user.id){
+          this.props.navigation.navigate('ProfilePage')
+      } else{
+         update.update_friend_user(this, friend_id).then(()=>{
+          this.props.navigation.navigate('FriendProfilePage', { friend_id:friend_id})
+         }
+       )
+      }
     }
 
 _displayLoading() {
@@ -161,7 +174,6 @@ _render_add_update_input(is_over){
 }
 
  _renderHeader = () => {
-   console.log("ProjectPage -> _renderHeader : "+this.deleteProject)
      return(
        <View>
         <View style={styles.header_container}>
@@ -190,7 +202,9 @@ _display_item=(item)=>{
          <CommentItem
          fontsize={15}
          date_is_displayed={true}
-         comment={item}/>
+         comment={item}
+         id={item.user_id}
+         action={this.displayProfilePage}/>
       </View>
      )
    }
@@ -201,7 +215,8 @@ _display_item=(item)=>{
          UsernameIsDisplayed={true}
          update={item}
          user_first_name={this.props.user.first_name}
-         user_last_name={this.props.user.last_name}/>
+         user_last_name={this.props.user.last_name}
+         action={this.displayProfilePage}/>
        </View>
      )
    }
@@ -210,7 +225,8 @@ _display_item=(item)=>{
       return (
       <View style={{  paddingLeft:'2%'}}>
          <SupportItem
-         support={item}/>
+         support={item}
+         action={this.displayProfilePage}/>
       </View>
       )
    }
@@ -276,6 +292,8 @@ const mapStateToProps = (state) => {
     projects : state.handleProject.projects,
     user: state.handleUser.user,
     loggedid: state.handleLogin.id,
+    friend_user: state.handleFriend.friend,
+    feed: state.handleUser.feed,
   }
 }
 

@@ -56,9 +56,9 @@ displayFriendProfilePage=(friend_item)=>{
   console.log("displayFriendProfilePage")
    update.update_friend_user(this, friend_item.id).then(()=>{
     this.props.navigation.navigate('FriendProfilePage', { friend_id:friend_item.id})
-  }
-)
-  }
+   }
+ )
+}
 
 handleFriendship(friend, action_type){
   this.setState({ isLoading: true })

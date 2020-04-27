@@ -7,10 +7,10 @@ import ConfirmDeleteButton from '../../../Components/ConfirmDeleteButton'
 import AddFriendButton from '../../../Components/AddFriendButton'
 import ProjectItem from '../../../Components/ProjectItem'
 import update from '../../../Utils/Updaters.js';
-import {getUserInfoById} from '../../../API/APITest'
+import {getUserInfoById, sendSupport} from '../../../API/APITest'
 import {postHandleFriendship} from '../../../API/APITest'
 import SupportButton from '../../../Components/SupportButton'
-
+import moment from 'moment'
 import FriendProjectPage from '../../../Components/Pages/OtherUserPages/FriendProjectPage'
 import FriendFriendsListPage from '../../../Components/Pages/OtherUserPages/FriendFriendsListPage'
 
@@ -34,15 +34,13 @@ class FriendProfilePage extends React.Component {
      }
 
      componentDidMount(){
-     getUserInfoById(this.props.user.id,this.props.navigation.state.params.friend_id).then(data => {
-        this.props.dispatch({ type: "UPDATE_FRIEND", value: data })
-      })
+       update.update_friend_user(this,this.props.navigation.state.params.friend_id)
      }
 
      componentDidUpdate(prevProps){
        if(prevProps.friend_user != this.props.friend_user){
         console.log("FriendProfilePage componentDidUpdate")
-        console.log("FriendProfilePage componentDidUpdate -> friend_user.id"+this.props.friend_user.id)
+        console.log("FriendProfilePage componentDidUpdate -> friend_user.id"+this.props.friend_user.friend.id)
        }
      }
 
@@ -99,6 +97,10 @@ _displayDetailForProject=(project_id)=>{
   this.props.navigation.navigate('FriendProjectPage',{project_id : project_id})
   }
 
+  _displayFriend_FriendsListPage=()=>{
+  this.props.navigation.navigate("FriendFriendsListPage")
+  }
+
 _renderHeader = () => {
   return (
     <ProfileHeader
@@ -112,19 +114,23 @@ _renderHeader = () => {
   )
 }
 
-send_support=(userId,friendId) => {
-  console.log("FriendProjectPage send_support userId"+userId)
-  console.log("FriendProjectPage send_support friendId"+friendId)
+send_support=(projectid,senderid, date) => {
    this.setState({ isLoading: true })
-   this.setState({ isLoading: false })
-   if (true) {
-     Alert.alert("Confirmed", "Your supported this project !")
-         // this.props.navigation.navigate('ProfilePage')
-   }else {
-      Alert.alert("Error", "Something went wrong please try again later" )
-
-}
-}
+   sendSupport(projectid,senderid, date).then(data => {
+     this.setState({ isLoading: false })
+     update.update_friend_user(this,this.props.navigation.state.params.friend_id)
+     if (data.status=="ok") {
+       Alert.alert("Confirmed", "Your supported this project !")
+     }
+     else {
+       Alert.alert("Error", "Something went wrong please try again later2" )
+     }
+     })
+     .catch((error)=>{
+       console.log("FriendsListPage->send_support-> error")
+       this.setState({ isLoading: false })
+      Alert.alert("Error", "Something went wrong please try again later" )})
+   }
 
 display_support_button(item) {
   if (!item.item.is_done){
@@ -133,8 +139,9 @@ display_support_button(item) {
         <SupportButton
         action={this.send_support}
         userId={this.props.user.id}
-        friendId={this.props.friend_user.friend.id}
-        disabled={item.is_done}/>
+        projectid={item.item.id}
+        disabled={item.item.is_done}
+        date={moment(new Date()).format('YYYY/MM/DD')}/>
       </View>
     )}
   }
@@ -207,7 +214,6 @@ return (
   />
 );}
 
-
 handleFriendship= (friend, action_type) => {
   this.setState({ isLoading: true })
   console.log("FriendsProfilePage->handleFriendship-> appel API, friend id" + friend.id)
@@ -238,10 +244,6 @@ handleFriendship= (friend, action_type) => {
       console.log("FriendsListPage->handleFriendship-> error")
       this.setState({ isLoading: false })
      Alert.alert("Error", "Something went wrong please try again later" )})
-  }
-
-  _displayFriend_FriendsListPage=()=>{
-  this.props.navigation.navigate("FriendFriendsListPage")
   }
 
   render() {
@@ -304,7 +306,8 @@ const mapStateToProps = (state) => {
   return {
     user: state.handleUser.user,
     friends : state.handleUser.friends,
-    friend_user: state.handleFriend.friend
+    friend_user: state.handleFriend.friend,
+    feed: state.handleUser.feed,
   }
 }
 

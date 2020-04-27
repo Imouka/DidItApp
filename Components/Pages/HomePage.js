@@ -1,133 +1,15 @@
 
 import React from 'react'
 import {connect} from 'react-redux'
-import {View, ScrollView,FlatList, StyleSheet, Text} from 'react-native'
+import {View, ScrollView,FlatList, StyleSheet, Text, Alert} from 'react-native'
 import LateralBar from '../../Components/LateralBar'
 import HomepagePostItem from '../../Components/HomepagePostItem'
 import UpdateItem from '../../Components/UpdateItem'
-import {  getProjectFromUserId } from '../../API/APITest'
+import {  getProjectFromUserId, sendComment } from '../../API/APITest'
 import update from '../../Utils/Updaters.js';
+import {NavigationEvents} from 'react-navigation';
+import moment from 'moment'
 
-const DATA = [
-  {
-            comments: [
-              {
-                  date: "2019/12/31",
-                  first_name: "Eve",
-                  icon: "Good looking picture",
-                  last_name: "What's my name",
-                  message: "En faite j'aime pas",
-                  user_id: 2,
-                  comment_id:1
-              },
-            ],
-            date: "2020/04/25",
-            id: 3,
-            project: {
-                id: 12,
-                logo: "Nice Logo",
-                title: "Fuck Eve"
-            },
-            update: {
-                date: "2020/04/25",
-                message: "Project creation",
-                old_value: 0,
-                new_value: 0
-            },
-            user: {
-                first_name: "Adam",
-                icon: "Good looking picture",
-                id: 1,
-                last_name: "What's my name"
-            }
-        },
-        {
-            comments: [
-                {
-                    date: "2019/12/31",
-                    first_name: "Eve",
-                    icon: "Good looking picture",
-                    last_name: "What's my name",
-                    message: "En faite j'aime pas",
-                    user_id: 2,
-                    comment_id:1
-                },
-                {
-                    date: "2019/12/30",
-                    first_name: "Eve",
-                    icon: "Good looking picture",
-                    last_name: "What's my name",
-                    message: "Trop bien ce projet!",
-                    user_id: 2,
-                    comment_id:2
-                }
-            ],
-            date: "2019/12/31",
-            id: 0,
-            project: {
-                id: 1,
-                logo: "Nice picture",
-                title: "Invite Eve to dinner twice a week"
-            },
-            update: {
-                date: "2019/12/20",
-                message: "",
-                old_value: 0.8,
-                new_value: 1
-            },
-            user: {
-                first_name: "Adam",
-                icon: "Good looking picture",
-                id: 1,
-                last_name: "What's my name"
-            }
-        },
-        {
-            comments: [],
-            date: "2019/12/31",
-            id: 1,
-            project: {
-                id: 2,
-                logo: "Nice picture",
-                title: "Invite Eve to dancing twice a week"
-            },
-            update: {
-                date: "2019/12/20",
-                message: "Nothing to show!",
-                old_value: 0.2,
-                new_value: 1
-            },
-            user: {
-                first_name: "Adam",
-                icon: "Good looking picture",
-                id: 1,
-                last_name: "What's my name"
-            }
-        },
-        {
-            comments: [],
-            date: "2019/12/31",
-            id: 2,
-            project: {
-                id: 3,
-                logo: "Nice picture",
-                title: "Invite Eve to the theater twice a week"
-            },
-            update: {
-                date: "1995/12/30",
-                message: "Project creation",
-                old_value: 0.2,
-                new_value: 0.3
-            },
-            user: {
-                first_name: "GERARD",
-                icon: "Good looking picture",
-                id: 1,
-                last_name: "What's my name"
-            }
-        }
-
-];
 
 class HomePage extends React.Component{
 
@@ -140,14 +22,35 @@ class HomePage extends React.Component{
 
 componentDidMount(){
     update.update_user(this)
-    update.update_feed(this)
+
 }
 
 componentDidUpdate(prevProps){
   if(prevProps.user.id != this.props.user.id){
     update.update_projects(this)
+    update.update_feed(this)
   }
 }
+
+send_comment=(projectid,message) => {
+   this.setState({ isLoading: true })
+   sendComment(projectid,this.props.user.id, moment(new Date()).format('YYYY/MM/DD'), message).then(data => {
+     this.setState({ isLoading: false })
+     update.update_friend_user(this,this.props.friend_user.friend.id)
+     update.update_feed(this)
+     if (data.status=="ok") {
+       Alert.alert("Confirmed", "You commented this project !")
+     }
+     else {
+       Alert.alert("Error", "Something went wrong please try again later2" )
+     }
+     })
+     .catch((error)=>{
+       console.log("FriendsListPage->send_support-> error")
+       this.setState({ isLoading: false })
+      Alert.alert("Error", "Something went wrong please try again later" )})
+   }
+
 
 _renderSeparator () {
 return (
@@ -182,6 +85,28 @@ _displayDetailForProject=(project_id)=>{
   this.props.navigation.navigate('ProjectPage',{project_id : project_id})
 };
 
+displayProfilePage=(friend_id)=>{
+  if (friend_id==this.props.user.id){
+      this.props.navigation.navigate('ProfilePage')
+  } else{
+     update.update_friend_user(this, friend_id).then(()=>{
+      this.props.navigation.navigate('FriendProfilePage', { friend_id:friend_id})
+     }
+   )
+  }
+}
+
+displayProjectPage=(friend_id, project_id)=>{
+  if (friend_id==this.props.user.id){
+    this.props.navigation.navigate('ProjectPage',{project_id : project_id})
+  } else{
+     update.update_friend_user(this, friend_id).then(()=>{
+      this.props.navigation.navigate('FriendProjectPage',{project_id : project_id})
+     }
+   )
+  }
+}
+
 _renderHeader=()=>{
   return (
     <View >
@@ -198,22 +123,29 @@ _renderHeader=()=>{
 
   render() {
     return (
-        <FlatList
-          data={this.props.user.feed}
-          keyExtractor={(item) => item.id.toString()}
-          ref={(ref) => { this.flatListRef = ref; }}
-          ItemSeparatorComponent={this._renderSeparator}
-          ListHeaderComponent={ this._renderHeader}
-          renderItem={({item}) =>
-          <HomepagePostItem
-            projectImageSource={require("../../Images/project.png")}
-            userImageSource={require("../../Images/profile_icon.png")}
-            post={item}>
-            <UpdateItem
-              UsernameIsDisplayed={false}
-              update={item.update}/>
-            </HomepagePostItem>}
-          />
+        <View>
+          <NavigationEvents onWillFocus={() => update.update_feed(this)} />
+          <FlatList
+            data={this.props.feed}
+            keyExtractor={(item) => item.id.toString()}
+            ref={(ref) => { this.flatListRef = ref; }}
+            ItemSeparatorComponent={this._renderSeparator}
+            ListHeaderComponent={ this._renderHeader}
+            renderItem={({item}) =>
+            <HomepagePostItem
+              projectImageSource={require("../../Images/project.png")}
+              userImageSource={require("../../Images/profile_icon.png")}
+              displayProfilePage={this.displayProfilePage}
+              displayProjectPage={this.displayProjectPage}
+              sendComment={this.send_comment}
+              isMyProject={(item.user.id==this.props.user.id)}
+              post={item}>
+              <UpdateItem
+                UsernameIsDisplayed={false}
+                update={item.update}/>
+              </HomepagePostItem>}
+            />
+          </View>
     )
   }
 }
@@ -231,7 +163,9 @@ const mapStateToProps = (state) => {
   return {
     projects : state.handleProject.projects,
     user: state.handleUser.user,
+    feed: state.handleUser.feed,
     loggedid: state.handleLogin.id,
+    friend_user: state.handleFriend.friend,
   }
 }
 export default connect(mapStateToProps)(HomePage)

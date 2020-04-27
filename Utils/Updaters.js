@@ -26,15 +26,13 @@ class Updaters {
 
     update_friend_user(ctx, friend_id){
       return (getUserInfoById(ctx.props.user.id,friend_id).then(data => {
-        console.log(data)
-        return ctx.props.dispatch({ type: "UPDATE_FRIEND", value: data })
+          ctx.props.dispatch({ type: "UPDATE_FRIEND", value: data })
       }))
     }
 
     update_feed(ctx){
       return (getFeedByuserId(ctx.props.user.id).then(data => {
-        console.log(data)
-        return ctx.props.dispatch({ type: "UPDATE_FEED", value: data })
+        ctx.props.dispatch({ type: "UPDATE_FEED", value: data.feed })
       }))
     }
 
