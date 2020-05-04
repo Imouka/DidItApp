@@ -6,9 +6,9 @@ class ProjectDetails extends React.Component {
 
   _displayProjectDeadlineMessage(dateDay, dateEndProject) {
          if (moment(dateDay).isBefore(dateEndProject)) {
-             return <Text style={styles.small_text}> Project will end {moment(dateEndProject, "YYYYMMDD").fromNow()} </Text>;
+             return <Text style={styles.small_text}> Project will end {moment(dateEndProject, "YYYY-MM-DD HH:mm:ss").fromNow()} </Text>;
          } else {
-             return <Text style={styles.small_text}> Project ended {moment(dateEndProject, "YYYYMMDD").fromNow()}</Text>;
+             return <Text style={styles.small_text}> Project ended {moment(dateEndProject,"YYYY-MM-DD HH:mm:ss").fromNow()}</Text>;
          }
      }
 

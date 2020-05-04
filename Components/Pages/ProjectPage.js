@@ -71,8 +71,8 @@ class ProjectPage extends React.Component {
        postDeleteProject(this.state.project.id)
        .then(data => {
          this.setState({ isLoading: false })
-         update.update_projects(this)
-         update.update_user(this)
+         update.update_projects(this, this.props.user.id)
+         update.update_user(this, this.props.loggedid )
          if (true) {
            Alert.alert("Confirmed", "Your project has been deleted")
           // this.props.navigation.navigate('ProfilePage')
@@ -89,11 +89,11 @@ class ProjectPage extends React.Component {
 
   _add_update_to_project=(message)=>{
     this.setState({ isLoading: true })
-    postUpdateProject(this.state.project.id,this.props.user.id, moment(new Date()).format('YYYY/MM/DD'),null,message)
+    postUpdateProject(this.state.project.id,this.props.user.id, moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),null,message)
     .then(data => {
             this.setState({ isLoading: false })
-            update.update_projects(this)
-            update.update_feed(this)
+            update.update_projects(this, this.props.user.id)
+            update.update_feed(this,this.props.user.id)
             Alert.alert("Update", "You project has been updated")
           })
     .catch(data => {
@@ -110,11 +110,11 @@ class ProjectPage extends React.Component {
        if (progressValue + this.state.project.progression >= this.state.project.objective  ) {
          progressValue =  this.state.project.objective-this.state.project.progression
          this.setState({ isLoading: true })
-         postUpdateProject(this.state.project.id,this.props.user.id, moment(new Date()).format('YYYY/MM/DD'),progressValue,message)
+         postUpdateProject(this.state.project.id,this.props.user.id, moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),progressValue,message)
          .then(data => {
                  this.setState({ isLoading: false })
-                 update.update_projects(this)
-                 update.update_feed(this)
+                 update.update_projects(this,this.props.user.id)
+                 update.update_feed(this,this.props.user.id)
                  Alert.alert("Project finished", "You finished your project")
                })
          .catch(data => {
@@ -124,10 +124,10 @@ class ProjectPage extends React.Component {
        }
        else  {
          this.setState({ isLoading: true })
-         postUpdateProject(this.state.project.id,this.props.user.id, moment(new Date()).format('YYYY/MM/DD'), progressValue ,message)
+         postUpdateProject(this.state.project.id,this.props.user.id, moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), progressValue ,message)
          .then(data => {
                  this.setState({ isLoading: false })
-                 update.update_projects(this)
+                 update.update_projects(this,this.props.user.id)
                  Alert.alert("Project updated", "Your update is saved")
                })
          .catch(data => {
@@ -142,7 +142,7 @@ class ProjectPage extends React.Component {
       if (friend_id==this.props.user.id){
           this.props.navigation.navigate('ProfilePage')
       } else{
-         update.update_friend_user(this, friend_id).then(()=>{
+         update.update_friend_user(this, friend_id,this.props.user.id).then(()=>{
           this.props.navigation.navigate('FriendProfilePage', { friend_id:friend_id})
          }
        )

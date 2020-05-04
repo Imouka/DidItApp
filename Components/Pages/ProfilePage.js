@@ -18,13 +18,13 @@ class ProfilePage extends React.Component {
   }
 
   componentDidMount(){
-    update.update_user(this)
-    update.update_projects(this)
+    update.update_user(this, this.props.loggedid )
+    update.update_projects(this, this.props.user.id)
   }
 
   componentDidUpdate(prevProps){
     if(prevProps.user.id != this.props.user.id){
-        update.update_projects(this)
+        update.update_projects(this, this.props.user.id)
     }
   }
 

@@ -4,7 +4,7 @@ import {AppRegistry, StyleSheet, Text, View, Button, TextInput} from 'react-nati
 import { getUserFromId, postLogin} from '../../API/APITest'
 import Navigation from '../../Navigation/Navigation'
 import {LoginButton, AccessToken, LoginManager} from 'react-native-fbsdk'
-
+import moment from 'moment'
 
 
  class LoginPage extends Component {
@@ -37,7 +37,7 @@ import {LoginButton, AccessToken, LoginManager} from 'react-native-fbsdk'
         }
         )
           .then((json) => {
-            postLogin(json['id'],json['first_name'],json['last_name']).then((response) => this.login2(response.id))
+            postLogin(json['id'],json['first_name'],json['last_name'], moment(new Date()).format("YYYY-MM-DD HH:mm:ss")).then((response) => this.login2(response.id))
 
           })
           .catch((error) => {

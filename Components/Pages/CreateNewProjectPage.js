@@ -89,7 +89,7 @@ _display_number_of_steps(target_val, step_size){
 
 _manageDate(date){
   return (
-    moment(new Date(date)).format('YYYY/MM/DD')
+    moment(new Date(date)).format("YYYY-MM-DD HH:mm:ss")
   )
 }
 
@@ -104,11 +104,11 @@ _check_form=()=>{
   if (this._valid_title() && this._valid_description() && this._valid_dates() && this._valid_target_value() && this._valid_step_size() ) {
     this.setState({ isLoading: true })
     //getFriendsFromUserId("4")
-    postCreateNewProject(this.props.user.id, this.state.title,this.state.description,this._manageDate(this.state.selectedStartDate),this._manageDate(this.state.selectedEndDate), this.state.targetValue, this.state.stepSize, moment(new Date()).format('YYYY/MM/DD'))
+    postCreateNewProject(this.props.user.id, this.state.title,this.state.description,this._manageDate(this.state.selectedStartDate),this._manageDate(this.state.selectedEndDate), this.state.targetValue, this.state.stepSize, moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
     .then(data => {
            this.setState({ isLoading: false })
-           update.update_projects(this)
-           update.update_user(this)
+           update.update_projects(this, this.props.user.id)
+           update.update_user(this,this.props.loggedid )
            this._displayProfilePage()
            Alert.alert("New project created ","your new project has been created")
           })

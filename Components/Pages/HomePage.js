@@ -1,7 +1,7 @@
 
 import React from 'react'
 import {connect} from 'react-redux'
-import {View, ScrollView,FlatList, StyleSheet, Text, Alert} from 'react-native'
+import {View, ScrollView,FlatList, StyleSheet, Text, Alert,ActivityIndicator} from 'react-native'
 import LateralBar from '../../Components/LateralBar'
 import HomepagePostItem from '../../Components/HomepagePostItem'
 import UpdateItem from '../../Components/UpdateItem'
@@ -21,32 +21,31 @@ class HomePage extends React.Component{
    }
 
 componentDidMount(){
-    update.update_user(this)
+    update.update_user(this, this.props.loggedid )
 
 }
 
 componentDidUpdate(prevProps){
   if(prevProps.user.id != this.props.user.id){
-    update.update_projects(this)
-    update.update_feed(this)
+    update.update_projects(this, this.props.user.id)
+    update.update_feed(this,this.props.user.id)
   }
 }
 
 send_comment=(projectid,message) => {
    this.setState({ isLoading: true })
-   sendComment(projectid,this.props.user.id, moment(new Date()).format('YYYY/MM/DD'), message).then(data => {
+   sendComment(projectid,this.props.user.id, moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), message).then(data => {
      this.setState({ isLoading: false })
-     update.update_friend_user(this,this.props.friend_user.friend.id)
-     update.update_feed(this)
-     if (data.status=="ok") {
-       Alert.alert("Confirmed", "You commented this project !")
+     if (this.props.friend_user.id != ""){
+        update.update_friend_user(this,this.props.friend_user.friend.id,this.props.user.id)
      }
-     else {
-       Alert.alert("Error", "Something went wrong please try again later2" )
+     update.update_feed(this,this.props.user.id)
+     if (data.status!="ok") {
+       Alert.alert("Error", "Something went wrong please try again later" )
      }
      })
      .catch((error)=>{
-       console.log("FriendsListPage->send_support-> error")
+       console.log("HomePage->send_comment-> error")
        this.setState({ isLoading: false })
       Alert.alert("Error", "Something went wrong please try again later" )})
    }
@@ -81,6 +80,17 @@ return (
 );
 };
 
+_displayLoading() {
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.loading_container}>
+          <ActivityIndicator size='large' />
+        </View>
+      )
+    }
+  }
+
+
 _displayDetailForProject=(project_id)=>{
   this.props.navigation.navigate('ProjectPage',{project_id : project_id})
 };
@@ -89,7 +99,7 @@ displayProfilePage=(friend_id)=>{
   if (friend_id==this.props.user.id){
       this.props.navigation.navigate('ProfilePage')
   } else{
-     update.update_friend_user(this, friend_id).then(()=>{
+     update.update_friend_user(this, friend_id,this.props.user.id).then(()=>{
       this.props.navigation.navigate('FriendProfilePage', { friend_id:friend_id})
      }
    )
@@ -100,7 +110,7 @@ displayProjectPage=(friend_id, project_id)=>{
   if (friend_id==this.props.user.id){
     this.props.navigation.navigate('ProjectPage',{project_id : project_id})
   } else{
-     update.update_friend_user(this, friend_id).then(()=>{
+     update.update_friend_user(this, friend_id,this.props.user.id).then(()=>{
       this.props.navigation.navigate('FriendProjectPage',{project_id : project_id})
      }
    )
@@ -124,7 +134,8 @@ _renderHeader=()=>{
   render() {
     return (
         <View>
-          <NavigationEvents onWillFocus={() => update.update_feed(this)} />
+            {this._displayLoading()}
+          <NavigationEvents onWillFocus={() => update.update_feed(this,this.props.loggedid)} />
           <FlatList
             data={this.props.feed}
             keyExtractor={(item) => item.id.toString()}
@@ -157,7 +168,17 @@ _renderHeader=()=>{
       </View>)
   }
 }*/
-
+const styles = StyleSheet.create({
+  loading_container: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 100,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
+},
+})
 
 const mapStateToProps = (state) => {
   return {

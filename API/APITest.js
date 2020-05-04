@@ -142,7 +142,7 @@ export function postUpdateProject(project_id,user_id,date,progression,message){
 }
 
 
-export function postLogin(fbId,first_name,last_name){
+export function postLogin(fbId,first_name,last_name, date){
   const url ="https://did-it-server.herokuapp.com/users/"+fbId+"/login"
   console.log(first_name)
   console.log(last_name)
@@ -157,6 +157,7 @@ export function postLogin(fbId,first_name,last_name){
      body: JSON.stringify({
             first_name : first_name,
             last_name: last_name,
+            date : date,
           })
    })
     .then((response)=> {
@@ -188,10 +189,6 @@ export function getFeedByuserId(user_id){
 
 export function sendSupport(project_id, sender_id, date){
   const url ="https://did-it-server.herokuapp.com/projects/"+project_id+"/support"
-  console.log("API TEST  sendSupport")
-  console.log("project_id"+project_id)
-  console.log("sender_id"+sender_id)
-  console.log("date"+date)
   return fetch(url, {
      method: 'POST',
      redirect:'follow',
@@ -213,11 +210,6 @@ export function sendSupport(project_id, sender_id, date){
 
 export function sendComment(project_id, sender_id, date, message){
   const url ="https://did-it-server.herokuapp.com/projects/"+project_id+"/comment"
-  console.log("API TEST  sendComment")
-  console.log("project_id"+project_id)
-  console.log("sender_id"+sender_id)
-  console.log("date"+date)
-  console.log("message"+message)
   return fetch(url, {
      method: 'POST',
      redirect:'follow',
@@ -234,6 +226,50 @@ export function sendComment(project_id, sender_id, date, message){
    .then((response)=>response.json())
    .catch((error)=>{
      console.log("API TEST -> sendComment " +error);
+     throw error;
+ })
+}
+
+export function searchInAllDB(user_id, search_entry){
+  const url ="https://did-it-server.herokuapp.com/users/"+user_id+"/search"
+  return fetch(url, {
+     method: 'POST',
+     redirect:'follow',
+     headers: {
+       Accept: 'application/json',
+       'Content-Type': 'application/json',
+     },
+     body: JSON.stringify({
+            search_entry : search_entry,
+          })
+   })
+   .then((response)=>response.json())
+   .catch((error)=>{
+     console.log("API TEST -> searchInAllDB " +error);
+     throw error;
+ })
+}
+
+export function searchInFriend_FriendList(user_id, search_entry, friend_id){
+  const url ="https://did-it-server.herokuapp.com/users/"+user_id+"/search"
+  console.log("APITEST -> user_id"+user_id)
+  console.log("APITEST -> search_entry"+search_entry)
+  console.log("APITEST -> friend_id"+friend_id)
+  return fetch(url, {
+     method: 'POST',
+     redirect:'follow',
+     headers: {
+       Accept: 'application/json',
+       'Content-Type': 'application/json',
+     },
+     body: JSON.stringify({
+            search_entry : search_entry,
+            friend_id:friend_id
+          })
+   })
+   .then((response)=>response.json())
+   .catch((error)=>{
+     console.log("API TEST -> searchInAllDB " +error);
      throw error;
  })
 }

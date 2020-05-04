@@ -3,7 +3,7 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { createAppContainer } from 'react-navigation'
 import{createBottomTabNavigator} from 'react-navigation-tabs'
 import React from 'react'
-import {StyleSheet, Image, TouchableOpacity } from 'react-native'
+import {StyleSheet, Image, TouchableOpacity,Text} from 'react-native'
 
 import HomePage from '../Components/Pages/HomePage'
 import ProfilePage from '../Components/Pages/ProfilePage'
@@ -16,6 +16,8 @@ import Calendar from '../Components/Pages/Calendar'
 import Notifications from '../Components/Notifications'
 import EditProfilePage from '../Components/Pages/EditProfilePage'
 import LoginPage from '../Components/Pages/LoginPage'
+import FriendsFriendListPageTitle from '../Components/FriendsFriendListPageTitle'
+
 
 import FriendProfilePage from '../Components/Pages/OtherUserPages/FriendProfilePage'
 import FriendProjectPage from '../Components/Pages/OtherUserPages/FriendProjectPage'
@@ -39,6 +41,9 @@ const ProfileStackNavigator = createStackNavigator({
  },
  FriendsListPage:{
    screen : FriendsListPage,
+   navigationOptions: {
+     title: 'Your Friends'
+   }
  },
  Calendar:{
    screen : Calendar,
@@ -54,6 +59,11 @@ const ProfileStackNavigator = createStackNavigator({
 },
 FriendFriendsListPage:{
   screen : FriendFriendsListPage,
+  navigationOptions: {
+    headerTitle: (navigation) => {
+          return (<FriendsFriendListPageTitle/>) ;
+        },
+  }
 },
 
 
@@ -63,7 +73,7 @@ const SearchStackNavigator = createStackNavigator({
   FriendsListPage: {
     screen: FriendsListPage,
     navigationOptions: {
-      title: 'Search'
+      title: 'Your Friends'
     }
   },
   FriendProfilePage: {
@@ -77,6 +87,11 @@ const SearchStackNavigator = createStackNavigator({
 },
 FriendFriendsListPage:{
   screen : FriendFriendsListPage,
+  navigationOptions: {
+    headerTitle: (navigation) => {
+          return (<FriendsFriendListPageTitle/>) ;
+        },
+  }
 },
 ProjectPage: {
  screen: ProjectPage,
@@ -168,4 +183,8 @@ const styles = StyleSheet.create({
       height:20,
   },
 })
+
+
+
+
 export default createAppContainer(DidItTabNavigator)

@@ -36,7 +36,7 @@ class ProfileHeader extends React.Component {
             text="Friends"
             number={user.nb_friends}
             notification_icon={notification_icon}
-            request_nb={nbNewRequests}
+            request_nb={user.nb_requests}
             action={()=>displayFriendsList(user.id)}/>
           </View>
         </View>

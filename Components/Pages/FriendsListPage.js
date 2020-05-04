@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {View, StyleSheet, TextInput, FlatList, Alert, ActivityIndicator} from 'react-native'
 import FriendItem from '../../Components/FriendItem'
 import SearchBar from '../../Components/SearchBar'
-import {postHandleFriendship} from '../../API/APITest'
+import {postHandleFriendship,searchInAllDB} from '../../API/APITest'
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react-native-popup-menu';
 import update from '../../Utils/Updaters.js';
 import {NavigationEvents} from 'react-navigation';
@@ -17,19 +17,32 @@ class FriendsListPage extends React.Component {
      super(props)
      this.state = {
        isLoading:false,
+       usersList:[],
+       showFriendsOnly : true,
+       validatedSearchEntry : ""
      }
       this.handleFriendship=this.handleFriendship.bind(this)
+      this.searchUser=this.searchUser.bind(this)
    }
 
    componentDidMount=()=>{
-    update.update_user(this)
-    update.update_friendlist(this)
+    update.update_user(this, this.props.loggedid )
+    update.update_friendlist(this,this.props.user.id)
+    this.setState({
+        usersList: this.props.friends,
+     })
    }
 
    componentDidUpdate(prevProps){
      if(prevProps.user.id != this.props.user.id){
-         this.update_friendlist()
+         update.update_friendlist(this,this.props.user.id)
      }
+     if((prevProps.friends != this.props.friends ) && this.state.showFriendsOnly){
+       this.setState({
+           usersList: this.props.friends,
+        })
+     }
+
    }
 
 
@@ -43,18 +56,51 @@ class FriendsListPage extends React.Component {
        }
      }
 
-  _renderHeader (){
+  searchUser(search_entry){
+    console.log("search_entry ="+search_entry)
+    if (search_entry==""){
+        this.setState({
+            usersList: this.props.friends,
+            showFriendsOnly : true,
+            validatedSearchEntry : ""
+         })
+        console.log("search_entry null ")
+        console.log("usersList =")
+        console.log(this.state.usersList)
+     }
+    else {
+
+      searchInAllDB(this.props.user.id, search_entry).then((data)=>{
+        console.log(data)
+         this.setState({
+             usersList: data.search,
+             showFriendsOnly: false,
+             validatedSearchEntry : search_entry
+         })
+         console.log("search entry != '' ")
+           console.log("usersList =")
+           console.log( this.state.usersList)
+       }
+      )
+    }
+  }
+
+  _renderHeader=()=>{
   return (
   <View>
-    <SearchBar/>
+    <SearchBar
+    action={this.searchUser}>
+    </SearchBar>
   </View>
   )
   };
 
 
+
+
 displayFriendProfilePage=(friend_item)=>{
   console.log("displayFriendProfilePage")
-   update.update_friend_user(this, friend_item.id).then(()=>{
+   update.update_friend_user(this, friend_item.id, this.props.user.id).then(()=>{
     this.props.navigation.navigate('FriendProfilePage', { friend_id:friend_item.id})
    }
  )
@@ -65,7 +111,8 @@ handleFriendship(friend, action_type){
   console.log("FriendsListPage->handleFriendship-> appel API, friend id" + friend)
   postHandleFriendship(this.props.user.id, friend.id, action_type)
   .then(data => {
-    update.update_friendlist(this)
+    update.update_friendlist(this,this.props.user.id)
+    this.searchUser(this.state.validatedSearchEntry)
     this.setState({ isLoading: false })
     if (data.status=="ok") {
       if (action_type=="refuse") {
@@ -105,9 +152,9 @@ handleFriendship(friend, action_type){
     return (
 
         <View style={styles.main_container}>
-              <NavigationEvents onWillFocus={() => update.update_friendlist(this)} />
+              <NavigationEvents onWillFocus={() => update.update_friendlist(this,this.props.user.id)} />
         <FlatList
-          data={this.props.friends}
+          data={this.state.usersList}
           keyExtractor={(item) => item.id.toString()}
           ref={(ref) => { this.flatListRef = ref; }}
           ItemSeparatorComponent={this._renderSeparator}

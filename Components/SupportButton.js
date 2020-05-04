@@ -6,12 +6,12 @@ import { TouchableOpacity, StyleSheet, View, Image} from 'react-native'
 class SupportButton extends React.Component {
 
   render() {
-    const{action, projectid, userId, disabled,date}=this.props
+    const{action, projectid, userId, disabled}=this.props
     if (!disabled){
       return(
         <View>
         <TouchableOpacity
-        onPress={() => action(projectid,userId,date)}>
+        onPress={() => action(projectid,userId)}>
           <Image
             style={styles.button_image}
             source= {require('../Images/support2.png')}

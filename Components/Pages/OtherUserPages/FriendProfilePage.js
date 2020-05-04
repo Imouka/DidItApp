@@ -34,7 +34,7 @@ class FriendProfilePage extends React.Component {
      }
 
      componentDidMount(){
-       update.update_friend_user(this,this.props.navigation.state.params.friend_id)
+       update.update_friend_user(this,this.props.navigation.state.params.friend_id,this.props.user.id)
      }
 
      componentDidUpdate(prevProps){
@@ -114,11 +114,11 @@ _renderHeader = () => {
   )
 }
 
-send_support=(projectid,senderid, date) => {
+send_support=(projectid,senderid) => {
    this.setState({ isLoading: true })
-   sendSupport(projectid,senderid, date).then(data => {
+   sendSupport(projectid,senderid, moment(new Date()).format("YYYY-MM-DD HH:mm:ss")).then(data => {
      this.setState({ isLoading: false })
-     update.update_friend_user(this,this.props.navigation.state.params.friend_id)
+     update.update_friend_user(this,this.props.navigation.state.params.friend_id,this.props.user.id)
      if (data.status=="ok") {
        Alert.alert("Confirmed", "Your supported this project !")
      }
@@ -140,8 +140,7 @@ display_support_button(item) {
         action={this.send_support}
         userId={this.props.user.id}
         projectid={item.item.id}
-        disabled={item.item.is_done}
-        date={moment(new Date()).format('YYYY/MM/DD')}/>
+        disabled={item.item.is_done}/>
       </View>
     )}
   }
@@ -219,8 +218,8 @@ handleFriendship= (friend, action_type) => {
   console.log("FriendsProfilePage->handleFriendship-> appel API, friend id" + friend.id)
   postHandleFriendship(this.props.user.id,friend.id, action_type)
   .then(data => {
-    update.update_friendlist(this)
-    update.update_friend_user(this, friend.id)
+    update.update_friendlist(this,this.props.user.id)
+    update.update_friend_user(this, friend.id,this.props.user.id)
     this.setState({ isLoading: false })
     if (data.status=="ok") {
       if (action_type=="refuse") {

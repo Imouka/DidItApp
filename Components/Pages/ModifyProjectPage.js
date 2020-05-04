@@ -110,7 +110,7 @@ _display_number_of_steps(target_val, step_size){
 
 _manageDate(date){
   return (
-    moment(new Date(date)).format('YYYY/MM/DD')
+    moment(new Date(date)).format("YYYY-MM-DD HH:mm:ss")
   )
 }
 
@@ -121,7 +121,7 @@ _check_form=()=>{
     postModifyProject(this.props.navigation.state.params.project.id, this.state.title,this.state.description,this._manageDate(this.state.selectedEndDate))
     .then(data => {
             this.setState({ isLoading: false })
-            update.update_projects(this)
+            update.update_projects(this, this.props.user.id)
             this._displayProjectPage(this.props.navigation.state.params.project.id)
            Alert.alert("Project modified ","Your project has been modified")
           })

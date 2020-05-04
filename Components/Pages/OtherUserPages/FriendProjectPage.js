@@ -63,8 +63,7 @@ class FriendProjectPage extends React.Component {
     }
   }
 
-  _render_add_comment(is_over){
-    if (! is_over){
+  _render_add_comment(){
       return(
         <View style={[styles.add_update_container]} >
            <TextInputWithImage
@@ -74,14 +73,13 @@ class FriendProjectPage extends React.Component {
            action={this.send_comment}/>
        </View>
       )
-    }
   }
 
   displayProfilePage=(friend_id)=>{
     if (friend_id==this.props.user.id){
         this.props.navigation.navigate('ProfilePage')
     } else{
-       update.update_friend_user(this, friend_id).then(()=>{
+       update.update_friend_user(this, friend_id,this.props.user.id).then(()=>{
         this.props.navigation.navigate('FriendProfilePage', { friend_id:friend_id})
        }
      )
@@ -102,20 +100,19 @@ class FriendProjectPage extends React.Component {
            action={this.send_support}
            userId={this.props.user.id}
            projectid={this.state.project.id}
-           disabled={this.state.project.is_done}
-           date={moment(new Date()).format('YYYY/MM/DD')}/>
+           disabled={this.state.project.is_done}/>
         </ProjectPageHeader>
         </View>
-          {this._render_add_comment(this.state.project.is_done)}
+          {this._render_add_comment()}
       </View>
      )
   }
 
-  send_support=(projectid,senderid, date) => {
+  send_support=(projectid,senderid) => {
      this.setState({ isLoading: true })
-     sendSupport(projectid,senderid, date).then(data => {
+     sendSupport(projectid,senderid, moment(new Date()).format("YYYY-MM-DD HH:mm:ss")).then(data => {
        this.setState({ isLoading: false })
-       update.update_friend_user(this,this.props.friend_user.friend.id)
+       update.update_friend_user(this,this.props.friend_user.friend.id,this.props.user.id)
        if (data.status=="ok") {
          Alert.alert("Confirmed", "Your supported this project !")
        }
@@ -131,14 +128,11 @@ class FriendProjectPage extends React.Component {
 
      send_comment=(message) => {
         this.setState({ isLoading: true })
-        sendComment(this.state.project.id,this.props.user.id, moment(new Date()).format('YYYY/MM/DD'), message).then(data => {
+        sendComment(this.state.project.id,this.props.user.id, moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), message).then(data => {
           this.setState({ isLoading: false })
-          update.update_friend_user(this,this.props.friend_user.friend.id)
-          update.update_feed(this)
-          if (data.status=="ok") {
-            Alert.alert("Confirmed", "You commented this project !")
-          }
-          else {
+          update.update_friend_user(this,this.props.friend_user.friend.id,this.props.user.id)
+          update.update_feed(this,this.props.user.id)
+          if (data.status!="ok") {
             Alert.alert("Error", "Something went wrong please try again later2" )
           }
           })
