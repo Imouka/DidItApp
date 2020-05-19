@@ -1,6 +1,8 @@
 
 import React from 'react'
 import { StyleSheet, View, Image, Text, TouchableOpacity,} from 'react-native'
+import {imageStyles} from '../Styles/Image_styles'
+
 
 class ProgressBar extends React.Component {
 
@@ -16,12 +18,12 @@ class ProgressBar extends React.Component {
       <View
       style={styles.main_container}>
         <View
-        style={styles.progress_bar_border}>
+        style={imageStyles.progress_bar_border_SMALL}>
           <View
           style={[ StyleSheet.absoluteFill, styles.progress_bar_filler, {width: progressionProjet} ]}>
           </View>
           <Image
-            style={[styles.hourglass, {marginLeft:this.convert_time_passed_in_hourglass_pos(progressionTemps)}]}
+            style={[imageStyles.progress_bar_image, {marginLeft:this.convert_time_passed_in_hourglass_pos(progressionTemps)}]}
             source={require('../Images/hourglass6.png')}/>
         </View>
       </View>
@@ -37,23 +39,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems:'center',
   },
-  progress_bar_border: {
-    //flex:1,
-    height: 10,
-    width: 70,
-    backgroundColor: 'white',
-    borderColor: '#605f62',
-    borderWidth: 1,
-    borderRadius: 5,
-    justifyContent:'center',
- },
  progress_bar_filler:{
     backgroundColor: '#2ccce4' ,
     borderRadius:5,
- },
- hourglass :{
-   width: 20,
-   height:20,
  },
 });
 

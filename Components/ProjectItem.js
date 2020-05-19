@@ -4,6 +4,9 @@ import {View,StyleSheet, Text, TouchableOpacity, Image} from 'react-native'
 import ProgressBar from '../Components/ProgressBar'
 import ProjectIcon from '../Components/ProjectIcon'
 import Description from '../Components/Description'
+import {imageStyles} from '../Styles/Image_styles'
+import {policeStyles} from '../Styles/police_styles'
+
 
 class ProjectItem extends React.Component {
 
@@ -12,8 +15,8 @@ class ProjectItem extends React.Component {
       return(
         <View style={styles.overlay}>
           <Image
-          style={styles.award_image}
-          source={require('../Images/app_logo2_transp.png')}/>
+          style={imageStyles.award_image}
+          source={require('../Images/app_logo_.png')}/>
        </View>
       )
     }
@@ -50,7 +53,7 @@ class ProjectItem extends React.Component {
               style={styles.text_container}>
               <View>
                 <Text
-                style={styles.project_title_text}
+                style={policeStyles.project_title_text}
                 numberOfLines={2}>
                   {project.title}
                 </Text>
@@ -77,27 +80,19 @@ const styles = StyleSheet.create({
     marginTop: 15,
     width: "100%",
     marginBottom:5,
-  //  backgroundColor:'green',
+    marginLeft:"1%",
     flex:1,
-  },
-  project_title_text: {
-    fontWeight: 'bold',
-    fontSize: 20,
   },
   project_image_container: {
     flex:1,
     alignSelf:'flex-start',
-//    backgroundColor:"blue"
   },
   text_container:{
     flexDirection:'column',
     flex:1,
     marginRight:"3%",
-//    backgroundColor:"red"
   },
   project_image_container:{
-    //flex:0.3,
-  //  backgroundColor:"skyblue",
     paddingRight:"4%",
   },
   overlay:{
@@ -109,15 +104,6 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'center',
   },
-  award_image:{
-    width:160,
-    height:50,
-}
 })
 
 export default ProjectItem
-/*
-<View
-style={{marginTop:8}}>
-   <TwoProgressBars/>
-</View>*/

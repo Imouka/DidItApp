@@ -7,7 +7,7 @@ import ProjectPageHeader from '../../Components/Headers/ProjectPageHeader'
 import CommentItem from '../../Components/CommentItem'
 import UpdateItem from '../../Components/UpdateItem'
 import SupportItem from '../../Components/SupportItem'
-import ButtonBigImageAndText from '../../Components/ButtonBigImageAndText'
+import ButtonImageAndText from '../../Components/ButtonBigImageAndText'
 import TextInputWithImage from '../../Components/TextInputWithImage'
 import update from '../../Utils/Updaters.js';
 import { postDeleteProject, postUpdateProject} from '../../API/APITest'
@@ -166,7 +166,6 @@ _render_add_update_input(is_over){
          <TextInputWithImage
          text={"Add an update"}
          imageSource= {require("../../Images/profile_icon.png")}
-         size={35}
          action={this._add_update_to_project}/>
      </View>
     )
@@ -200,7 +199,6 @@ _display_item=(item)=>{
      return (
       <View style={{  paddingLeft:'2%'}}>
          <CommentItem
-         fontsize={15}
          date_is_displayed={true}
          comment={item}
          id={item.user_id}

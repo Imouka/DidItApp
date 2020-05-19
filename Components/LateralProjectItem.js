@@ -2,6 +2,8 @@ import React from 'react'
 import {View,StyleSheet,Text, TouchableOpacity,Image} from 'react-native'
 import ProjectIcon from '../Components/ProjectIcon'
 import ProgressBar from '../Components/ProgressBar'
+import {imageStyles} from '../Styles/Image_styles'
+import {policeStyles} from '../Styles/police_styles'
 
 class LateralProjectItem extends React.Component {
 
@@ -10,8 +12,8 @@ class LateralProjectItem extends React.Component {
       return(
         <View style={styles.overlay}>
           <Image
-          style={styles.award_image}
-          source={require('../Images/app_logo2_transp_small.png')}/>
+          style={imageStyles.award_image_little}
+          source={require('../Images/award.png')}/>
        </View>
       )
     }
@@ -33,10 +35,10 @@ class LateralProjectItem extends React.Component {
       <View
       style ={[{opacity:this.opacify_item(project.is_done), }]}>
           <View
-           style = {styles.titleView}>
+           style = {imageStyles.top_scrollable_bar_titleView}>
             <Text
              numberOfLines={2}
-              style={styles.project_title_text}>
+              style={policeStyles.project_title_text_ITALIC}>
               {project.title}
             </Text>
           </View>
@@ -63,35 +65,19 @@ class LateralProjectItem extends React.Component {
 const styles = StyleSheet.create({
   project_image_container:{
     flex:1,
-    //marginLeft:5,
     backgroundColor:"white",
-    paddingBottom:20,
-  //  backgroundColor:'green',
+    marginBottom:8,
     justifyContent:'flex-end',
-
-  },
-  titleView:{
-    width:80,
-  // backgroundColor:'red',
-   alignSelf:"center"
-  },
-  project_title_text:{
-    textAlign:"center",
-    fontStyle:"italic"
-  },
-  award_image:{
-    width:50,
-    height:50,
+    //backgroundColor:'red'
   },
   overlay:{
     position: 'absolute',
-    top: 0,
+    top:"15%",
     bottom: 0,
     left: 0,
     right: 0,
     alignItems:'center',
     justifyContent:'center',
-     //backgroundColor:'red',
   },
 })
 

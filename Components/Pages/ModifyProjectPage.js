@@ -6,6 +6,8 @@ import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
 import {postModifyProject } from '../../API/APITest'
 import update from '../../Utils/Updaters.js';
+import ImagePicker from 'react-native-image-picker'
+import { Input} from 'react-native-elements'
 
 
 class ModifyProjectPage extends React.Component {
@@ -13,6 +15,7 @@ class ModifyProjectPage extends React.Component {
   constructor(props) {
      super(props);
      this.state = {
+       avatar: require("../../Images/project.png"),
        title:"",
        description:"",
        selectedStartDate: null,
@@ -21,10 +24,30 @@ class ModifyProjectPage extends React.Component {
        stepSize:"null",
        stepNumber:"null",
        isLoading:false,
+
+       error_title:"",
      };
+     this.edit_project_icon = this.edit_project_icon.bind(this)
    }
 
-
+   edit_project_icon(){
+     console.log("Edit project icon")
+     ImagePicker.showImagePicker({}, (response) => {
+       if (response.didCancel) {
+         console.log('L\'utilisateur a annulé')
+       }
+       else if (response.error) {
+         console.log('Erreur : ', response.error)
+       }
+       else {
+         console.log('Photo : ', response.uri )
+         let requireSource = { uri: response.uri }
+         this.setState({
+           avatar: requireSource
+         })
+       }
+     })
+   }
 
    componentDidMount(){
     this.setState ({
@@ -115,9 +138,11 @@ _manageDate(date){
 }
 
 _check_form=()=>{
-  if (this._valid_title() && this._valid_description() && this._valid_dates()) {
-    this.setState({ isLoading: true })
-    console.log("ModifyProjectPage "+this.state.title )
+  if (this._valid_title() && this._valid_description() && this._valid_dates())  {
+    this.setState({
+      error_title: '',
+      isLoading: true
+    })
     postModifyProject(this.props.navigation.state.params.project.id, this.state.title,this.state.description,this._manageDate(this.state.selectedEndDate))
     .then(data => {
             this.setState({ isLoading: false })
@@ -129,14 +154,18 @@ _check_form=()=>{
             this.setState({ isLoading: false })
             Alert.alert("Error", "The action could not be performed, please try again later")
           })
-   }
+  }
   else {
-    Alert.alert("Something went wrong ", " Please check the following fields:  \n -> Title: mandatory  \n -> Dates: mandatory")
+    if (!this._valid_title()){
+      this.setState({
+        error_title: 'Please enter a valid title'
+      })
+    }
   }
 }
 
 _valid_title=()=>{
-  if (this.state.title !== "" ){
+  if ((this.state.title).replace(/\s/g, '').length){
     return (true)
   }
   else {
@@ -167,32 +196,25 @@ _valid_dates=()=>{
         <View style={styles.main_container}>
             <View   style={styles.row_container}>
               <ProjectIcon
-              imageSource={require('../../Images/project.png')}
-              iseditable="true"/>
+              imageSource= {this.state.avatar}
+              iseditable="true"
+              action={this.edit_project_icon}/>
             </View>
           <View style={styles.sub_container}>
-            <View style ={styles.text_input_container}>
-              <TextInput
-                placeholderTextColor="black"
-                placeholder={titlePlaceholder}
-                maxLength = {40}
-                onChangeText={title=>this.setState({
-                          title
-                      })}/>
-            </View>
+              <Input
+              containerStyle={styles.input_container}
+              label='Project title'
+              placeholder={titlePlaceholder}
+              onChangeText={title=>this.setState({  title   })}
+              errorStyle={{ color: 'red' }}
+              errorMessage={this.state.error_title}/>
           </View>
           <View style={styles.sub_container}>
-            <View style ={styles.text_input_container}>
-              <TextInput
-              placeholderTextColor="black"
+              <Input
+              containerStyle={styles.input_container}
+              label='Project description'
               placeholder={descPlaceholder}
-              multiline={true}
-              blurOnSubmit={true}
-              onChangeText={description=>this.setState({
-                        description
-                    })}>
-              </TextInput>
-            </View >
+              onChangeText={description=>this.setState({  description})}/>
           </View >
 
           <View style={styles.sub_container}>
@@ -216,53 +238,45 @@ _valid_dates=()=>{
               </View>
           </View>
 
-          <View style={styles.sub_container2}>
+          <View style={styles.sub_container}>
               <Text style={styles.instruction_text_disabled}>
               &#10171; {"Specify a quantitative target for your project"}
               </Text>
               <View   style={styles.row_container}>
-                <View style={styles.left} >
-                  <Text style={styles.from_to_text_disabled}>
-                  {"Target value: "}
-                  </Text>
-                </View>
-                <View
-                style ={[styles.text_input_container_disabled, ]}>
-                  <TextInput
-                    keyboardType="numeric"
-                    placeholderTextColor="grey"
-                    placeholder={this.state.targetValue.toString()}
-                    editable ={false}
-                  />
+                <View style ={styles.left}>
+                  <Input
+                  containerStyle={styles.input_container_disabled}
+                  label='Target value'
+                  keyboardType="numeric"
+                  placeholder={this.state.targetValue.toString()}
+                  disabled={true}/>
                 </View>
                 <View style={styles.right} >
+                  <Text style={[{color:"#999EA5"}]}>
+                  {"eg: Choose 8 if you wnat to read 8 books"}
+                  </Text>
                 </View>
               </View>
           </View>
-          <View style={styles.sub_container2}>
+          <View style={styles.sub_container}>
               <Text style={styles.instruction_text_disabled}>
                 &#10171;  {"Specify a size for the steps of your project"}
               </Text>
               <View   style={styles.row_container}>
-                <View style={styles.left} >
-                  <Text style={styles.from_to_text_disabled}>
-                  {"Step size: "}
-                  </Text>
-                </View>
-                <View  style ={[styles.text_input_container_disabled, ]}>
-                  <TextInput
-                    keyboardType="numeric"
-                    placeholderTextColor="grey"
-                    placeholder={this.state.stepSize.toString()}
-                    editable ={false}
-                   />
+                <View style ={styles.left}>
+                   <Input
+                   containerStyle={styles.input_container_disabled}
+                   label='Step size'
+                   keyboardType="numeric"
+                   placeholder={this.state.stepSize.toString()}
+                   disabled={true}/>
                 </View>
                 <View style={styles.right} >
                    {  this._display_number_of_steps(this.state.targetValue, this.state.stepSize)}
                 </View>
               </View>
           </View>
-          <View  style={styles.sub_container2}>
+          <View  style={styles.sub_container}>
             <Button
             title= "Save project"
             onPress={
@@ -291,7 +305,6 @@ const styles = StyleSheet.create({
   Container_scrollView: {
    flex:1,
    backgroundColor:"#E5F1F3",
-   //justifyContent :'space-between',
       },
   row_container: {
    flex:1,
@@ -306,20 +319,12 @@ const styles = StyleSheet.create({
     },
   bouton_date:{
    flex:0.45,
-   borderWidth:1,
    paddingBottom:"1%",
    paddingTop:"1%",
    paddingLeft:"5%",
-   borderColor:'skyblue',
    borderRadius:10,
    backgroundColor:'white'
- },
- text_input_container:{
-   borderWidth:1,
-   borderColor:'skyblue',
-   borderRadius:10,
-   backgroundColor:'white'
- },
+},
  from_to_text: {
    fontWeight: 'bold',
    fontSize:15,
@@ -337,19 +342,11 @@ const styles = StyleSheet.create({
    fontSize:15,
    color:"#AFB6C0",
  },
- text_input_container_disabled:{
-   borderWidth:1,
-   borderColor:"#AFB6C0",
-   borderRadius:10,
-   backgroundColor:'#E3E7ED'
- },
  bouton_date_disabled:{
   flex:0.45,
-  borderWidth:1,
   paddingBottom:"1%",
   paddingTop:"1%",
   paddingLeft:"5%",
-  borderColor:"#AFB6C0",
   borderRadius:10,
   backgroundColor:'#E3E7ED'
 },
@@ -357,13 +354,8 @@ const styles = StyleSheet.create({
    flex:1,
    marginTop:'4%'
  },
- sub_container2:{
-   flex:1,
-   marginTop:'6%'
- },
  left:{
-   flex :0.9,
-//   backgroundColor:'red'
+   flex :1,
  },
  right:{
    marginLeft:"3%",
@@ -377,6 +369,14 @@ const styles = StyleSheet.create({
  bottom: 0,
  alignItems: 'center',
  justifyContent: 'center'
+},
+input_container:{
+   backgroundColor:'white',
+   borderRadius:10,
+},
+input_container_disabled:{
+  borderRadius:10,
+  backgroundColor:'#E3E7ED'
 }
   })
 

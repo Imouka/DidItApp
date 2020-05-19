@@ -4,6 +4,7 @@ import {View, StyleSheet,Text,Image} from 'react-native'
 import ProgressBarProgressionView from '../Components/ProgressBarProgressionView'
 import ButtonSmallImage from '../Components/ButtonSmallImage'
 import moment from 'moment'
+import {policeStyles} from '../Styles/police_styles'
 
 
 class UpdateItem extends React.Component {
@@ -21,7 +22,7 @@ _displayProgression(oldProgressionProjet,newProgressionProjet) {
               oldProgressionProjet={Math.round(oldProgressionProjet * 100) + "%"}
               newProgressionProjet={Math.round(newProgressionProjet * 100) + "%"}/>
             </View>
-            <Text style={styles.small_text}>{Math.round(newProgressionProjet * 100) + "% Already accomplished"} </Text>
+            <Text style={policeStyles.update_automatic_message}>{Math.round(newProgressionProjet * 100) + "% Already accomplished"} </Text>
           </View>)
         }
     }
@@ -38,7 +39,7 @@ _displayMessage(message) {
       if (! this.props.UsernameIsDisplayed) {
         return(
           <Text
-          style={styles.USername_text}>
+          style={policeStyles.standard_bold}>
           {"  Progress !  "}
           </Text>)
       }
@@ -50,7 +51,7 @@ _displayUserName(first_name, last_name) {
        return (
          <Text>
            <Text
-           style={styles.USername_text}>
+           style={policeStyles.standard_bold}>
            {first_name}  {last_name}
            </Text>
            <Text>
@@ -64,7 +65,7 @@ _displayUserName(first_name, last_name) {
 _displayUserImage(action,update) {
    if (this.props.UsernameIsDisplayed) { {
        return (
-         <View  style={{flex:1}}>
+         <View>
          <ButtonSmallImage
            imageSource= {require("../Images/profile_icon.png")}
            action={()=>action(update.user_id)}/>
@@ -80,19 +81,15 @@ _displayUserImage(action,update) {
       <View
       style={styles.main_container}>
         {this._displayUserImage(action,update)}
-        <View style={{flex:10}}  >
+        <View  style={{ flex:1, marginLeft:"2%"}}>
           {this._displayUserName(user_first_name,user_last_name)}
-
-
-            <Text  style={styles.message}>
+            <Text  style={policeStyles.update_message}>
               {this._displayMessage(update.message)}
             </Text>
-
-
           {this._displayProgression(update.old_value,update.new_value)}
           <View style={{marginTop:3}}>
             <Text
-            style={styles.date}>
+            style={policeStyles.update_date}>
              {moment(new Date(update.date)).format('DD/MM/YYYY')}
             </Text>
           </View>
@@ -110,26 +107,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems :'center',
     alignItems:'flex-start'
-  },
- message:{
-    fontSize: 15,
-    textAlign:'center',
-  },
-  date:{
-    fontSize: 12,
-    textAlign: 'left',
-    fontWeight:'bold',
-    color:'#777878'
-  },
-  small_text: {
-    fontStyle: 'italic',
-    color: '#666666',
-    textAlign:'center',
-    paddingTop:1,
-  },
-  USername_text: {
-    fontSize: 15,
-    textAlign: 'left',
-    fontWeight:'bold',
   },
 })

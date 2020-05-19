@@ -2,57 +2,32 @@
 import React from 'react'
 import { StyleSheet, View, Image, Text, TouchableOpacity,} from 'react-native'
 import Icon from 'react-native-elements'
+import ImagePicker from 'react-native-image-picker'
+import {imageStyles} from '../Styles/Image_styles'
+import {policeStyles} from '../Styles/police_styles'
+
 
 class EditableUserIcon extends React.Component {
 
-  _edit_project_icon(){
-    console.log("Edit project icon")
-  }
-
-
   render() {
-    const{imageSource, iseditable}=this.props
+    const{imageSource, action}=this.props
     return (
       <View >
         <Image
-          style={styles.project_image}
+          style={imageStyles.big_user_avatar}
           source={imageSource}/>
         <TouchableOpacity
-            onPress={ this._edit_project_icon}
-            style={styles.icon}>
+            onPress={ action}
+            style={imageStyles.big_editing_pen_container}>
              <Image
               source={require("../Images/pencil.png")}
-              style={styles.image}/>
+              style={imageStyles.big_editing_pen}/>
           </TouchableOpacity>
       </View>
 
     )
   }
 }
-const styles = StyleSheet.create({
-  project_image:{
-   width:110,
-   height: 110,
-   borderRadius: 360,
-   borderColor: 'skyblue',
-   borderWidth:3,
-   backgroundColor:'white'
-  },
-  icon: {
-   backgroundColor:'white',
-   position: 'absolute',
-   borderRadius: 360,
-   left:90,
-   bottom: -1,
-   width: 35,
-   height: 35,
-},
-  image: {
-   backgroundColor:'white',
-   borderRadius: 360,
-   width:35,
-   height:35,
-}
-})
+
 
 export default EditableUserIcon

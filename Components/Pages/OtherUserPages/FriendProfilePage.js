@@ -107,7 +107,6 @@ _renderHeader = () => {
      imageSource={require('../../../Images/profile_icon.png')}
      user={this.props.friend_user.friend}
      nbNewRequests='xxx'
-     projectNb={"XXXX"}
      scrollToIndex={this._scrollToIndex}
      displayFriendsList={this._displayFriend_FriendsListPage}
      notification_icon={false}/>

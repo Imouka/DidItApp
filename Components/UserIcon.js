@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Image, Text} from 'react-native'
-
+import {policeStyles} from '../Styles/police_styles'
+import {imageStyles} from '../Styles/Image_styles'
 
 class UserIcon extends React.Component {
   render() {
@@ -9,10 +10,10 @@ class UserIcon extends React.Component {
       <View
       style={styles.main_container}>
         <Image
-        style={styles.user_image}
+        style={imageStyles.user_avatar}
         source= {imageSource}/>
         <Text
-        style={styles.user_name_text}
+        style={policeStyles.user_name_for_Icon}
         numberOfLines={1}
         ellipsizeMode={'tail'}>
         {userName}
@@ -25,16 +26,6 @@ class UserIcon extends React.Component {
 const styles = StyleSheet.create({
   main_container: {
     flexDirection: 'column',
-  },
-  user_name_text: {
-    fontSize: 15,
-  },
-  user_image:{
-    width: 70,
-    height: 70,
-    borderRadius:360,
-    borderColor: '#2ccce4',
-    borderWidth:2,
   },
 })
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Text,TouchableOpacity, ImageBackground} from 'react-native'
-
+import {imageStyles} from '../Styles/Image_styles'
+import {policeStyles} from '../Styles/police_styles'
 
 class IconTextAndNumber extends React.Component {
 
@@ -10,11 +11,11 @@ class IconTextAndNumber extends React.Component {
         return (
           <View style={{ alignSelf: 'center', paddingRight:35}} >
             <Text
-            style={styles.nb_of_friends} >
+            style={policeStyles.text_Large_Number}>
             {number}
             </Text>
             <View
-            style={styles.icon}>
+            style={imageStyles.new_friends_notif}>
             {this._displayNewRequestsNumber(request_nb)}
             </View>
           </View>
@@ -24,7 +25,7 @@ class IconTextAndNumber extends React.Component {
         return (
       <View style={{ alignSelf: 'center'}} >
         <Text
-          style={styles.nb_of_friends} >
+          style={policeStyles.text_Large_Number} >
           {number}
         </Text>
       </View>
@@ -35,14 +36,14 @@ class IconTextAndNumber extends React.Component {
   _displayNewRequestsNumber(request_nb){
     if (request_nb>99){
       return (
-        <Text style={styles.badge} >
+        <Text style={policeStyles.new_friends_notif} >
         {"+99"}
         </Text>
       )
     }
     else {
       return (
-        <Text style={styles.badge} >
+        <Text style={policeStyles.new_friends_notif} >
         {request_nb}
         </Text>
       )
@@ -57,7 +58,7 @@ class IconTextAndNumber extends React.Component {
         onPress={() => action()}>
           {this._displayNewRequests(request_nb, number, notification_icon)}
           <Text
-          style={styles.text_friends} >
+          style={policeStyles.medium_text} >
           {text}
           </Text>
         </TouchableOpacity>
@@ -70,28 +71,6 @@ const styles = StyleSheet.create({
      width: "60%",
      alignSelf:'center'
   },
-  nb_of_friends: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  text_friends:{
-    fontSize: 15,
-    textAlign: 'center',
-  },
-  icon: {
-    backgroundColor:'#79D2A6',
-    position: 'absolute',
-    borderRadius: 360,
-    right:0,
-    top: 0,
-    width: 30,
-    height: 22,
-  },
-  badge:{
-    fontWeight: 'bold',
-    textAlign: 'center',
-    },
 })
 
 export default IconTextAndNumber

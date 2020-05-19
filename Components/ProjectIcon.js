@@ -2,65 +2,39 @@
 import React from 'react'
 import { StyleSheet, View, Image, Text, TouchableOpacity, ImageBackground} from 'react-native'
 import Icon from 'react-native-elements'
+import {imageStyles} from '../Styles/Image_styles'
+import {policeStyles} from '../Styles/police_styles'
+
 
 class ProjectIcon extends React.Component {
 
-  _edit_project_icon(){
-    console.log("Edit project icon")
-  }
-  _displayeditbutton(iseditable){
+  _displayeditbutton(iseditable, action){
     if (iseditable=="true"){
       return (
         <TouchableOpacity
-            onPress={ this._edit_project_icon} style={styles.icon}>
+            onPress={action}
+            style={imageStyles.editing_pen_container}>
              <Image
               source={require("../Images/pencil.png")}
-              style={styles.image}/>
+              style={imageStyles.editing_pen}/>
           </TouchableOpacity>
-
       )
     }
   }
 
   render() {
-    const{imageSource, iseditable}=this.props
+    const{imageSource, iseditable, action}=this.props
     return (
       <View >
         <Image
-          style={styles.project_image}
+          style={imageStyles.project_icon}
           source={imageSource}
         />
-        {this._displayeditbutton(iseditable)}
+        {this._displayeditbutton(iseditable, action)}
       </View>
 
     )
   }
 }
-const styles = StyleSheet.create({
-  project_image:{
-   width: 70,
-   height: 70,
-   borderRadius: 10,
-   borderColor: 'skyblue',
-   borderWidth:3,
-   backgroundColor:'white'
-  },
-
-  icon: {
-   backgroundColor:'white',
-   position: 'absolute',
-   borderRadius: 360,
-   left: 50,
-   bottom: -3,
-   width: 25,
-   height: 25,
-},
-image: {
- backgroundColor:'white',
- borderRadius: 360,
- width: 25,
- height: 25,
-}
-})
 
 export default ProjectIcon

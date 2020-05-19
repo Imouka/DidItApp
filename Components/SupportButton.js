@@ -1,6 +1,6 @@
 import React from 'react'
 import { TouchableOpacity, StyleSheet, View, Image} from 'react-native'
-
+import {imageStyles} from '../Styles/Image_styles'
 
 
 class SupportButton extends React.Component {
@@ -13,7 +13,7 @@ class SupportButton extends React.Component {
         <TouchableOpacity
         onPress={() => action(projectid,userId)}>
           <Image
-            style={styles.button_image}
+            style={imageStyles.support_button}
             source= {require('../Images/support2.png')}
           />
         </TouchableOpacity>
@@ -28,7 +28,7 @@ class SupportButton extends React.Component {
           onPress={() => action()}
           disabled={true}>
             <Image
-              style={[styles.button_image,{opacity: 0.2}]}
+              style={[imageStyles.support_button,{opacity: 0.2}]}
               source= {require('../Images/support2.png')}
             />
           </TouchableOpacity>
@@ -37,11 +37,5 @@ class SupportButton extends React.Component {
 
   }
 }
-const styles = StyleSheet.create({
- button_image:{
-   width: 40,
-   height: 40,
-  },
-})
 
 export default SupportButton

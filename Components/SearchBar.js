@@ -1,6 +1,7 @@
 import React from 'react'
 import {View, TextInput, StyleSheet, Image} from 'react-native'
-
+import {imageStyles} from '../Styles/Image_styles'
+import {policeStyles} from '../Styles/police_styles'
 
 class SearchBar extends React.Component {
 
@@ -20,11 +21,12 @@ _searchTextInputChanged(text) {
         <View
           style={styles.main_container}>
          <Image
-           style={styles.image_container}
+           style={imageStyles.research_icon}
            source={require('../Images/magnifying-glass.png')}
          />
          <View style={{  flex:1}}>
           <TextInput
+            style={ policeStyles.standard_text}
             placeholder='Search'
             onChangeText={(text) => this._searchTextInputChanged(text)}
             onSubmitEditing={() => action(this.searchedText)}  />
@@ -53,11 +55,6 @@ const styles = StyleSheet.create({
     alignItems:'center',
 
   },
-  image_container:{
-    width: 20,
-    height: 20,
-    borderRadius:360,
-  }
 })
 
 export default SearchBar

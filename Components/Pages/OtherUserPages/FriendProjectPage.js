@@ -69,7 +69,6 @@ class FriendProjectPage extends React.Component {
            <TextInputWithImage
            text={"Add a comment"}
            imageSource= {require("../../../Images/profile_icon.png")}
-           size={35}
            action={this.send_comment}/>
        </View>
       )
@@ -147,7 +146,6 @@ class FriendProjectPage extends React.Component {
      return (
       <View style={{  paddingLeft:'2%'}}>
         <CommentItem
-          fontsize={15}
           date_is_displayed={true}
           comment={item}
           id={item.user_id}

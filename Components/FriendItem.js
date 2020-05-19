@@ -2,10 +2,10 @@ import React from 'react'
 import {View, StyleSheet, TouchableOpacity,Text, Image,Button, Alert} from 'react-native'
 import UserIcon from '../Components/UserIcon'
 import ConfirmDeleteButton from '../Components/ConfirmDeleteButton'
-import MoreButton from '../Components/MoreButton'
 import AddFriendButton from '../Components/AddFriendButton'
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger} from 'react-native-popup-menu';
-
+import {imageStyles} from '../Styles/Image_styles'
+import {policeStyles} from '../Styles/police_styles'
 
 class FriendItem extends React.Component {
 
@@ -47,7 +47,7 @@ class FriendItem extends React.Component {
         <Menu onSelect={() => handleFriendship(frienditem, "unfriend")}>
             <MenuTrigger>
             <Image
-              style={styles.more_button_image}
+              style={imageStyles.more_button_image}
               source= {require('../Images/more.png')}
             />
            </MenuTrigger>
@@ -71,7 +71,7 @@ class FriendItem extends React.Component {
             disabled={false}/>
           </View>
         );
-    }    
+    }
   };
 
 
@@ -85,13 +85,13 @@ class FriendItem extends React.Component {
           style={styles.container_image_name}>
             <View style={styles.user_image_container}>
               <Image
-                style={styles.user_image}
+                style={imageStyles.friendList_user_avatar}
                 source= {imageSource}
               />
             </View>
             <View style={styles.user_name_container}>
               <Text
-              style={styles.user_name_text}
+              style={policeStyles.standard_text}
               numberOfLines={1}
               ellipsizeMode={'tail'}>
               {frienditem.first_name} {frienditem.last_name}
@@ -117,17 +117,6 @@ const styles = StyleSheet.create({
   container_image_name:{
     flexDirection: 'row',
     alignItems:'center',
-    //backgroundColor:'red'
-  },
-  user_name_text: {
-    fontSize: 15,
-  },
-  user_image:{
-    width: 55,
-    height: 55,
-    borderRadius:360,
-    borderColor: '#2ccce4',
-    borderWidth:2,
   },
   user_image_container:{
     flex:1,
@@ -135,10 +124,6 @@ const styles = StyleSheet.create({
   user_name_container:{
     flex:2.5,
   },
-  more_button_image:{
-    width: 25,
-    height: 25,
-   },
 })
 
 export default FriendItem

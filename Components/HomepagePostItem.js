@@ -4,11 +4,11 @@ import {View,StyleSheet, Text, TouchableOpacity, Image, FlatList} from 'react-na
 import ButtonSmallImage from '../Components/ButtonSmallImage'
 import ProjectIcon from '../Components/ProjectIcon'
 import ProgressBar from '../Components/ProgressBar'
-import ButtonImageAndText from '../Components/ButtonBigImageAndText'
-import CommentItem from '../Components/CommentItem'
+import HomePageCommentItem from '../Components/HomePageCommentItem'
 import TextInputWithImage from '../Components/TextInputWithImage'
 import Panel from '../Components/Panel';  // Step 1
-
+import {imageStyles} from '../Styles/Image_styles'
+import {policeStyles} from '../Styles/police_styles'
 
 
 class HomepagePostItem extends React.Component {
@@ -17,8 +17,7 @@ _displayComments=(post, displayProfilePage)=>{
   if (post.comments.length==1){
     return (
       <View style={{marginTop:"1%"}}>
-         <CommentItem
-           fontsize={13}
+         <HomePageCommentItem
            date_is_displayed={false}
            comment={post.comments[0]}
            id={post.comments[0].user_id}
@@ -30,33 +29,43 @@ _displayComments=(post, displayProfilePage)=>{
   if (post.comments.length>1){
     return (
       <View style={{marginTop:"1%"}}>
-        <CommentItem
-         fontsize={13}
+        <HomePageCommentItem
          comment={post.comments[0]}
          id={post.comments[0].user_id}
          action={displayProfilePage}/>
-         <Panel
-         title_closed="See more"
-         title_is_displayed={false}
-         discrete={true}>
-         <FlatList
-           data={post.comments.slice(1)}
-           scrollEnabled={false}
-           keyExtractor={(item) => item.comment_id.toString()}
-           ref={(ref) => { this.flatListRef = ref; }}
-           renderItem={({item}) =>
-           <CommentItem
-             fontsize={13}
-             date_is_displayed={false}
-             comment={item}
-             id={item.user_id}
-             action={displayProfilePage}/>}
-           />
-         </Panel>
+         <View style={{marginTop:"1.5%"}}>
+           <Panel
+           title_closed="See more"
+           title_is_displayed={false}
+           discrete={true}>
+           <FlatList
+             data={post.comments.slice(1)}
+             scrollEnabled={false}
+             ItemSeparatorComponent={this._renderSeparator}
+             keyExtractor={(item) => item.comment_id.toString()}
+             ref={(ref) => { this.flatListRef = ref; }}
+             renderItem={({item}) =>
+             <HomePageCommentItem
+               date_is_displayed={false}
+               comment={item}
+               id={item.user_id}
+               action={displayProfilePage}/>}
+             />
+           </Panel>
+        </View>
       </View>
     )
   }
 }
+_renderSeparator () {
+  return (
+    <View
+    style={{
+      marginBottom:'1.5%',
+    }}
+    />
+  );
+};
 
 send_comment=(message) => {
   const {sendComment, post }= this.props
@@ -69,7 +78,6 @@ send_comment=(message) => {
        <View style={{marginTop:-10}}>
          <TextInputWithImage
          text={"Add a comment"}
-         size={25}
          imageSource= {require("../Images/profile_icon.png")}
          action={this.send_comment}/>
        </View>
@@ -82,16 +90,15 @@ send_comment=(message) => {
     return (
         <View style={styles.main_container}>
           <View style={styles.row_container}>
-
               <TouchableOpacity
                 style={styles.left_container}
                 onPress={() => displayProjectPage(post.user.id, post.project.id)}>
                 <Image
-                  style={styles.project_image}
+                  style={imageStyles.project_icon_SMALL}
                   source={projectImageSource}/>
-                <View  style={{marginLeft:"2%", width: 0, flexGrow: 1,}} >
+                <View  style={{marginLeft:"2%", width: 0, flexGrow: 1}} >
                   <Text
-                  style={styles.project_title_text}
+                  style={policeStyles.standard_bold}
                   numberOfLines={2}>
                   {post.project.title}
                   </Text>
@@ -104,14 +111,14 @@ send_comment=(message) => {
               onPress={() => displayProfilePage(post.user.id)}>
                 <View  style={{ width: 0, flexGrow: 1,}}>
                   <Text
-                  style={styles.user_name_text}
+                  style={policeStyles.standard_text_right}
                   numberOfLines={1}>
                   {post.user.first_name} {post.user.last_name}
                   </Text>
                 </View>
                 <View  style={{marginRight:"2%", alignItems:'center'}} >
                   <Image
-                    style={styles.button_image}
+                    style={imageStyles.small_user_avatar}
                     source= {userImageSource}  />
                 </View>
               </TouchableOpacity>
@@ -128,51 +135,20 @@ send_comment=(message) => {
     )
   }
 }
-/*
-<View style={{backgroundColor:'red',width: '20%', height:"30%"}}>
-</View>
 
-*/
 const styles = StyleSheet.create({
   main_container: {
-    marginTop:10,
-   marginRight:'2%',
+    marginTop:5,
+    marginRight:'2%',
     marginLeft:'2%',
   },
   row_container: {
-    //flex:1,
     flexDirection: 'row',
     justifyContent:'space-around',
     marginBottom:"2%",
   },
-  project_title_text:{
-    fontSize: 15,
-    textAlign: 'left',
-    fontWeight:'bold',
-  },
-  user_name_text:{
-    fontSize: 15,
-    textAlign: 'right',
-    flex: 1
-  },
-  button_image:{
-     width: 35,
-     height: 35,
-     borderRadius:360,
-     borderWidth:2,
-     borderColor:'skyblue',
-   },
    user_image_container:{
      flexDirection: 'row',
-//     alignItems :'center'
-   },
-   project_image:{
-     width: 35,
-     height: 35,
-     borderRadius: 10,
-     borderColor: 'skyblue',
-     borderWidth:2,
-     backgroundColor:'white'
    },
    left_container:{
     flex:4,

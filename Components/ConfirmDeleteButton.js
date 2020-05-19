@@ -1,6 +1,8 @@
 
 import React from 'react'
 import { Text, TouchableOpacity, StyleSheet, View, Alert} from 'react-native'
+import {imageStyles} from '../Styles/Image_styles'
+import {policeStyles} from '../Styles/police_styles'
 
 class ConfirmDeleteButton extends React.Component {
   render() {
@@ -10,7 +12,7 @@ class ConfirmDeleteButton extends React.Component {
         <TouchableOpacity
                  style={[styles.button, {backgroundColor: color} ]}
                  onPress={() => action(friend, action_type)}>
-                 <Text> {text} </Text>
+                 <Text style ={policeStyles.standard_text}> {text} </Text>
          </TouchableOpacity>
       </View>
 
@@ -20,12 +22,11 @@ class ConfirmDeleteButton extends React.Component {
 const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
-    padding: 5,
+    padding: "5%",
     borderColor:'#D9E3F0',
     borderWidth:1,
     borderRadius:5,
     marginRight:4,
-  //  width:68
   }
 })
 

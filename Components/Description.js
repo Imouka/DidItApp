@@ -1,13 +1,13 @@
 import React from 'react'
 import { StyleSheet, View, Text} from 'react-native'
-
+import {policeStyles} from '../Styles/police_styles'
 
 class Description extends React.Component {
   render() {
     const{description,lineNb}=this.props
     return (
       <Text
-      style={styles.description}
+      style={policeStyles.description_text}
       numberOfLines={lineNb}>
       {description}
       </Text>
@@ -16,12 +16,5 @@ class Description extends React.Component {
     )
   }
 }
-const styles = StyleSheet.create({
-  description: {
-    fontSize: 14,
-    textAlign: 'left',
-    fontStyle: 'italic',
-  },
-})
 
 export default Description

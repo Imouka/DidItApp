@@ -113,6 +113,7 @@ handleFriendship(friend, action_type){
   .then(data => {
     update.update_friendlist(this,this.props.user.id)
     this.searchUser(this.state.validatedSearchEntry)
+    update.update_user(this, this.props.user.id )
     this.setState({ isLoading: false })
     if (data.status=="ok") {
       if (action_type=="refuse") {

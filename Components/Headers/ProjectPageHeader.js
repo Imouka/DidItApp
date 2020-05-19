@@ -10,7 +10,6 @@ import Panel from '../../Components/Panel';  // Step 1
 import ButtonSmallImage from '../../Components/ButtonSmallImage'
 import ProjectDetails from '../../Components/ProjectDetails'
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger} from 'react-native-popup-menu';
-import MoreButton from '../../Components/MoreButton'
 
 
 class ProjectPageHeader extends React.Component {

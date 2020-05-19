@@ -41,7 +41,7 @@ class LateralBar extends React.Component {
 
 const styles = StyleSheet.create({
   main_container: {
-    marginTop:"2%",
+   marginLeft:"1%"
   },
 })
 

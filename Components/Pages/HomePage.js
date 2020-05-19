@@ -14,159 +14,159 @@ import moment from 'moment'
 class HomePage extends React.Component{
 
   constructor(props) {
-     super(props)
-     this.state = {
-       isLoading: false
-   }
-   }
+    super(props)
+    this.state = {
+      isLoading: false
+    }
+  }
 
-componentDidMount(){
+  componentDidMount(){
     update.update_user(this, this.props.loggedid )
 
-}
-
-componentDidUpdate(prevProps){
-  if(prevProps.user.id != this.props.user.id){
-    update.update_projects(this, this.props.user.id)
-    update.update_feed(this,this.props.user.id)
   }
-}
 
-send_comment=(projectid,message) => {
-   this.setState({ isLoading: true })
-   sendComment(projectid,this.props.user.id, moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), message).then(data => {
-     this.setState({ isLoading: false })
-     if (this.props.friend_user.id != ""){
+  componentDidUpdate(prevProps){
+    if(prevProps.user.id != this.props.user.id){
+      update.update_projects(this, this.props.user.id)
+      update.update_feed(this,this.props.user.id)
+    }
+  }
+
+  send_comment=(projectid,message) => {
+    this.setState({ isLoading: true })
+    sendComment(projectid,this.props.user.id, moment(new Date()).format("YYYY-MM-DD HH:mm:ss"), message).then(data => {
+      this.setState({ isLoading: false })
+      if (this.props.friend_user.id != ""){
         update.update_friend_user(this,this.props.friend_user.friend.id,this.props.user.id)
-     }
-     update.update_feed(this,this.props.user.id)
-     if (data.status!="ok") {
-       Alert.alert("Error", "Something went wrong please try again later" )
-     }
-     })
-     .catch((error)=>{
-       console.log("HomePage->send_comment-> error")
-       this.setState({ isLoading: false })
+      }
+      update.update_feed(this,this.props.user.id)
+      if (data.status!="ok") {
+        Alert.alert("Error", "Something went wrong please try again later" )
+      }
+    })
+    .catch((error)=>{
+      console.log("HomePage->send_comment-> error")
+      this.setState({ isLoading: false })
       Alert.alert("Error", "Something went wrong please try again later" )})
-   }
+    }
 
 
-_renderSeparator () {
-return (
-  <View
-    style={{
-    //  marginTop:'5%',
-      marginBottom:'5%',
-      height: 1,
-      backgroundColor: "#CED0CE",
-      marginLeft: "10%",
-      marginRight: "10%"
-    }}
-  />
-);
-};
-
-_renderSeparatortop () {
-return (
-  <View
-    style={{
-      marginBottom:'5%',
-      height: 1,
-      backgroundColor: "#CED0CE",
-      marginLeft: "10%",
-      marginRight: "10%"
-    }}
-  />
-);
-};
-
-_displayLoading() {
-    if (this.state.isLoading) {
+    _renderSeparator () {
       return (
-        <View style={styles.loading_container}>
+        <View
+        style={{
+           marginTop:'5%',
+          marginBottom:'1%',
+          height: 1,
+          backgroundColor: "#CED0CE",
+          marginLeft: "10%",
+          marginRight: "10%"
+        }}
+        />
+      );
+    };
+
+    _renderSeparatortop () {
+      return (
+        <View
+        style={{
+          marginBottom:'5%',
+          height: 1,
+          backgroundColor: "#CED0CE",
+          marginLeft: "10%",
+          marginRight: "10%"
+        }}
+        />
+      );
+    };
+
+    _displayLoading() {
+      if (this.state.isLoading) {
+        return (
+          <View style={styles.loading_container}>
           <ActivityIndicator size='large' />
-        </View>
+          </View>
+        )
+      }
+    }
+
+
+    _displayDetailForProject=(project_id)=>{
+      this.props.navigation.navigate('ProjectPage',{project_id : project_id})
+    };
+
+    displayProfilePage=(friend_id)=>{
+      if (friend_id==this.props.user.id){
+        this.props.navigation.navigate('ProfilePage')
+      } else{
+        update.update_friend_user(this, friend_id,this.props.user.id).then(()=>{
+          this.props.navigation.navigate('FriendProfilePage', { friend_id:friend_id})
+        }
       )
     }
   }
 
-
-_displayDetailForProject=(project_id)=>{
-  this.props.navigation.navigate('ProjectPage',{project_id : project_id})
-};
-
-displayProfilePage=(friend_id)=>{
-  if (friend_id==this.props.user.id){
-      this.props.navigation.navigate('ProfilePage')
-  } else{
-     update.update_friend_user(this, friend_id,this.props.user.id).then(()=>{
-      this.props.navigation.navigate('FriendProfilePage', { friend_id:friend_id})
-     }
-   )
-  }
-}
-
-displayProjectPage=(friend_id, project_id)=>{
-  if (friend_id==this.props.user.id){
-    this.props.navigation.navigate('ProjectPage',{project_id : project_id})
-  } else{
-     update.update_friend_user(this, friend_id,this.props.user.id).then(()=>{
-      this.props.navigation.navigate('FriendProjectPage',{project_id : project_id})
-     }
-   )
+  displayProjectPage=(friend_id, project_id)=>{
+    if (friend_id==this.props.user.id){
+      this.props.navigation.navigate('ProjectPage',{project_id : project_id})
+    } else{
+      update.update_friend_user(this, friend_id,this.props.user.id).then(()=>{
+        this.props.navigation.navigate('FriendProjectPage',{project_id : project_id})
+      }
+    )
   }
 }
 
 _renderHeader=()=>{
   return (
     <View >
-      <LateralBar
-      imageSource={require('../../Images/project.png')}
-      projects={this.props.projects}
-      displayDetailForProject={this._displayDetailForProject}/>
-      {this._renderSeparatortop()}
+    <LateralBar
+    imageSource={require('../../Images/project.png')}
+    projects={this.props.projects}
+    displayDetailForProject={this._displayDetailForProject}/>
+    {this._renderSeparatortop()}
     </View>
   )
 }
 
 
 
-  render() {
-    return (
-        <View>
-            {this._displayLoading()}
-          <NavigationEvents onWillFocus={() => update.update_feed(this,this.props.loggedid)} />
-          <FlatList
-            data={this.props.feed}
-            keyExtractor={(item) => item.id.toString()}
-            ref={(ref) => { this.flatListRef = ref; }}
-            ItemSeparatorComponent={this._renderSeparator}
-            ListHeaderComponent={ this._renderHeader}
-            renderItem={({item}) =>
-            <HomepagePostItem
-              projectImageSource={require("../../Images/project.png")}
-              userImageSource={require("../../Images/profile_icon.png")}
-              displayProfilePage={this.displayProfilePage}
-              displayProjectPage={this.displayProjectPage}
-              sendComment={this.send_comment}
-              isMyProject={(item.user.id==this.props.user.id)}
-              post={item}>
-              <UpdateItem
-                UsernameIsDisplayed={false}
-                update={item.update}/>
-              </HomepagePostItem>}
-            />
-          </View>
-    )
-  }
+render() {
+  return (
+    <View>
+    {this._displayLoading()}
+    <NavigationEvents onWillFocus={() => update.update_feed(this,this.props.loggedid)} />
+    <FlatList
+    data={this.props.feed}
+    keyExtractor={(item) => item.id.toString()}
+    ref={(ref) => { this.flatListRef = ref; }}
+    ItemSeparatorComponent={this._renderSeparator}
+    ListHeaderComponent={ this._renderHeader}
+    renderItem={({item}) =>
+    <HomepagePostItem
+    projectImageSource={require("../../Images/project.png")}
+    userImageSource={require("../../Images/profile_icon.png")}
+    displayProfilePage={this.displayProfilePage}
+    displayProjectPage={this.displayProjectPage}
+    sendComment={this.send_comment}
+    isMyProject={(item.user.id==this.props.user.id)}
+    post={item}>
+    <UpdateItem
+    UsernameIsDisplayed={false}
+    update={item.update}/>
+    </HomepagePostItem>}
+    />
+    </View>
+  )
+}
 }
 
 /*render() {
-    return (
-      <View>
-      <Text> WORK IN PROGRESS </Text>
-      </View>)
-  }
+return (
+<View>
+<Text> WORK IN PROGRESS </Text>
+</View>)
+}
 }*/
 const styles = StyleSheet.create({
   loading_container: {
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     alignItems: 'center',
     justifyContent: 'center'
-},
+  },
 })
 
 const mapStateToProps = (state) => {

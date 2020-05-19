@@ -1,5 +1,11 @@
 import React from 'react'
 import {View,StyleSheet,Text, Image, TouchableOpacity,Animated} from 'react-native';
+import {policeStyles} from '../Styles/police_styles'
+import {
+ heightPercentageToDP as hp,
+ widthPercentageToDP as wp,
+} from '../Utils/react-native-responsive-screen'
+import {imageStyles} from '../Styles/Image_styles'
 
 class Panel extends React.Component{
     constructor(props){
@@ -11,7 +17,7 @@ class Panel extends React.Component{
         };
 
         this.state = {
-          minHeight   : 20,
+          minHeight   :20,
           title_expanded      : props.title_expanded,
           title_closed   : props.title_closed,
           expanded    : false,
@@ -62,7 +68,7 @@ class Panel extends React.Component{
                 <TouchableOpacity
                     onPress={this.toggle.bind(this)}
                     underlayColor="#f1f1f1">
-                      <Text style={styles.title_discrete}>{this.state.title_closed}</Text>
+                      <Text style={policeStyles.standard_text}>{this.state.title_closed}</Text>
                 </TouchableOpacity>
               </View>
             )
@@ -75,9 +81,9 @@ class Panel extends React.Component{
                     underlayColor="#f1f1f1">
                     <View
                       style={styles.header}>
-                      <Text style={styles.title}>{this.state.title_closed}</Text>
+                      <Text style={policeStyles.standard_bold}>{this.state.title_closed}</Text>
                       <Image
-                          style={styles.buttonImage}
+                          style={imageStyles.panel_button}
                           source={icon}>
                       </Image>
                     </View>
@@ -89,7 +95,7 @@ class Panel extends React.Component{
         } else {
             if (title_is_displayed==true) {
               return (
-                  <Text style={styles.title}>{this.state.title_expanded}</Text>
+                  <Text style={policeStyles.standard_bold}>{this.state.title_expanded}</Text>
               );
             }
         }
@@ -103,7 +109,7 @@ class Panel extends React.Component{
                 onPress={this.toggle.bind(this)}
                 underlayColor="#f1f1f1">
                   <Image
-                  style={styles.buttonImage}
+                  style={imageStyles.panel_button}
                   source={icon}>
                   </Image>
                 </TouchableOpacity>
@@ -124,7 +130,7 @@ class Panel extends React.Component{
                 onPress={this.toggle.bind(this)}
                 underlayColor="#f1f1f1">
                   <Image
-                  style={styles.buttonImage}
+                  style={imageStyles.panel_button}
                   source={icon}>
                   </Image>
                 </TouchableOpacity>
@@ -171,20 +177,8 @@ var styles = StyleSheet.create({
         overflow:'hidden',
         height:20
     },
-    title       : {
-        color   :'black',
-        fontWeight:'bold',
-    },
-    buttonImage : {
-        width   : 20,
-        height  : 20
-    },
     header :{
       flexDirection: 'row',
       justifyContent: 'flex-end'
     },
-    title_discrete       : {
-        textDecorationLine:"underline"
-    },
-
 });

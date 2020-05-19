@@ -103,11 +103,11 @@ const HomeStackNavigator = createStackNavigator({
     screen:HomePage,
     navigationOptions: {
       headerTitle: (
-           <Image style={{ width: 150, height: 40 }} source={require('../Images/app_logo2.png')}/>
+           <Image style={{ width: 150, height: 40 }} source={require('../Images/app_logo_.png')}/>
             ),
-      headerRight: (navigation) => {
+    /*  headerRight: (navigation) => {
             return <Notifications />;
-          },
+          },*/
     }
   },
     ProjectPage: {

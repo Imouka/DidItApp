@@ -1,6 +1,8 @@
 
 import React from 'react'
 import { StyleSheet, View, Image, Text, TextInput} from 'react-native'
+import {policeStyles} from '../Styles/police_styles'
+import {imageStyles} from '../Styles/Image_styles'
 
 class TextInputWithImage extends React.Component {
 
@@ -17,12 +19,13 @@ class TextInputWithImage extends React.Component {
     return (
       <View style={styles.main_container}>
           <Image
-            style={[styles.button_image, {width: size, height: size}]}
+            style={imageStyles.text_input_image}
             source= {imageSource}
           />
           <View style={styles.sub_container}>
           <View style ={[styles.text_input_container, ]}>
             <TextInput
+            style={ policeStyles.standard_text}
             placeholder={text}
             multiline={true}
             blurOnSubmit={true}
@@ -53,13 +56,6 @@ const styles = StyleSheet.create({
   text_input_container: {
     marginLeft: "2%",
     marginRight: "2%",
-//  borderBottomColor:"#CED0CE",
-  //  borderBottomWidth:1
-  },
- button_image:{
-    borderRadius:360,
-    borderWidth:2,
-    borderColor:'#000000'
   },
   sub_container:{
     flex:1,

@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native'
-
+import {imageStyles} from '../Styles/Image_styles'
 
 class ButtonSmallImage extends React.Component {
   render() {
@@ -12,7 +12,7 @@ class ButtonSmallImage extends React.Component {
         style={styles.main_container}
         onPress={() => action()}>
           <Image
-            style={styles.button_image}
+            style={imageStyles.small_user_avatar}
             source= {imageSource}
           />
         </TouchableOpacity>
@@ -24,14 +24,7 @@ class ButtonSmallImage extends React.Component {
 const styles = StyleSheet.create({
   main_container: {
     flexDirection: 'row',
-    alignItems :'center'
-  },
- button_image:{
-   width: 25,
-   height: 25,
-   borderRadius:360,
-   borderWidth:2,
-   borderColor:'#55cfb3',
+    alignItems :'center',
   },
 })
 
