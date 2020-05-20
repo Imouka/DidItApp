@@ -153,10 +153,11 @@ const styles = StyleSheet.create({
    left_container:{
     flex:4,
     flexDirection: 'row',
-    marginRight:'1.5%',
+    paddingRight:'1%',
   },
   right_container:{
     flex:2.5,
+    paddingLeft:"1.5%",
     flexDirection: 'row',
     justifyContent:"flex-end",
   },

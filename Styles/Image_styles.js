@@ -164,7 +164,7 @@ new_friends_notif: {
   backgroundColor:'#79D2A6',
   position: 'absolute',
   borderRadius: 360,
-  right:0,
+  right:- (hp(b)/2),
   top: 0,
   width: hp(b),
   height: hp(f),

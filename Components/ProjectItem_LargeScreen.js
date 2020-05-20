@@ -6,6 +6,8 @@ import ProjectIcon from '../Components/ProjectIcon'
 import Description from '../Components/Description'
 import {imageStyles} from '../Styles/Image_styles'
 import {policeStyles} from '../Styles/police_styles'
+import ProgressBarWithImage from '../Components/ProgressBarWithImage'
+import moment from 'moment'
 
 
 class ProjectItem extends React.Component {
@@ -36,35 +38,73 @@ class ProjectItem extends React.Component {
         <TouchableOpacity
         onPress={ () => displayDetailForProject(project.id)}>
           <View style={[styles.main_container, {opacity:this.opacify_item(project.is_done)}]}>
-
             <View style = {styles.project_image_container}>
-              <View>
+              <View style={{alignSelf:'center'}}>
                  <ProjectIcon
                  imageSource={imageSource}/>
               </View>
-              <View
-              style={{marginTop:8}}>
-                 <ProgressBar
-                 progressionProjet={Math.round(project.progression_percentage * 100) + "%"}
-                 progressionTemps={Math.round(project.time_progression * 100) + "%"}/>
-              </View>
             </View>
+
             <View
               style={styles.text_container}>
               <View>
                 <Text
-                style={policeStyles.project_title_text}
+                style={policeStyles.small_project_title_text}
                 numberOfLines={2}>
                   {project.title}
                 </Text>
                 </View>
-                <View>
-                <Description
-                  description={project.description}
-                  lineNb={2}/>
-                </View>
+
+                  <View >
+                      <View
+                      style={{marginTop:8, flexDirection:'row'}}>
+                      <View style={{flex:4, marginRight:"1%",  marginLeft:"1%"}}>
+                        <ProgressBarWithImage
+                          progression={Math.round(project.progression_percentage * 100) + "%"}
+                          imageSource={require('../Images/goal.png')}/>
+                      </View>
+                      <View style={{flex:2}}>
+                      <Text style={policeStyles.update_date}>
+                          {project.progression}  &#8594; {project.objective}
+                      </Text>
+                      </View>
+                      </View>
+
+                      <View
+                      style={{marginTop:8, flexDirection:'row'}}>
+                      <View style={{flex:4, marginRight:"1%",  marginLeft:"1%"}}>
+                        <ProgressBarWithImage
+                          progression={Math.round(project.time_progression * 100) + "%"}
+                          imageSource={require('../Images/hourglass6.png')}/>
+                      </View>
+                      <View style={{flex:2}}>
+                      <Text style={policeStyles.update_date}>
+                            {moment(new Date(project.project_start_date)).format('DD/MM/YY')} &#8594; {moment(new Date(project.project_end_date)).format('DD/MM/YY')}
+                      </Text>
+                      </View>
+
+                    </View>
+                  </View>
+
 
             </View>
+          </View>
+
+          <View style={styles.support_container} >
+            <Image
+              style={imageStyles.support_image}
+              source= {require('../Images/support.png')}  />
+            <View style={{marginLeft:"2%"}}>
+              <Text style={policeStyles.standard_grey} >
+                {project.nb_supports}
+                {" people supported this project"}
+              </Text>
+            </View>
+          </View>
+          <View style={{marginBottom:"1%"}}>
+            <Description
+              description={project.description}
+              lineNb={2}/>
           </View>
           {this.display_overlay_image(project.is_done)}
         </TouchableOpacity>
@@ -82,18 +122,18 @@ const styles = StyleSheet.create({
     marginBottom:5,
     marginLeft:"1%",
     flex:1,
+  //  backgroundColor:'red'
   },
   project_image_container: {
-    flex:1,
-    alignSelf:'flex-start',
+    alignSelf:'center',
+    paddingRight:"3%",
   },
   text_container:{
     flexDirection:'column',
-    flex:1,
     marginRight:"3%",
-  },
-  project_image_container:{
-    paddingRight:"4%",
+    flex:1,
+    justifyContent :"space-around",
+    // backgroundColor:'red'
   },
   overlay:{
     position: 'absolute',
@@ -103,6 +143,12 @@ const styles = StyleSheet.create({
     right: 0,
     alignItems:'center',
     justifyContent:'center',
+  },
+  support_container:{
+    flexDirection: 'row',
+    alignItems:'center',
+    marginTop:"1%",
+    marginBottom:"1%"
   },
 })
 

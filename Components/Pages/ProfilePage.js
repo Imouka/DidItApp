@@ -5,6 +5,7 @@ import {View,StyleSheet,Text, FlatList, ActivityIndicator, TouchableOpacity} fro
 import ProfileHeader from '../../Components/Headers/ProfileHeader'
 import ButtonBigImageAndText from '../../Components/ButtonBigImageAndText'
 import ProjectItem from '../../Components/ProjectItem'
+import ProjectItem_LargeScreen from '../../Components/ProjectItem_LargeScreen'
 import update from '../../Utils/Updaters.js';
 import {imageStyles} from '../../Styles/Image_styles'
 import {policeStyles} from '../../Styles/police_styles'
@@ -122,7 +123,7 @@ _scrollToIndex = () => {
         ItemSeparatorComponent={this._renderSeparator}
         ListHeaderComponent={this._renderHeader}
         renderItem={({item}) =>
-        <ProjectItem
+        <ProjectItem_LargeScreen
             project={item}
             imageSource={require('../../Images/project.png')}
             displayDetailForProject={this._displayDetailForProject}

@@ -26,23 +26,19 @@ const h_w ='3.6%' // fontsize target : 20
 const policeStyles = StyleSheet.create({
   user_name_for_Icon: {
     fontSize: hp(standard_font_size),
-    //fontSize: wp(a_w),
   },
   standard_text_center:{
     fontSize: hp(standard_font_size),
-     ////fontSize: wp(a_w),
      textAlign:'center',
    },
    update_date:{
      fontSize: hp(small_font_size),
-     //fontSize: wp(b_w),
      textAlign: 'left',
      fontWeight:'bold',
      color:'#777878'
    },
    standard_grey:{
      fontSize: hp(standard_font_size),
-     //fontSize: wp(a_w),
      color:'#777878'
    },
    update_automatic_message: {
@@ -51,11 +47,9 @@ const policeStyles = StyleSheet.create({
      textAlign:'center',
      paddingTop:1,
      fontSize: hp(thirteen),
-    //fontSize: wp(a_w),
    },
    standard_bold: {
      fontSize: hp(standard_font_size),
-     //fontSize: wp(a_w),
      textAlign: 'left',
      fontWeight:'bold',
    },
@@ -68,27 +62,27 @@ const policeStyles = StyleSheet.create({
      fontWeight: 'bold',
      fontSize: hp(twenty),
    },
+   small_project_title_text: {
+     fontWeight: 'bold',
+     fontSize: hp(seventeen),
+   },
    project_title_text_ITALIC:{
      fontSize: hp(standard_font_size),
-     //fontSize: wp(a_w),
      textAlign:"center",
      fontStyle:"italic"
    },
    project_details_small_text:{
      fontSize: hp(standard_font_size),
-     //fontSize: wp(a_w),
      fontStyle: 'italic',
      color: '#666666',
      marginLeft: "5%",
    },
    standard_text:{
      fontSize: hp(standard_font_size),
-     //fontSize: wp(a_w),
      color:'black',
    },
    standard_text_right: {
      fontSize: hp(standard_font_size),
-     //fontSize: wp(a_w),
      textAlign: 'right',
    },
    text_Large_Number:{
@@ -97,8 +91,7 @@ const policeStyles = StyleSheet.create({
      textAlign: 'center',
    },
    new_friends_notif: {
-     //fontSize:hp(standard_font_size),
-     //fontSize: wp(a_w),
+     fontSize:hp(standard_font_size),
      fontWeight: 'bold',
      textAlign: 'center',
    },
@@ -128,26 +121,22 @@ const policeStyles = StyleSheet.create({
        color:"#9B9B9B"
      },
      label_text_input:{
-       //fontSize:hp(standard_font_size),
-       //fontSize: wp(a_w),
+       fontSize:hp(standard_font_size),
        fontWeight: 'bold',
        color:"#4A4A4A"
      },
      label_text_input_disabled:{
-      // fontSize:hp(standard_font_size),
-       //fontSize: wp(a_w),
+       fontSize:hp(standard_font_size),
        fontWeight: 'bold',
        color:"#9B9B9B"
      },
      standard_italic_underlined:{
        fontSize:hp(standard_font_size),
-       //fontSize: wp(a_w),
        fontStyle:"italic",
        textDecorationLine:"underline"
      },
      standard_text_disabled: {
        fontSize: hp(standard_font_size),
-       //fontSize: wp(a_w),
        textAlign: 'left',
        color:"#9B9B9B"
      },

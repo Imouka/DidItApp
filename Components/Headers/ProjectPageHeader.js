@@ -43,11 +43,15 @@ class ProjectPageHeader extends React.Component {
     return (
       <View>
       <View style={{flexDirection:"row",justifyContent:"space-between",  alignItems:"center"}}>
-        <Text
-        style={policeStyles.project_title_text}>
-        {project.title}
-        </Text>
+        <View style={{flex:7}}>
+          <Text
+          style={policeStyles.project_title_text}>
+          {project.title}
+          </Text>
+        </View>
+        <View  style={{flex:1, alignItems:'flex-end'}}>
         {this.display_options(optionsIsDisplayed)}
+        </View>
       </View>
       <View
       style={styles.row_container}>

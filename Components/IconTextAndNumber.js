@@ -65,12 +65,5 @@ class IconTextAndNumber extends React.Component {
     )
   }
 }
-const styles = StyleSheet.create({
-  main_container: {
-     backgroundColor:'red',
-     width: "60%",
-     alignSelf:'center'
-  },
-})
 
 export default IconTextAndNumber
