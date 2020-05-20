@@ -6,6 +6,8 @@ import ProfileHeader from '../../Components/Headers/ProfileHeader'
 import ButtonBigImageAndText from '../../Components/ButtonBigImageAndText'
 import ProjectItem from '../../Components/ProjectItem'
 import update from '../../Utils/Updaters.js';
+import {imageStyles} from '../../Styles/Image_styles'
+import {policeStyles} from '../../Styles/police_styles'
 
 
 class ProfilePage extends React.Component {
@@ -32,7 +34,7 @@ class ProfilePage extends React.Component {
   _displayLoading() {
       if (this.state.isLoading) {
         return (
-          <View style={styles.loading_container}>
+          <View style={imageStyles.loading_container}>
             <ActivityIndicator size='large' />
           </View>
         )
@@ -60,7 +62,8 @@ _renderSeparator = () => {
 return (
   <View
     style={{
-      marginTop:'5%',
+      marginTop:'1%',
+      marginBottom:'1%',
       height: 1,
       width: "86%",
       backgroundColor: "#CED0CE",
@@ -86,7 +89,7 @@ return (
   style={styles.button_edit_project}
   onPress={this._displayEditProfilePage}>
     <Text
-    style={styles.edit_project_text}>
+    style={policeStyles.standard_italic_underlined}>
     {"Edit profile"}
     </Text>
   </TouchableOpacity>
@@ -143,19 +146,6 @@ const styles = StyleSheet.create({
   button_edit_project:{
     marginTop: "2%",
   },
-  loading_container: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 100,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center'
-},
-edit_project_text:{
-  fontStyle:"italic",
-  textDecorationLine:"underline"
-}
 })
 
 const mapStateToProps = (state) => {

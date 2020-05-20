@@ -2,17 +2,18 @@
 
 import React from 'react'
 import { Text, TouchableOpacity, StyleSheet, View} from 'react-native'
+import {policeStyles} from '../Styles/police_styles'
 
 class AddFriendButton extends React.Component {
   render() {
-    const{text, color, action, disabled,friend, backgroundcolor, textcolor}=this.props
+    const{text, action, disabled,friend, backgroundcolor, textcolor}=this.props
     return (
       <View>
         <TouchableOpacity
                  style={[styles.button, {backgroundColor: backgroundcolor} ]}
                  onPress={() => action(friend,"send")}
                  disabled={disabled}>
-                 <Text style={{color: textcolor}}> {text} </Text>
+                 <Text style={[policeStyles.standard_text_center,{color: textcolor}]}> {text} </Text>
          </TouchableOpacity>
       </View>
 

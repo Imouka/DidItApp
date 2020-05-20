@@ -7,7 +7,7 @@ import {postHandleFriendship,searchInAllDB} from '../../API/APITest'
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react-native-popup-menu';
 import update from '../../Utils/Updaters.js';
 import {NavigationEvents} from 'react-navigation';
-
+import {imageStyles} from '../../Styles/Image_styles'
 
 import FriendProfilePage from '../../Components/Pages/OtherUserPages/FriendProfilePage'
 
@@ -49,7 +49,7 @@ class FriendsListPage extends React.Component {
    _displayLoading() {
        if (this.state.isLoading) {
          return (
-           <View style={styles.loading_container}>
+           <View style={imageStyles.loading_container}>
              <ActivityIndicator size='large' />
            </View>
          )
@@ -181,15 +181,6 @@ const styles = StyleSheet.create({
   main_container: {
     marginLeft: '3%',
   },
-  loading_container: {
-  position: 'absolute',
-  left: 0,
-  right: 0,
-  top: 100,
-  bottom: 0,
-  alignItems: 'center',
-  justifyContent: 'center'
-}
 })
 
 const mapStateToProps = (state) => {

@@ -17,7 +17,7 @@ class Panel extends React.Component{
         };
 
         this.state = {
-          minHeight   :20,
+          minHeight   :hp("3.4%"),
           title_expanded      : props.title_expanded,
           title_closed   : props.title_closed,
           expanded    : false,
@@ -68,7 +68,7 @@ class Panel extends React.Component{
                 <TouchableOpacity
                     onPress={this.toggle.bind(this)}
                     underlayColor="#f1f1f1">
-                      <Text style={policeStyles.standard_text}>{this.state.title_closed}</Text>
+                      <Text style={policeStyles.standard_italic_underlined}>{this.state.title_closed}</Text>
                 </TouchableOpacity>
               </View>
             )
@@ -175,7 +175,7 @@ var styles = StyleSheet.create({
     container   : {
         backgroundColor: '#fff',
         overflow:'hidden',
-        height:20
+        height:hp("3.4%"),
     },
     header :{
       flexDirection: 'row',

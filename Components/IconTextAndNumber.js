@@ -58,7 +58,7 @@ class IconTextAndNumber extends React.Component {
         onPress={() => action()}>
           {this._displayNewRequests(request_nb, number, notification_icon)}
           <Text
-          style={policeStyles.medium_text} >
+          style={policeStyles.medium_text_center} >
           {text}
           </Text>
         </TouchableOpacity>

@@ -12,7 +12,7 @@ import SupportButton from '../../../Components/SupportButton'
 import update from '../../../Utils/Updaters.js';
 import {sendSupport, sendComment} from '../../../API/APITest'
 import moment from 'moment'
-
+import {imageStyles} from '../../../Styles/Image_styles'
 
 
 class FriendProjectPage extends React.Component {
@@ -56,7 +56,7 @@ class FriendProjectPage extends React.Component {
   _displayLoading() {
     if (this.state.isLoading) {
       return (
-        <View style={styles.loading_container}>
+        <View style={imageStyles.loading_container}>
           <ActivityIndicator size='large' />
         </View>
       )
@@ -186,7 +186,6 @@ class FriendProjectPage extends React.Component {
        marginTop:'2%',
        marginBottom:'2%',
        height: 1,
-       height: 1,
        backgroundColor: "#CED0CE",
        marginLeft: "10%",
        marginRight: "10%"
@@ -220,15 +219,6 @@ class FriendProjectPage extends React.Component {
     marginBottom:'2%',
     marginLeft:"2%",
   },
-  loading_container: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 100,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
   })
 
   const mapStateToProps = (state) => {

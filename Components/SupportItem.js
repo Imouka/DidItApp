@@ -25,7 +25,7 @@ class SupportItem extends React.Component {
               {support.first_name} {support.last_name}
               </Text>
               <Text
-              style={policeStyles.update_message}>
+              style={policeStyles.standard_text_center}>
               {" supported this project  "}
               </Text>
             </Text>

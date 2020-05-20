@@ -9,7 +9,7 @@ import {  getProjectFromUserId, sendComment } from '../../API/APITest'
 import update from '../../Utils/Updaters.js';
 import {NavigationEvents} from 'react-navigation';
 import moment from 'moment'
-
+import {imageStyles} from '../../Styles/Image_styles'
 
 class HomePage extends React.Component{
 
@@ -55,8 +55,8 @@ class HomePage extends React.Component{
       return (
         <View
         style={{
-           marginTop:'5%',
-          marginBottom:'1%',
+           marginTop:'2%',
+          marginBottom:'2%',
           height: 1,
           backgroundColor: "#CED0CE",
           marginLeft: "10%",
@@ -83,7 +83,7 @@ class HomePage extends React.Component{
     _displayLoading() {
       if (this.state.isLoading) {
         return (
-          <View style={styles.loading_container}>
+          <View style={imageStyles.loading_container}>
           <ActivityIndicator size='large' />
           </View>
         )
@@ -160,25 +160,6 @@ render() {
   )
 }
 }
-
-/*render() {
-return (
-<View>
-<Text> WORK IN PROGRESS </Text>
-</View>)
-}
-}*/
-const styles = StyleSheet.create({
-  loading_container: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 100,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-})
 
 const mapStateToProps = (state) => {
   return {

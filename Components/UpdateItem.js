@@ -83,7 +83,7 @@ _displayUserImage(action,update) {
         {this._displayUserImage(action,update)}
         <View  style={{ flex:1, marginLeft:"2%"}}>
           {this._displayUserName(user_first_name,user_last_name)}
-            <Text  style={policeStyles.update_message}>
+            <Text  style={policeStyles.standard_text_center}>
               {this._displayMessage(update.message)}
             </Text>
           {this._displayProgression(update.old_value,update.new_value)}

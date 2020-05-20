@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native'
-
+import {imageStyles} from '../Styles/Image_styles'
+import {policeStyles} from '../Styles/police_styles'
 
 class ButtonImageAndText extends React.Component {
   render() {
@@ -11,13 +12,15 @@ class ButtonImageAndText extends React.Component {
         style={styles.main_container}
         onPress={() => action()}>
           <Image
-            style={styles.button_image}
+            style={imageStyles.new_project_button_image}
             source= {imageSource}
           />
-          <Text
-          style={styles.button_text}>
-          {text}
-          </Text>
+          <View style={ styles.text_container}>
+            <Text
+            style={policeStyles.medium_text}>
+            {text}
+            </Text>
+          </View>
         </TouchableOpacity>
       </View>
     )
@@ -29,19 +32,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems :'center'
   },
-  button_text: {
-    marginLeft: 5,
-    fontSize: 16,
-    textAlign: 'left',
-  //  fontWeight: 'bold',
-  //  textDecorationLine:'underline'
-  },
- button_image:{
-    width: 35,
-    height: 35,
-    borderRadius:360,
-    borderWidth:2,
-    borderColor:'#000000'
+  text_container: {
+    marginLeft: "2%",
   },
 })
 

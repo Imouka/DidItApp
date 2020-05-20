@@ -8,7 +8,7 @@ import {imageStyles} from '../Styles/Image_styles'
 import {policeStyles} from '../Styles/police_styles'
 
 
-class ProjectItem_LargeScreen extends React.Component {
+class ProjectItem extends React.Component {
 
   display_overlay_image(is_over) {
     if (is_over==true){
@@ -106,4 +106,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ProjectItem_LargeScreen
+export default ProjectItem

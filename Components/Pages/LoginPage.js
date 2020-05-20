@@ -5,7 +5,7 @@ import { getUserFromId, postLogin} from '../../API/APITest'
 import Navigation from '../../Navigation/Navigation'
 import {LoginButton, AccessToken, LoginManager} from 'react-native-fbsdk'
 import moment from 'moment'
-
+import {imageStyles} from '../../Styles/Image_styles'
 
 class LoginPage extends Component {
 
@@ -69,7 +69,7 @@ render(){
       <View
       style={styles.main_container}>
         <Image
-        style={styles.main_image}
+        style={imageStyles.home_page_image}
         source={require('../../Images/main_page.png')}/>
         <Button
         onPress={() => this.handleFacebookLogin(this.loginFbResult.bind(this))}
@@ -95,9 +95,7 @@ const styles = StyleSheet.create({
     alignItems:'center',
     backgroundColor:"white",
   },
-  main_image:{
-    //width:400,
-}
+
 })
 
 const mapStateToProps = (state) => {

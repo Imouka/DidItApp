@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     flex:1,
   },
   description:{
-    marginTop:20
+    marginTop:"3%"
   },
 })
 

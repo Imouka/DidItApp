@@ -1,9 +1,12 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import { Input} from 'react-native-elements'
-import {View,StyleSheet,Text, TouchableOpacity, KeyboardAvoidingView,ScrollView, Button} from 'react-native'
+import {View,StyleSheet,Text, TouchableOpacity, KeyboardAvoidingView,ScrollView} from 'react-native'
+import {Button} from 'react-native-elements'
 import EditableUserIcon from '../../Components/EditableUserIcon'
 import ImagePicker from 'react-native-image-picker'
+import {imageStyles} from '../../Styles/Image_styles'
+import {policeStyles} from '../../Styles/police_styles'
 
 
 class EditProfilePage extends React.Component {
@@ -109,6 +112,8 @@ class EditProfilePage extends React.Component {
           </View>
           <Input
           containerStyle={styles.input_container}
+          inputStyle={ policeStyles.standard_text}
+          labelStyle={policeStyles.label_text_input}
           label='First name'
           placeholder={this.props.user.first_name}
           onChangeText={value => this.setState({ first_name: value })}
@@ -116,6 +121,8 @@ class EditProfilePage extends React.Component {
           errorMessage={this.state.error_first_name}/>
           <Input
           containerStyle={styles.input_container}
+          inputStyle={ policeStyles.standard_text}
+          labelStyle={policeStyles.label_text_input}
           label='Last name'
           placeholder={this.props.user.last_name}
           onChangeText={value => this.setState({ last_name: value })}
@@ -123,17 +130,21 @@ class EditProfilePage extends React.Component {
           errorMessage={this.state.error_last_name}/>
           <Input
           containerStyle={styles.input_container}
+          inputStyle={ policeStyles.standard_text}
+          labelStyle={policeStyles.label_text_input}
           label='Description'
           placeholder={this.props.user.description}
           onChangeText={value => this.setState({ description: value })}
           errorStyle={{ color: 'red' }}
           errorMessage={this.state.error_desc} />
         </View>
-        <View  style={styles.sub_container}>
+        <View>
           <Button
           title= "Save Profile"
-          onPress={this._check_form}
-          color="#40AFBF"  />
+          onPress={this._check_form  }
+          buttonStyle={{  backgroundColor: "#40AFBF"}}
+          titleStyle={[policeStyles.medium_text_center,{   color: "white" }]}
+          />
         </View>
       </ScrollView>
     );
@@ -145,20 +156,12 @@ const styles = StyleSheet.create({
     flex:1,
     alignItems:'center',
     marginTop:"5%",
-
-    //  backgroundColor:'red'
   },
   user_icon_container:{
     marginBottom:"10%",
-    //  backgroundColor:'red'
   },
   input_container:{
-    marginBottom:"10%",
-    //  backgroundColor:'blue'
-  },
-  sub_container:{
     marginBottom:"5%",
-    backgroundColor:'blue',
   },
 })
 

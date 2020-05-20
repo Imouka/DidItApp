@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {View,StyleSheet, Text, TouchableOpacity, TextInput, Button, ScrollView, Alert, ActivityIndicator} from 'react-native';
+import {View,StyleSheet, Text, TouchableOpacity, TextInput, ScrollView, Alert, ActivityIndicator} from 'react-native';
+import {Button} from 'react-native-elements'
 import ProjectIcon from '../../Components/ProjectIcon';
 import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
@@ -8,7 +9,8 @@ import {postModifyProject } from '../../API/APITest'
 import update from '../../Utils/Updaters.js';
 import ImagePicker from 'react-native-image-picker'
 import { Input} from 'react-native-elements'
-
+import {imageStyles} from '../../Styles/Image_styles'
+import {policeStyles} from '../../Styles/police_styles'
 
 class ModifyProjectPage extends React.Component {
 
@@ -87,7 +89,7 @@ _displayProjectSettings=()=>{
   _displaydate(date, editable){
     if (date==null){
       return (
-        <Text style={[{color:"#999EA5"}]}>
+        <Text style={policeStyles.standard_text_disabled}>
          {"   Select date"}
         </Text>
       )
@@ -95,14 +97,14 @@ _displayProjectSettings=()=>{
     else {
       if (editable==true){
         return (
-          <Text>
+          <Text  style={policeStyles.standard_text}>
            {"   "+moment(new Date(date)).format('DD/MM/YYYY')}
           </Text>
         )
       }
       else {
         return (
-          <Text style={[{color:"#999EA5"}]}>
+          <Text style={[policeStyles.standard_text,{color:"#999EA5"}]}>
            {"   "+moment(new Date(date)).format('DD/MM/YYYY')}
           </Text>
         )
@@ -114,7 +116,7 @@ _displayProjectSettings=()=>{
   _displayLoading() {
       if (this.state.isLoading) {
         return (
-          <View style={styles.loading_container}>
+          <View style={imageStyles.loading_container}>
             <ActivityIndicator size='large' />
           </View>
         )
@@ -124,7 +126,7 @@ _displayProjectSettings=()=>{
 _display_number_of_steps(target_val, step_size){
     if (! isNaN(Math.round(target_val / step_size))){
       return (
-        <Text style={[{color:"#999EA5"}]}>
+        <Text style={policeStyles.standard_text_disabled}>
          {"Your project will be divided in "+ Math.round(target_val / step_size)+" steps"}
         </Text>
       )
@@ -139,10 +141,7 @@ _manageDate(date){
 
 _check_form=()=>{
   if (this._valid_title() && this._valid_description() && this._valid_dates())  {
-    this.setState({
-      error_title: '',
-      isLoading: true
-    })
+    this.setState({  isLoading: true  })
     postModifyProject(this.props.navigation.state.params.project.id, this.state.title,this.state.description,this._manageDate(this.state.selectedEndDate))
     .then(data => {
             this.setState({ isLoading: false })
@@ -155,20 +154,19 @@ _check_form=()=>{
             Alert.alert("Error", "The action could not be performed, please try again later")
           })
   }
-  else {
-    if (!this._valid_title()){
-      this.setState({
-        error_title: 'Please enter a valid title'
-      })
-    }
-  }
 }
 
 _valid_title=()=>{
-  if ((this.state.title).replace(/\s/g, '').length){
+  if  ((this.state.title).replace(/\s/g, '').length){
+    this.setState({
+      error_title: ''
+    })
     return (true)
   }
   else {
+    this.setState({
+      error_title:  'Please enter a valid title'
+    })
     return (false)
   }
 }
@@ -203,14 +201,20 @@ _valid_dates=()=>{
           <View style={styles.sub_container}>
               <Input
               containerStyle={styles.input_container}
+              inputStyle={ policeStyles.standard_text}
+              labelStyle={policeStyles.label_text_input}
               label='Project title'
               placeholder={titlePlaceholder}
-              onChangeText={title=>this.setState({  title   })}
+              onChangeText={title=>{this.setState({  title   }),this._valid_title()}}
               errorStyle={{ color: 'red' }}
               errorMessage={this.state.error_title}/>
           </View>
           <View style={styles.sub_container}>
               <Input
+              inputStyle={ policeStyles.standard_text}
+              multiline={true}
+              blurOnSubmit={true}
+              labelStyle={policeStyles.label_text_input}
               containerStyle={styles.input_container}
               label='Project description'
               placeholder={descPlaceholder}
@@ -218,7 +222,7 @@ _valid_dates=()=>{
           </View >
 
           <View style={styles.sub_container}>
-              <Text style={styles.instruction_text}>
+              <Text style={policeStyles.description_text_disabled}>
                 &#10171; {"Define your project dates"}
               </Text>
               <View   style={styles.row_container_dates}>
@@ -226,25 +230,27 @@ _valid_dates=()=>{
                   style={styles.bouton_date_disabled}
                   onPress={() =>  this._displayCalendar(this.state.selectedStartDate,this.state.selectedEndDate)}
                   disabled={true}>
-                  <Text style={styles.from_to_text_disabled}>{"From:"}  </Text>
+                  <Text style={policeStyles.label_text_input_disabled}>{"From:"}  </Text>
                   {this._displaydate(this.state.selectedStartDate, false)}
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.bouton_date}
                   onPress={() =>  this._displayCalendar(this.state.selectedStartDate,this.state.selectedEndDate)}>
-                  <Text style={styles.from_to_text}>{"To:"}  </Text>
+                  <Text style={policeStyles.label_text_input}>{"To:"}  </Text>
                   {this._displaydate(this.state.selectedEndDate, true)}
                 </TouchableOpacity>
               </View>
           </View>
 
           <View style={styles.sub_container}>
-              <Text style={styles.instruction_text_disabled}>
+              <Text style={policeStyles.description_text_disabled}>
               &#10171; {"Specify a quantitative target for your project"}
               </Text>
               <View   style={styles.row_container}>
                 <View style ={styles.left}>
                   <Input
+                  inputStyle={ policeStyles.standard_text}
+                  labelStyle={policeStyles.label_text_input_disabled}
                   containerStyle={styles.input_container_disabled}
                   label='Target value'
                   keyboardType="numeric"
@@ -252,19 +258,21 @@ _valid_dates=()=>{
                   disabled={true}/>
                 </View>
                 <View style={styles.right} >
-                  <Text style={[{color:"#999EA5"}]}>
+                  <Text style={policeStyles.standard_text_disabled}>
                   {"eg: Choose 8 if you wnat to read 8 books"}
                   </Text>
                 </View>
               </View>
           </View>
           <View style={styles.sub_container}>
-              <Text style={styles.instruction_text_disabled}>
+              <Text style={policeStyles.description_text_disabled}>
                 &#10171;  {"Specify a size for the steps of your project"}
               </Text>
               <View   style={styles.row_container}>
                 <View style ={styles.left}>
                    <Input
+                   inputStyle={ policeStyles.standard_text}
+                   labelStyle={policeStyles.label_text_input_disabled}
                    containerStyle={styles.input_container_disabled}
                    label='Step size'
                    keyboardType="numeric"
@@ -279,10 +287,9 @@ _valid_dates=()=>{
           <View  style={styles.sub_container}>
             <Button
             title= "Save project"
-            onPress={
-              this._check_form
-              }
-            color="#40AFBF"
+            onPress={this._check_form  }
+            buttonStyle={{  backgroundColor: "#40AFBF"}}
+            titleStyle={[policeStyles.medium_text_center,{   color: "white" }]}
             />
           </View>
             {this._displayLoading()}
@@ -325,23 +332,6 @@ const styles = StyleSheet.create({
    borderRadius:10,
    backgroundColor:'white'
 },
- from_to_text: {
-   fontWeight: 'bold',
-   fontSize:15,
- },
- instruction_text: {
-   fontStyle: "italic",
-   color:"#4B5E78",
- },
- instruction_text_disabled: {
-   fontStyle: "italic",
-   color:"#AFB6C0",
- },
- from_to_text_disabled: {
-   fontWeight: 'bold',
-   fontSize:15,
-   color:"#AFB6C0",
- },
  bouton_date_disabled:{
   flex:0.45,
   paddingBottom:"1%",
@@ -361,15 +351,6 @@ const styles = StyleSheet.create({
    marginLeft:"3%",
    flex :2
  },
- loading_container: {
- position: 'absolute',
- left: 0,
- right: 0,
- top: 100,
- bottom: 0,
- alignItems: 'center',
- justifyContent: 'center'
-},
 input_container:{
    backgroundColor:'white',
    borderRadius:10,
@@ -378,7 +359,7 @@ input_container_disabled:{
   borderRadius:10,
   backgroundColor:'#E3E7ED'
 }
-  })
+})
 
   const mapStateToProps = (state) => {
     return {

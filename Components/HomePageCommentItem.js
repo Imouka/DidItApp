@@ -32,7 +32,7 @@ class HomePageCommentItem extends React.Component {
             imageSource= {require("../Images/profile_icon.png")}
             action={()=>action(id)}/>
           </View>
-          <View style={{flex:10}} >
+          <View style={{flex:10,   justifyContent:'center',}} >
             <Text>
               <Text
               style={policeStyles.small_bold}>
@@ -58,7 +58,7 @@ export default HomePageCommentItem
 const styles = StyleSheet.create({
   main_container: {
     flexDirection: 'row',
-    alignItems :'center',
-    alignItems:'flex-start',
+    justifyContent:'center',
+    //alignItems:'flex-start',
   },
 })

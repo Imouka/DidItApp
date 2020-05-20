@@ -1,11 +1,16 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {View,StyleSheet, Text, TouchableOpacity, TextInput, Button, ScrollView, Alert, ActivityIndicator} from 'react-native';
+import {View,StyleSheet, Text, TouchableOpacity, TextInput, ScrollView, Alert, ActivityIndicator} from 'react-native';
+import {Button} from 'react-native-elements'
 import ProjectIcon from '../../Components/ProjectIcon';
 import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
 import{postCreateNewProject, getProjectFromUserId} from '../../API/APITest'
 import update from '../../Utils/Updaters.js';
+import {imageStyles} from '../../Styles/Image_styles'
+import {policeStyles} from '../../Styles/police_styles'
+import ImagePicker from 'react-native-image-picker'
+import { Input} from 'react-native-elements'
 
 
 class CreateNewProjectPage extends React.Component {
@@ -13,6 +18,7 @@ class CreateNewProjectPage extends React.Component {
   constructor(props) {
      super(props);
      this.state = {
+        avatar: require("../../Images/project.png"),
        title:"",
        description:"",
        selectedStartDate: null,
@@ -22,7 +28,31 @@ class CreateNewProjectPage extends React.Component {
        stepNumber:null,
        stepSizeTmp:null,
        isLoading:false,
+
+        error_title:"",
+        error_target:"",
+        error_step:"",
      };
+      this.edit_project_icon = this.edit_project_icon.bind(this)
+   }
+
+   edit_project_icon(){
+     console.log("Edit project icon")
+     ImagePicker.showImagePicker({}, (response) => {
+       if (response.didCancel) {
+         console.log('L\'utilisateur a annulé')
+       }
+       else if (response.error) {
+         console.log('Erreur : ', response.error)
+       }
+       else {
+         console.log('Photo : ', response.uri )
+         let requireSource = { uri: response.uri }
+         this.setState({
+           avatar: requireSource
+         })
+       }
+     })
    }
 
   _displayCalendar=(selectedStartDate,selectedEndDate )=> {
@@ -33,9 +63,9 @@ class CreateNewProjectPage extends React.Component {
     this.props.navigation.navigate('ProfilePage')
     }
 
+
    componentDidUpdate(prevProps){
      newHasParam = (typeof this.props.navigation.state.params === "object")
-
      if(newHasParam){
        if(this.state.selectedStartDate != this.props.navigation.state.params.selectedStartDate ){
          this.setState ({
@@ -53,14 +83,14 @@ class CreateNewProjectPage extends React.Component {
   _displaydate(date){
     if (date==null){
       return (
-        <Text>
+        <Text style={policeStyles.standard_text_disabled}>
          {"   Select date"}
         </Text>
       )
     }
     else {
       return (
-        <Text>
+        <Text  style={policeStyles.standard_text}>
          {"   "+moment(new Date(date)).format('DD/MM/YYYY')}
         </Text>
       )
@@ -70,7 +100,7 @@ class CreateNewProjectPage extends React.Component {
   _displayLoading() {
       if (this.state.isLoading) {
         return (
-          <View style={styles.loading_container}>
+          <View style={imageStyles.loading_container}>
             <ActivityIndicator size='large' />
           </View>
         )
@@ -80,7 +110,7 @@ class CreateNewProjectPage extends React.Component {
 _display_number_of_steps(target_val, step_size){
     if (! isNaN(Math.round(target_val / step_size))){
       return (
-        <Text>
+        <Text style={policeStyles.standard_text_disabled}>
          {"Your project will be divided in "+ Math.round(target_val / step_size)+" steps"}
         </Text>
       )
@@ -103,7 +133,6 @@ _default_step_size=(target_val)=> {
 _check_form=()=>{
   if (this._valid_title() && this._valid_description() && this._valid_dates() && this._valid_target_value() && this._valid_step_size() ) {
     this.setState({ isLoading: true })
-    //getFriendsFromUserId("4")
     postCreateNewProject(this.props.user.id, this.state.title,this.state.description,this._manageDate(this.state.selectedStartDate),this._manageDate(this.state.selectedEndDate), this.state.targetValue, this.state.stepSize, moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
     .then(data => {
            this.setState({ isLoading: false })
@@ -118,15 +147,23 @@ _check_form=()=>{
           })
    }
   else {
-    Alert.alert("Something went wrong ", " Please check the following fields:  \n -> Title: mandatory  \n -> Dates: mandatory  \n -> Target value: must be a number greater or equal to 1\n -> Step size: must be a number between 1 and Target value")
+    if (!this._valid_dates()){
+      Alert.alert("Something went wrong ", " Please enter start and end dates")
+    }
   }
 }
 
 _valid_title=()=>{
-  if (this.state.title !== "" ){
+  if  ((this.state.title).replace(/\s/g, '').length){
+    this.setState({
+      error_title: ''
+    })
     return (true)
   }
   else {
+    this.setState({
+      error_title:  'Please enter a valid title'
+    })
     return (false)
   }
 }
@@ -147,21 +184,30 @@ _valid_dates=()=>{
 
 _valid_target_value=()=>{
     if ((this.state.targetValue != null) && (! isNaN(this.state.targetValue)) &&  (1<= this.state.targetValue)) {
+      this.setState({
+        error_target:''
+      })
       return (true)
     }
     else {
-      console.log("target NOT ok")
+      this.setState({
+        error_target: 'Please enter a number greater or equal to 1'
+      })
       return (false)
     }
   }
 
 _valid_step_size=()=>{
     if ((this.state.stepSize !== null) && (! isNaN(this.state.stepSize)) &&  (1<= Number.parseInt(this.state.stepSize)) &&   (Number.parseInt(this.state.targetValue) >= Number.parseInt(this.state.stepSize))) {
+      this.setState({
+      error_step: ''
+      })
       return (true)
     }
     else {
-      console.log(this.state.stepSize)
-      console.log("step NOT ok")
+      this.setState({
+      error_step: 'Please enter a number between 1 and the target value'
+      })
       return (false)
     }
   }
@@ -172,112 +218,106 @@ _valid_step_size=()=>{
         <View style={styles.main_container}>
             <View   style={styles.row_container}>
               <ProjectIcon
-              imageSource={require('../../Images/project.png')}
-              iseditable="true"/>
+              imageSource={this.state.avatar}
+              iseditable="true"
+              action={this.edit_project_icon}/>
             </View>
           <View style={styles.sub_container}>
-            <View style ={styles.text_input_container}>
-              <TextInput
-                placeholderTextColor="black"
-                placeholder={'Insert your project title'}
-                maxLength = {40}
-                onChangeText={title=>this.setState({
-                          title
-                      })}/>
-            </View>
+            <Input
+            containerStyle={styles.input_container}
+            inputStyle={ policeStyles.standard_text}
+            labelStyle={policeStyles.label_text_input}
+            label='Project title'
+            placeholder={'Insert your project title'}
+            onChangeText={title=>{this.setState({  title   }),this._valid_title()}}
+            errorStyle={{ color: 'red' }}
+            errorMessage={this.state.error_title}/>
           </View>
           <View style={styles.sub_container}>
-            <View style ={styles.text_input_container}>
-              <TextInput
-              placeholderTextColor="black"
-              placeholder='Insert a description for your project'
-              multiline={true}
-              blurOnSubmit={true}
-              onChangeText={description=>this.setState({
-                        description
-                    })}>
-              </TextInput>
-            </View >
+            <Input
+            inputStyle={ policeStyles.standard_text}
+            multiline={true}
+            blurOnSubmit={true}
+            labelStyle={policeStyles.label_text_input}
+            containerStyle={styles.input_container}
+            label='Project description'
+            placeholder={'Insert a description for your project'}
+            onChangeText={description=>this.setState({  description})}/>
           </View >
 
           <View style={styles.sub_container}>
-              <Text style={styles.instruction_text}>
+              <Text style={policeStyles.description_text_disabled}>
                 &#10171; {"Define your project dates"}
               </Text>
               <View   style={styles.row_container_dates}>
                 <TouchableOpacity
                   style={styles.bouton_date}
                   onPress={() =>  this._displayCalendar(this.state.selectedStartDate,this.state.selectedEndDate)}>
-                  <Text style={styles.from_to_text}>{"From:"}  </Text>
+                  <Text style={policeStyles.label_text_input}>{"From:"}  </Text>
                   {this._displaydate(this.state.selectedStartDate)}
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.bouton_date}
                   onPress={() =>  this._displayCalendar(this.state.selectedStartDate,this.state.selectedEndDate)}>
-                  <Text style={styles.from_to_text}>{"To:"}  </Text>
+                  <Text style={policeStyles.label_text_input}>{"To:"}  </Text>
                   {this._displaydate(this.state.selectedEndDate)}
                 </TouchableOpacity>
               </View>
           </View>
 
-          <View style={styles.sub_container2}>
-              <Text style={styles.instruction_text}>
+          <View style={styles.sub_container}>
+              <Text style={policeStyles.description_text_disabled}>
               &#10171; {"Specify a quantitative target for your project"}
               </Text>
               <View   style={styles.row_container}>
                 <View style={styles.left} >
-                  <Text style={styles.from_to_text}>
-                  {"Target value: "}
-                  </Text>
-                </View>
-                <View
-                style ={[styles.text_input_container, ]}>
-                  <TextInput
-                    keyboardType="numeric"
-                    placeholderTextColor="grey"
-                    placeholder={''}
-                    onChangeText={(targetValue)=>this.setState({targetValue})}
-                    onEndEditing={() => this._default_step_size(this.state.targetValue)}/>
+                  <Input
+                  inputStyle={ policeStyles.standard_text}
+                  labelStyle={policeStyles.label_text_input}
+                  containerStyle={styles.input_container}
+                  label='Target value'
+                  keyboardType="numeric"
+                  onChangeText={(targetValue)=>{this.setState({targetValue}), this._valid_target_value()}}
+                  onEndEditing={() => this._default_step_size(this.state.targetValue)}
+                  errorStyle={{ color: 'red' }}
+                  errorMessage={this.state.error_target}/>
                 </View>
                 <View style={styles.right} >
-                  <Text >
+                  <Text style={policeStyles.standard_text_disabled}>
                   {"eg: Choose 8 if you wnat to read 8 books"}
                   </Text>
                 </View>
               </View>
           </View>
-          <View style={styles.sub_container2}>
-              <Text style={styles.instruction_text}>
+          <View style={styles.sub_container}>
+              <Text style={policeStyles.description_text_disabled}>
                 &#10171;  {"Specify a size for the steps of your project"}
               </Text>
               <View   style={styles.row_container}>
                 <View style={styles.left} >
-                  <Text style={styles.from_to_text}>
-                  {"Step size: "}
-                  </Text>
-                </View>
-                <View  style ={[styles.text_input_container, ]}>
-                  <TextInput
-                    keyboardType="numeric"
-                    placeholderTextColor="grey"
-                    placeholder={this.state.stepSize}
-                    onChangeText={(stepSizeTmp)=>this.setState({
-                              stepSizeTmp
-                          })}
-                    onEndEditing={()=>this.setState({stepSize:this.state.stepSizeTmp})}/>
+                <Input
+                inputStyle={ policeStyles.standard_text}
+                labelStyle={policeStyles.label_text_input}
+                containerStyle={styles.input_container}
+                label='Step size'
+                keyboardType="numeric"
+                placeholder={this.state.stepSize}
+                onChangeText={(stepSizeTmp)=>{this.setState({stepSizeTmp}), this._valid_step_size()}}
+                onEndEditing={()=>this.setState({stepSize:this.state.stepSizeTmp})}
+                errorStyle={{ color: 'red' }}
+                errorMessage={this.state.error_step}/>
                 </View>
                 <View style={styles.right} >
                    {  this._display_number_of_steps(this.state.targetValue, this.state.stepSize)}
                 </View>
               </View>
           </View>
-          <View  style={styles.sub_container2}>
+          <View  style={styles.sub_container}>
             <Button
-            title= "Create project"
-            onPress={
-              this._check_form
-              }
-            color="#40AFBF"
+            title= "Save project"
+            onPress={this._check_form  }
+            buttonStyle={{  backgroundColor: "#40AFBF"}}
+            titleStyle={[policeStyles.medium_text_center,{   color: "white" }]}
             />
           </View>
             {this._displayLoading()}
@@ -300,7 +340,6 @@ const styles = StyleSheet.create({
   Container_scrollView: {
    flex:1,
    backgroundColor:"#E5F1F3",
-   //justifyContent :'space-between',
       },
   row_container: {
    flex:1,
@@ -315,53 +354,27 @@ const styles = StyleSheet.create({
     },
   bouton_date:{
    flex:0.45,
-   borderWidth:1,
    paddingBottom:"1%",
    paddingTop:"1%",
    paddingLeft:"5%",
-   borderColor:'skyblue',
    borderRadius:10,
    backgroundColor:'white'
- },
- text_input_container:{
-   borderWidth:1,
-   borderColor:'skyblue',
-   borderRadius:10,
-   backgroundColor:'white'
- },
- from_to_text: {
-   fontWeight: 'bold',
-   fontSize:15,
- },
- instruction_text: {
-   fontStyle: "italic",
-   color:"#4B5E78",
  },
  sub_container:{
    flex:1,
    marginTop:'4%'
  },
- sub_container2:{
-   flex:1,
-   marginTop:'6%'
- },
  left:{
    flex :0.9,
-//   backgroundColor:'red'
  },
  right:{
    marginLeft:"3%",
    flex :2
  },
- loading_container: {
- position: 'absolute',
- left: 0,
- right: 0,
- top: 100,
- bottom: 0,
- alignItems: 'center',
- justifyContent: 'center'
-}
+input_container:{
+   backgroundColor:'white',
+   borderRadius:10,
+},
   })
 
   const mapStateToProps = (state) => {

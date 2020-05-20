@@ -10,7 +10,8 @@ import Panel from '../../Components/Panel';  // Step 1
 import ButtonSmallImage from '../../Components/ButtonSmallImage'
 import ProjectDetails from '../../Components/ProjectDetails'
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger} from 'react-native-popup-menu';
-
+import {imageStyles} from '../../Styles/Image_styles'
+import {policeStyles} from '../../Styles/police_styles'
 
 class ProjectPageHeader extends React.Component {
 
@@ -20,11 +21,12 @@ class ProjectPageHeader extends React.Component {
         <Menu>
             <MenuTrigger>
             <Image
-              style={styles.more_button_image}
+              style={imageStyles.more_button_image}
               source= {require('../../Images/more.png')}
             />
            </MenuTrigger>
-            <MenuOptions>
+            <MenuOptions
+              customStyles={{optionText: policeStyles.standard_text}}>
               <MenuOption
               onSelect={() => this.props.displayProjectSettings()}
               text={'  Edit project'} />
@@ -42,7 +44,7 @@ class ProjectPageHeader extends React.Component {
       <View>
       <View style={{flexDirection:"row",justifyContent:"space-between",  alignItems:"center"}}>
         <Text
-        style={styles.project_title_text}>
+        style={policeStyles.project_title_text}>
         {project.title}
         </Text>
         {this.display_options(optionsIsDisplayed)}
@@ -64,10 +66,10 @@ class ProjectPageHeader extends React.Component {
             imageSource={require('../../Images/hourglass6.png')}/>
             <View
             style={styles.date_container}>
-              <Text  style={styles.date}>
+              <Text  style={policeStyles.update_date}>
                {moment(new Date(project.project_start_date)).format('DD/MM/YY')}
               </Text>
-              <Text style={styles.date}>
+              <Text style={policeStyles.update_date}>
               {moment(new Date(project.project_end_date)).format('DD/MM/YY')}
               </Text>
             </View>
@@ -80,13 +82,15 @@ class ProjectPageHeader extends React.Component {
       <View
       style={styles.support_container} >
         <Image
-          style={styles.support_image}
+          style={imageStyles.support_image}
           source= {require('../../Images/support.png')}
         />
-        <Text   style={styles.support_text} >
-          {project.nb_supports}
-          {" people supported this project"}
-        </Text>
+        <View style={{marginLeft:"2%"}}>
+          <Text   style={policeStyles.standard_grey} >
+            {project.nb_supports}
+            {" people supported this project"}
+          </Text>
+        </View>
       </View>
       <View
       style={styles.desc_container} >
@@ -122,27 +126,6 @@ const styles = StyleSheet.create({
    image_container:{
     alignSelf:"center",
   },
-  support_image:{
-    width: 35,
-    height:35,
-  },
-  update_image:{
-    width: 40,
-    height:40,
-  },
-  settings_image:{
-    width: 25,
-    height: 25,
-    borderRadius:360,
-   },
-  project_title_text: {
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
-  support_text:{
-    color:"#4A4A4A",
-    fontWeight:"300",
-  },
   desc_container:{
     marginTop:"2%",
     marginBottom:"2%"
@@ -151,20 +134,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent:"space-between"
   },
-  date:{
-    fontSize: 12,
-    textAlign: 'left',
-    fontWeight:'bold',
-    color:'#777878'
-  },
   support_container:{
     flexDirection: 'row',
     alignItems:'center',
     marginTop:"3%"
   },
-  more_button_image:{
-    width: 25,
-    height: 25,
-   },
 })
 export default ProjectPageHeader

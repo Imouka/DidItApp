@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux'
 import { Modal, Text, TouchableHighlight, TouchableOpacity, View , Image, StyleSheet, TextInput, Alert, Keyboard} from 'react-native';
 import moment from 'moment'
+import { Input} from 'react-native-elements'
+import {imageStyles} from '../Styles/Image_styles'
+import {policeStyles} from '../Styles/police_styles'
 
 class AddProgression extends Component {
 
@@ -12,7 +15,9 @@ class AddProgression extends Component {
          modalVisible: false,
          description:"",
          progressValue:null,
-         height: '50%'
+         height: '50%',
+
+         error_progressValue:"",
      }
    //this._scrollToIndex=this._scrollToIndex.bind(this)
    }
@@ -51,7 +56,7 @@ class AddProgression extends Component {
            <TouchableOpacity
            onPress={() => {this.setState({modalVisible:true})}}>
              <Image
-               style={styles.update_image}
+               style={imageStyles.add_update_button}
                source= {require('../Images/progress.png')}/>
            </TouchableOpacity>
          )}
@@ -61,10 +66,21 @@ class AddProgression extends Component {
              onPress={() => {this.setState({modalVisible:true})}}
              disabled={true}>
                <Image
-                 style={[styles.update_image,{opacity: 0.2}]}
+                 style={[imageStyles.add_update_button,{opacity: 0.2}]}
                  source= {require('../Images/progress.png')}/>
              </TouchableOpacity>
            )}
+      }
+
+      _check_form(addProgression){
+        if (this.state.progressValue< 1){
+          this.setState({error_progressValue:"The progress value must be grater or equal to one"})
+        }
+        else{
+          this.setState({error_progressValue:""})
+          this.setState({modalVisible: false})
+          addProgression(parseInt(this.state.progressValue, 10 ), this.state.description)
+        }
       }
 
     render() {
@@ -76,48 +92,36 @@ class AddProgression extends Component {
                     <View style={{ width: '100%', height: '100%', backgroundColor: 'black', opacity: .6 }}/>
                     <View style={[{ position: 'absolute', width: '80%', height:this.state.height, backgroundColor: 'white', flex: 1, justifyContent: 'center', alignItems: 'center'}]}>
                         <View style={styles.main_container}>
-                            <Text style ={styles.text_title} >Update your project</Text>
-                            <View>
-                            <Text style={styles.instruction_text}>
-                              &#10171;  {"Specify a value for your progress"}
-                            </Text>
-                            <View   style={styles.row_container}>
-                              <View style={styles.left} >
-                                <Text style={styles.from_to_text}>
-                                {"Progress value: "}
-                                </Text>
-                              </View>
-                              <View  style ={[styles.text_input_container, ]}>
-                                <TextInput
-                                  keyboardType="numeric"
-                                  placeholderTextColor="grey"
-                                  placeholder={" "}
-                                  onChangeText={progressValue=>this.setState({
-                                            progressValue
-                                        })}
-                                  />
-                              </View>
-                            </View>
-                            </View>
-                            <View style ={styles.text_input_container}>
-                              <TextInput
-                                placeholder={'Describe your progress'}
-                                multiline={true}
-                                blurOnSubmit={true}
-                                maxHeight={80}
-                                onChangeText={description=>this.setState({
-                                          description
-                                      })}/>
-                            </View>
+                            <Text style ={policeStyles.project_title_text} >Update your project</Text>
+                            <Input
+                            inputStyle={ policeStyles.standard_text}
+                            labelStyle={policeStyles.label_text_input}
+                            label="Specify a value for your progress"
+                            keyboardType="numeric"
+                            onChangeText={progressValue=>this.setState({progressValue  })}
+                            errorStyle={{ color: 'red' }}
+                            errorMessage={this.state.error_progressValue}/>
+
+                            <Input
+                            inputStyle={ policeStyles.standard_text}
+                            labelStyle={policeStyles.label_text_input}
+                            label='Describe your progress'
+                            multiline={true}
+                            blurOnSubmit={true}
+                            maxHeight={80}
+                            onChangeText={description=>this.setState({
+                                      description
+                                  })}/>
+
                             <View style={styles.button_container}>
                             <TouchableOpacity
                               onPress={() => {this.setState({modalVisible: false})}
                                 }>
-                              <Text  style ={styles.button_text} >CANCEL</Text>
+                              <Text  style ={policeStyles.standard_text_center} >CANCEL</Text>
                             </TouchableOpacity>
                               <TouchableOpacity
-                                onPress={() => {this.setState({modalVisible: false}),  addProgression(parseInt(this.state.progressValue, 10 ), this.state.description)}}>
-                                <Text  style ={styles.button_text} >OK</Text>
+                                onPress={() => this._check_form(addProgression)}>
+                                <Text  style ={policeStyles.standard_text_center} >OK</Text>
                               </TouchableOpacity>
                             </View>
                         </View>
@@ -139,39 +143,13 @@ class AddProgression extends Component {
      marginTop:"2%",
      justifyContent :'space-between',
       },
-    text_title:{
-      fontWeight: 'bold',
-      fontSize:20,
-    },
-    update_image:{
-      width: 40,
-      height:40,
-    },
-    text_input_container:{
-      marginTop:"3%",
-      borderWidth:1,
-      borderColor:'#D5D5D5',
-      borderRadius:10,
-      backgroundColor:'white'
-    },
     row_container: {
      flexDirection: 'row',
      alignItems:'center',
      },
-     from_to_text: {
-       fontWeight: 'bold',
-       fontSize:15,
-     },
-     instruction_text: {
-       fontStyle: "italic",
-       color:"#494949",
-     },
      button_container:{
        flexDirection:"row",
        justifyContent :'space-around',
-     },
-     button_text: {
-       fontSize:14,
      },
   })
 

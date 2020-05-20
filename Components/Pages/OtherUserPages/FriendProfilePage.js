@@ -13,6 +13,8 @@ import SupportButton from '../../../Components/SupportButton'
 import moment from 'moment'
 import FriendProjectPage from '../../../Components/Pages/OtherUserPages/FriendProjectPage'
 import FriendFriendsListPage from '../../../Components/Pages/OtherUserPages/FriendFriendsListPage'
+import {imageStyles} from '../../../Styles/Image_styles'
+import {policeStyles} from '../../../Styles/police_styles'
 
 class FriendProfilePage extends React.Component {
 
@@ -26,7 +28,7 @@ class FriendProfilePage extends React.Component {
    _displayLoading() {
        if (this.state.isLoading) {
          return (
-           <View style={styles.loading_container}>
+           <View style={imageStyles.loading_container}>
              <ActivityIndicator size='large' />
            </View>
          )
@@ -153,7 +155,7 @@ _renderProjectsView(){
         </View>
         <View style={styles.NonFriendContainer}>
           <View   style={styles.NonFriendView}>
-            <Text style={styles.non_friend_text}>
+            <Text style={policeStyles.standard_text_disabled}>
              {" You can only see the projects of your friends"}
             </Text>
              <View style={{marginTop:"5%"}}>
@@ -203,7 +205,8 @@ _renderSeparator = () => {
 return (
   <View
     style={{
-      marginTop:'5%',
+      marginTop:'1%',
+      marginBottom:'1%',
       height: 1,
       width: "86%",
       backgroundColor: "#CED0CE",
@@ -266,21 +269,7 @@ const styles = StyleSheet.create({
   button_edit_project:{
     marginTop: "2%",
   },
-  loading_container: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 100,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center'
-},
-non_friend_text:{
-  color:"#4C4C4C",
-  fontSize:15,
-},
 NonFriendContainer:{
-  // backgroundColor:'#F2F2F2',
    alignItems:'center',
    justifyContent:'flex-end',
    flex:1,
@@ -290,14 +279,12 @@ NonFriendContainer:{
    marginRight:"4%" ,
    alignItems:'center',
    flex:0.9,
-   //justifyContent:'flex-end',
 },
 friend_item :{
   flexDirection:'row',
   flex:1,
   alignItems:"center",
 }
-
 })
 
 const mapStateToProps = (state) => {

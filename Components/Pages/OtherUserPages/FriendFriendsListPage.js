@@ -6,7 +6,8 @@ import SearchBar from '../../../Components/SearchBar'
 import {postHandleFriendship, searchInFriend_FriendList} from '../../../API/APITest'
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react-native-popup-menu';
 import update from '../../../Utils/Updaters.js';
-
+import {imageStyles} from '../../../Styles/Image_styles'
+import {policeStyles} from '../../../Styles/police_styles'
 
 import FriendProfilePage from '../../../Components/Pages/OtherUserPages/FriendProfilePage'
 import ProfilePage from '../../../Components/Pages/ProfilePage'
@@ -33,9 +34,6 @@ class FriendFriendsListPage extends React.Component {
    }
 
    componentDidUpdate(prevProps){
-     /*if(prevProps.friend_user.friend.id !=  this.props.friend_user.friend.id){
-         update.update_friend_user(this,this.props.user.id,this.props.friend_user.friend.id)
-     }*/
      if((prevProps.friend_user.friends != this.props.friend_user.friends ) && this.state.showFriendsOnly){
        console.log("FriendFriendsListPage -> componentDidUpdate frienduser"+this.props.friend_user.friend.first_name)
        this.setState({
@@ -50,7 +48,7 @@ class FriendFriendsListPage extends React.Component {
    _displayLoading() {
        if (this.state.isLoading) {
          return (
-           <View style={styles.loading_container}>
+           <View style={imageStyles.loading_container}>
              <ActivityIndicator size='large' />
            </View>
          )
@@ -195,15 +193,6 @@ const styles = StyleSheet.create({
   main_container: {
     marginLeft: '3%',
   },
-  loading_container: {
-  position: 'absolute',
-  left: 0,
-  right: 0,
-  top: 100,
-  bottom: 0,
-  alignItems: 'center',
-  justifyContent: 'center'
-}
 })
 
 const mapStateToProps = (state) => {

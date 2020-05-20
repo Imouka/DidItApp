@@ -12,7 +12,7 @@ import TextInputWithImage from '../../Components/TextInputWithImage'
 import update from '../../Utils/Updaters.js';
 import { postDeleteProject, postUpdateProject} from '../../API/APITest'
 import AddProgression from '../../Components/AddProgression'
-
+import {imageStyles} from '../../Styles/Image_styles'
 
 class ProjectPage extends React.Component {
 
@@ -103,10 +103,6 @@ class ProjectPage extends React.Component {
     }
 
   _add_progression_to_project=(progressValue, message)=>{
-     if (progressValue < 1 ) {
-        Alert.alert("Error", "The progress value must be grater or equal to one")
-      }
-     else {
        if (progressValue + this.state.project.progression >= this.state.project.objective  ) {
          progressValue =  this.state.project.objective-this.state.project.progression
          this.setState({ isLoading: true })
@@ -135,7 +131,6 @@ class ProjectPage extends React.Component {
                  Alert.alert("Error", "The action could not be performed, please try again later")
                })
        }
-     }
     }
 
     displayProfilePage=(friend_id)=>{
@@ -152,7 +147,7 @@ class ProjectPage extends React.Component {
 _displayLoading() {
     if (this.state.isLoading) {
       return (
-        <View style={styles.loading_container}>
+        <View style={imageStyles.loading_container}>
           <ActivityIndicator size='large' />
         </View>
       )
@@ -274,15 +269,6 @@ const styles = StyleSheet.create({
     marginBottom:'2%',
     marginLeft:"2%",
   },
-  loading_container: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 100,
-    bottom: 0,
-    alignItems: 'center',
-    justifyContent: 'center'
-}
 })
 
 const mapStateToProps = (state) => {

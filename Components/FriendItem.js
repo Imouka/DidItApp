@@ -51,9 +51,12 @@ class FriendItem extends React.Component {
               source= {require('../Images/more.png')}
             />
            </MenuTrigger>
-            <MenuOptions>
-              <MenuOption value={ String(frienditem.first_name)}
-              text={'  Unfriend'} />
+            <MenuOptions
+              customStyles={{optionText: policeStyles.standard_text}}>
+              <MenuOption
+              value={ String(frienditem.first_name)}
+              text={'  Unfriend'}
+            />
           </MenuOptions>
         </Menu>
         </View>
