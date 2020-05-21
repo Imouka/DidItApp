@@ -17,7 +17,7 @@ class Panel extends React.Component{
         };
 
         this.state = {
-          minHeight   :hp("3.4%"),
+          minHeight   : Math.min(hp("3.4%"),30),
           title_expanded      : props.title_expanded,
           title_closed   : props.title_closed,
           expanded    : false,
@@ -175,7 +175,7 @@ var styles = StyleSheet.create({
     container   : {
         backgroundColor: '#fff',
         overflow:'hidden',
-        height:hp("3.4%"),
+        height:Math.min(hp("3.4%"),30)
     },
     header :{
       flexDirection: 'row',

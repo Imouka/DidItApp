@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {View, StyleSheet, TextInput, FlatList, Alert, ActivityIndicator} from 'react-native'
+import {View, StyleSheet, TextInput, FlatList, Alert, ActivityIndicator, Text} from 'react-native'
 import FriendItem from '../../../Components/FriendItem'
 import SearchBar from '../../../Components/SearchBar'
 import {postHandleFriendship, searchInFriend_FriendList} from '../../../API/APITest'
@@ -43,7 +43,38 @@ class FriendFriendsListPage extends React.Component {
 
    }
 
-
+   _renderUserList=()=>{
+     console.log("FriendsListPage list length"+this.state.usersList.length)
+   if (this.state.usersList.length==0){
+     console.log("FriendsListPage list length =0")
+     return(
+       <View>
+         <View style={styles.NoResultsContainer}>
+             <Text style={policeStyles.standard_text_disabled}>
+              {" Your research produced no result"}
+             </Text>
+         </View>
+       </View>
+     )
+   }
+   else {
+     return(
+       <FlatList
+         data={this.state.usersList}
+         keyExtractor={(item) => item.id.toString()}
+         ref={(ref) => { this.flatListRef = ref; }}
+         ItemSeparatorComponent={this._renderSeparator}
+         renderItem={({item}) =>
+         <FriendItem
+           frienditem={item}
+           imageSource={require('../../../Images/profile_icon.png')}
+           handleFriendship={this.handleFriendship}
+           displayFriendProfilePage ={this.displayCorrectProfilePage}
+         />}
+     />
+     )
+   }
+   };
 
    _displayLoading() {
        if (this.state.isLoading) {
@@ -167,20 +198,8 @@ handleFriendship(friend, action_type){
  render() {
     return (
         <View style={styles.main_container}>
-          <FlatList
-            data={this.state.usersList}
-            keyExtractor={(item) => item.id.toString()}
-            ref={(ref) => { this.flatListRef = ref; }}
-            ItemSeparatorComponent={this._renderSeparator}
-            ListHeaderComponent={this._renderHeader}
-            renderItem={({item}) =>
-            <FriendItem
-              frienditem={item}
-              imageSource={require('../../../Images/profile_icon.png')}
-              handleFriendship={this.handleFriendship}
-              displayFriendProfilePage ={this.displayCorrectProfilePage}
-            />}
-        />
+        {this._renderHeader()}
+        {this._renderUserList()}
         {this._displayLoading()}
         </View>
     )
@@ -192,6 +211,14 @@ handleFriendship(friend, action_type){
 const styles = StyleSheet.create({
   main_container: {
     marginLeft: '3%',
+  },
+  NoResultsContainer:{
+     alignItems:'center',
+     justifyContent:'flex-end',
+     marginLeft:"4%" ,
+     marginRight:"4%" ,
+     marginTop:"5%" ,
+     flex:1,
   },
 })
 

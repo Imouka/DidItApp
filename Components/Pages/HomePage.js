@@ -10,6 +10,9 @@ import update from '../../Utils/Updaters.js';
 import {NavigationEvents} from 'react-navigation';
 import moment from 'moment'
 import {imageStyles} from '../../Styles/Image_styles'
+import {policeStyles} from '../../Styles/police_styles'
+
+
 
 class HomePage extends React.Component{
 
@@ -22,7 +25,6 @@ class HomePage extends React.Component{
 
   componentDidMount(){
     update.update_user(this, this.props.loggedid )
-
   }
 
   componentDidUpdate(prevProps){
@@ -129,6 +131,42 @@ _renderHeader=()=>{
   )
 }
 
+_renderPosts(){
+  if (this.props.feed.length==0){
+    return(
+      <View>
+        <View style={styles.NoResultsContainer}>
+            <Text style={policeStyles.standard_text_disabled_center}>
+             {" Your feed is still empty, create projects and add new friends ! "}
+            </Text>
+        </View>
+      </View>
+    )
+  } else {
+    return(
+      <FlatList
+      data={this.props.feed}
+      keyExtractor={(item) => item.id.toString()}
+      ref={(ref) => { this.flatListRef = ref; }}
+      ItemSeparatorComponent={this._renderSeparator}
+      ListHeaderComponent={ this._renderHeader}
+      renderItem={({item}) =>
+      <HomepagePostItem
+      projectImageSource={require("../../Images/project.png")}
+      userImageSource={require("../../Images/profile_icon.png")}
+      displayProfilePage={this.displayProfilePage}
+      displayProjectPage={this.displayProjectPage}
+      sendComment={this.send_comment}
+      isMyProject={(item.user.id==this.props.user.id)}
+      post={item}>
+      <UpdateItem
+      UsernameIsDisplayed={false}
+      update={item.update}/>
+      </HomepagePostItem>}
+      />
+    )
+  }
+}
 
 
 render() {
@@ -136,30 +174,22 @@ render() {
     <View>
     {this._displayLoading()}
     <NavigationEvents onWillFocus={() => update.update_feed(this,this.props.loggedid)} />
-    <FlatList
-    data={this.props.feed}
-    keyExtractor={(item) => item.id.toString()}
-    ref={(ref) => { this.flatListRef = ref; }}
-    ItemSeparatorComponent={this._renderSeparator}
-    ListHeaderComponent={ this._renderHeader}
-    renderItem={({item}) =>
-    <HomepagePostItem
-    projectImageSource={require("../../Images/project.png")}
-    userImageSource={require("../../Images/profile_icon.png")}
-    displayProfilePage={this.displayProfilePage}
-    displayProjectPage={this.displayProjectPage}
-    sendComment={this.send_comment}
-    isMyProject={(item.user.id==this.props.user.id)}
-    post={item}>
-    <UpdateItem
-    UsernameIsDisplayed={false}
-    update={item.update}/>
-    </HomepagePostItem>}
-    />
+    {this._renderPosts()}
     </View>
   )
 }
 }
+
+const styles = StyleSheet.create({
+  NoResultsContainer:{
+     alignItems:'center',
+     justifyContent:'flex-end',
+     marginLeft:"4%" ,
+     marginRight:"4%" ,
+     marginTop:"10%" ,
+     flex:1,
+  },
+})
 
 const mapStateToProps = (state) => {
   return {

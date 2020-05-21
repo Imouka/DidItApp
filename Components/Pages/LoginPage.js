@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import {AppRegistry, StyleSheet, Text, View, Button, TextInput, Image} from 'react-native';
+import {AppRegistry, StyleSheet, Text, View, TextInput, Image} from 'react-native';
 import { getUserFromId, postLogin} from '../../API/APITest'
 import Navigation from '../../Navigation/Navigation'
 import {LoginButton, AccessToken, LoginManager} from 'react-native-fbsdk'
 import moment from 'moment'
 import {imageStyles} from '../../Styles/Image_styles'
+import {Button} from 'react-native-elements'
+import {policeStyles} from '../../Styles/police_styles'
 
 class LoginPage extends Component {
 
@@ -71,10 +73,14 @@ render(){
         <Image
         style={imageStyles.home_page_image}
         source={require('../../Images/main_page.png')}/>
-        <Button
-        onPress={() => this.handleFacebookLogin(this.loginFbResult.bind(this))}
-        title="Continue with fb"
-        color="#4267B2"/>
+          <Button
+          title= "Continue with fb"
+          raised={true}
+          onPress={() => this.handleFacebookLogin(this.loginFbResult.bind(this))}
+          buttonStyle={{  backgroundColor: "#4267B2", paddingLeft:"5%",  paddingRight:"5%"}}
+          titleStyle={[policeStyles.medium_text_center,{   color: "white" }]}
+          />
+
         <View>
           <TextInput
           label='id'

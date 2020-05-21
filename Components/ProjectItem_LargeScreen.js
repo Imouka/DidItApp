@@ -57,7 +57,7 @@ class ProjectItem extends React.Component {
 
                   <View >
                       <View
-                      style={{marginTop:8, flexDirection:'row'}}>
+                      style={{marginTop:8, flexDirection:'row', alignItems:"center"}}>
                       <View style={{flex:4, marginRight:"1%",  marginLeft:"1%"}}>
                         <ProgressBarWithImage
                           progression={Math.round(project.progression_percentage * 100) + "%"}
@@ -65,13 +65,13 @@ class ProjectItem extends React.Component {
                       </View>
                       <View style={{flex:2}}>
                       <Text style={policeStyles.update_date}>
-                          {project.progression}  &#8594; {project.objective}
+                       {project.objective}
                       </Text>
                       </View>
                       </View>
 
                       <View
-                      style={{marginTop:8, flexDirection:'row'}}>
+                      style={{marginTop:8, flexDirection:'row', alignItems:"center"}}>
                       <View style={{flex:4, marginRight:"1%",  marginLeft:"1%"}}>
                         <ProgressBarWithImage
                           progression={Math.round(project.time_progression * 100) + "%"}
@@ -79,7 +79,7 @@ class ProjectItem extends React.Component {
                       </View>
                       <View style={{flex:2}}>
                       <Text style={policeStyles.update_date}>
-                            {moment(new Date(project.project_start_date)).format('DD/MM/YY')} &#8594; {moment(new Date(project.project_end_date)).format('DD/MM/YY')}
+                       {moment(new Date(project.project_end_date)).format('DD/MM/YY')}
                       </Text>
                       </View>
 

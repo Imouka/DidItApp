@@ -10,6 +10,7 @@ import update from '../../Utils/Updaters.js';
 import {imageStyles} from '../../Styles/Image_styles'
 import {policeStyles} from '../../Styles/police_styles'
 
+import DeviceInfo from 'react-native-device-info';
 
 class ProfilePage extends React.Component {
 
@@ -111,11 +112,9 @@ _scrollToIndex = () => {
   }
 }
 
-  render() {
+_renderProjectItems(){
+  if (DeviceInfo.isTablet()) {
     return (
-      <View
-      style={styles.main_container}>
-      {this._displayLoading()}
       <FlatList
         data={this.props.projects}
         keyExtractor={(item) => item.id.toString()}
@@ -129,6 +128,33 @@ _scrollToIndex = () => {
             displayDetailForProject={this._displayDetailForProject}
         />}
       />
+    )
+  }
+  else {
+    return (
+      <FlatList
+        data={this.props.projects}
+        keyExtractor={(item) => item.id.toString()}
+        ref={(ref) => { this.flatListRef = ref; }}
+        ItemSeparatorComponent={this._renderSeparator}
+        ListHeaderComponent={this._renderHeader}
+        renderItem={({item}) =>
+        <ProjectItem
+            project={item}
+            imageSource={require('../../Images/project.png')}
+            displayDetailForProject={this._displayDetailForProject}
+        />}
+      />
+    )
+  }
+}
+
+  render() {
+    return (
+      <View
+      style={styles.main_container}>
+      {this._displayLoading()}
+      {this._renderProjectItems()}
         </View>
     )
   }

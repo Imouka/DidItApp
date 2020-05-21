@@ -75,7 +75,7 @@ send_comment=(message) => {
  _display_add_comment(isMyProject) {
    if (!isMyProject){
      return (
-       <View style={{marginTop:-10}}>
+       <View>
          <TextInputWithImage
          text={"Add a comment"}
          imageSource= {require("../Images/profile_icon.png")}
@@ -153,13 +153,14 @@ const styles = StyleSheet.create({
    left_container:{
     flex:4,
     flexDirection: 'row',
-    paddingRight:'1%',
+    paddingRight:"3%",
+  //  backgroundColor:'red'
   },
   right_container:{
     flex:2.5,
-    paddingLeft:"1.5%",
     flexDirection: 'row',
     justifyContent:"flex-end",
+  //  backgroundColor:'blue'
   },
 })
 

@@ -157,15 +157,14 @@ top_scrollable_bar_titleView:{
  alignSelf:"center"
 },
 panel_button : {
-    width   :hp(f),
-    height  : hp(f)
+    width   :Math.min(hp(f),30),
+    height  :Math.min(hp(f),30),
 },
 new_friends_notif: {
   backgroundColor:'#79D2A6',
   position: 'absolute',
   borderRadius: 360,
-  right:- (hp(b)/2),
-  top: 0,
+  right:- (hp(b)/3),
   width: hp(b),
   height: hp(f),
 },

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import {View, StyleSheet, TextInput, FlatList, Alert, ActivityIndicator} from 'react-native'
+import {View, StyleSheet, TextInput, FlatList, Alert, ActivityIndicator, Text} from 'react-native'
 import FriendItem from '../../Components/FriendItem'
 import SearchBar from '../../Components/SearchBar'
 import {postHandleFriendship,searchInAllDB} from '../../API/APITest'
@@ -8,6 +8,8 @@ import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger, } from 'react
 import update from '../../Utils/Updaters.js';
 import {NavigationEvents} from 'react-navigation';
 import {imageStyles} from '../../Styles/Image_styles'
+import {policeStyles} from '../../Styles/police_styles'
+
 
 import FriendProfilePage from '../../Components/Pages/OtherUserPages/FriendProfilePage'
 
@@ -95,6 +97,39 @@ class FriendsListPage extends React.Component {
   )
   };
 
+  _renderUserList=()=>{
+    console.log("FriendsListPage list length"+this.state.usersList.length)
+  if (this.state.usersList.length==0){
+    console.log("FriendsListPage list length =0")
+    return(
+      <View>
+        <View style={styles.NoResultsContainer}>
+            <Text style={policeStyles.standard_text_disabled}>
+             {" Your research produced no result"}
+            </Text>
+        </View>
+      </View>
+    )
+  }
+  else {
+    return(
+      <FlatList
+        data={this.state.usersList}
+        keyExtractor={(item) => item.id.toString()}
+        ref={(ref) => { this.flatListRef = ref; }}
+        ItemSeparatorComponent={this._renderSeparator}
+        renderItem={({item}) =>
+        <FriendItem
+          frienditem={item}
+          imageSource={require('../../Images/profile_icon.png')}
+          handleFriendship={this.handleFriendship}
+          displayFriendProfilePage ={this.displayFriendProfilePage}
+
+        />}
+      />
+    )
+  }
+  };
 
 
 
@@ -154,21 +189,8 @@ handleFriendship(friend, action_type){
 
         <View style={styles.main_container}>
               <NavigationEvents onWillFocus={() => update.update_friendlist(this,this.props.user.id)} />
-        <FlatList
-          data={this.state.usersList}
-          keyExtractor={(item) => item.id.toString()}
-          ref={(ref) => { this.flatListRef = ref; }}
-          ItemSeparatorComponent={this._renderSeparator}
-          ListHeaderComponent={this._renderHeader}
-          renderItem={({item}) =>
-          <FriendItem
-            frienditem={item}
-            imageSource={require('../../Images/profile_icon.png')}
-            handleFriendship={this.handleFriendship}
-            displayFriendProfilePage ={this.displayFriendProfilePage}
-
-          />}
-        />
+        {this._renderHeader()}
+        {this._renderUserList()}
         {this._displayLoading()}
         </View>
     )
@@ -180,6 +202,14 @@ handleFriendship(friend, action_type){
 const styles = StyleSheet.create({
   main_container: {
     marginLeft: '3%',
+  },
+  NoResultsContainer:{
+     alignItems:'center',
+     justifyContent:'flex-end',
+     marginLeft:"4%" ,
+     marginRight:"4%" ,
+      marginTop:"5%" ,
+     flex:1,
   },
 })
 

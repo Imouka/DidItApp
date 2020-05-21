@@ -21,13 +21,24 @@ import FriendsFriendListPageTitle from '../Components/FriendsFriendListPageTitle
 import FriendProfilePage from '../Components/Pages/OtherUserPages/FriendProfilePage'
 import FriendProjectPage from '../Components/Pages/OtherUserPages/FriendProjectPage'
 import FriendFriendsListPage from '../Components/Pages/OtherUserPages/FriendFriendsListPage'
+import {imageStyles} from '../Styles/Image_styles'
+import {policeStyles} from '../Styles/police_styles'
+import {
+ heightPercentageToDP as hp,
+ widthPercentageToDP as wp,
+} from '../Utils/react-native-responsive-screen'
+
 
 const ProfileStackNavigator = createStackNavigator({
   ProfilePage: {
     screen: ProfilePage,
     navigationOptions: {
-      title: 'Your Profile'
+      title: 'Your Profile',
+      headerTitleStyle: {
+         fontSize:  Math.min(hp('3.2%'),25)
+      },
     }
+
   },
   ProjectPage: {
    screen: ProjectPage,
@@ -41,8 +52,12 @@ const ProfileStackNavigator = createStackNavigator({
  FriendsListPage:{
    screen : FriendsListPage,
    navigationOptions: {
-     title: 'Your Friends'
-   }
+     title: 'Your Friends',
+    headerTitleStyle: {
+       fontSize:  Math.min(hp('3.2%'),25)
+    },
+   },
+
  },
  Calendar:{
    screen : Calendar,
@@ -72,7 +87,10 @@ const SearchStackNavigator = createStackNavigator({
   FriendsListPage: {
     screen: FriendsListPage,
     navigationOptions: {
-      title: 'Your Friends'
+      title: 'Your Friends',
+      headerTitleStyle: {
+         fontSize:  Math.min(hp('3.2%'),25)
+      },
     }
   },
   FriendProfilePage: {
@@ -102,7 +120,7 @@ const HomeStackNavigator = createStackNavigator({
     screen:HomePage,
     navigationOptions: {
       headerTitle: (
-           <Image style={{ width: 150, height: 40 }} source={require('../Images/app_logo_.png')}/>
+           <Image style={{ width:Math.min(hp( '22%')), height:Math.min(hp('6.7%')) }} source={require('../Images/app_logo_.png')}/>
             ),
     /*  headerRight: (navigation) => {
             return <Notifications />;
@@ -115,7 +133,10 @@ const HomeStackNavigator = createStackNavigator({
    ProfilePage: {
      screen: ProfilePage,
      navigationOptions: {
-       title: 'Your Profile'
+       title: 'Your Profile',
+       headerTitleStyle: {
+          fontSize:  Math.min(hp('3.2%'),25)
+       },
      }
    },
    FriendProfilePage: {
@@ -148,7 +169,7 @@ const DidItTabNavigator=createBottomTabNavigator(
         return <Image
           source={require('../Images/user.png')}
           style={styles.icon}/>
-      }
+      },
      }
    },
    FriendsListPage:{
@@ -178,8 +199,8 @@ const DidItTabNavigator=createBottomTabNavigator(
 
 const styles = StyleSheet.create({
     icon: {
-      width: 20,
-      height:20,
+      width:  Math.min(hp('3%'),25),
+      height: Math.min(hp('3%'),25),
   },
 })
 
