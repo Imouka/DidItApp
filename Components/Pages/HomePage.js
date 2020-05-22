@@ -123,7 +123,6 @@ _renderHeader=()=>{
   return (
     <View >
     <LateralBar
-    imageSource={require('../../Images/project.png')}
     projects={this.props.projects}
     displayDetailForProject={this._displayDetailForProject}/>
     {this._renderSeparatortop()}
@@ -152,8 +151,7 @@ _renderPosts(){
       ListHeaderComponent={ this._renderHeader}
       renderItem={({item}) =>
       <HomepagePostItem
-      projectImageSource={require("../../Images/project.png")}
-      userImageSource={require("../../Images/profile_icon.png")}
+      userImageSource={{uri:this.props.user.icon}}
       displayProfilePage={this.displayProfilePage}
       displayProjectPage={this.displayProjectPage}
       sendComment={this.send_comment}

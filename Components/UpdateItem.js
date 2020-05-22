@@ -62,12 +62,12 @@ _displayUserName(first_name, last_name) {
  }
 }
 
-_displayUserImage(action,update) {
+_displayUserImage(action,update,user_icon) {
    if (this.props.UsernameIsDisplayed) { {
        return (
          <View>
          <ButtonSmallImage
-           imageSource= {require("../Images/profile_icon.png")}
+           imageSource= {user_icon}
            action={()=>action(update.user_id)}/>
          </View>)
      }
@@ -76,11 +76,11 @@ _displayUserImage(action,update) {
 
 
   render() {
-    const { update, user_first_name, user_last_name, action}=this.props
+    const { update, user_first_name, user_last_name, action, user_icon}=this.props
     return (
       <View
       style={styles.main_container}>
-        {this._displayUserImage(action,update)}
+        {this._displayUserImage(action,update,user_icon)}
         <View  style={{ flex:1, marginLeft:"2%"}}>
           {this._displayUserName(user_first_name,user_last_name)}
             <Text  style={policeStyles.standard_text_center}>

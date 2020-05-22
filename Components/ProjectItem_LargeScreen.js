@@ -32,7 +32,7 @@ class ProjectItem extends React.Component {
 
 
   render() {
-    const{imageSource,project, displayDetailForProject}=this.props
+    const{project, displayDetailForProject}=this.props
     return (
       <View>
         <TouchableOpacity
@@ -41,7 +41,7 @@ class ProjectItem extends React.Component {
             <View style = {styles.project_image_container}>
               <View style={{alignSelf:'center'}}>
                  <ProjectIcon
-                 imageSource={imageSource}/>
+                 imageSource={{uri:project.logo}}/>
               </View>
             </View>
 

@@ -160,7 +160,7 @@ _render_add_update_input(is_over){
       <View style={[styles.add_update_container]} >
          <TextInputWithImage
          text={"Add an update"}
-         imageSource= {require("../../Images/profile_icon.png")}
+         imageSource= {{uri:this.props.user.icon}}
          action={this._add_update_to_project}/>
      </View>
     )
@@ -173,7 +173,6 @@ _render_add_update_input(is_over){
         <View style={styles.header_container}>
          <ProjectPageHeader
          project={this.state.project}
-         imageProject={require('../../Images/project.png')}
          displayProjectSettings={this.displayProjectSettings}
          deleteProject={this.deleteProject}
          optionsIsDisplayed={true}>
@@ -207,6 +206,7 @@ _display_item=(item)=>{
          <UpdateItem
          UsernameIsDisplayed={true}
          update={item}
+         user_icon={{uri:this.props.user.icon}}
          user_first_name={this.props.user.first_name}
          user_last_name={this.props.user.last_name}
          action={this.displayProfilePage}/>

@@ -4,12 +4,12 @@ class Updaters {
 
     update_user(ctx, id){
       ctx.setState({ isLoading: true })
-      getUserFromId(id).then(data => {
+      return(getUserFromId(id).then(data => {
         ctx.props.dispatch({ type: "UPDATE_USER", value: data })
         ctx.setState({
               isLoading: false
             })
-      })
+      }))
     }
 
     update_projects(ctx,id){

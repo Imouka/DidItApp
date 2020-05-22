@@ -1,6 +1,5 @@
 import React from 'react'
 import {View, StyleSheet, TouchableOpacity,Text, Image,Button, Alert} from 'react-native'
-import UserIcon from '../Components/UserIcon'
 import ConfirmDeleteButton from '../Components/ConfirmDeleteButton'
 import AddFriendButton from '../Components/AddFriendButton'
 import { MenuProvider, Menu, MenuOptions, MenuOption, MenuTrigger} from 'react-native-popup-menu';
@@ -79,7 +78,7 @@ class FriendItem extends React.Component {
 
 
   render() {
-    const{imageSource,frienditem,handleFriendship, displayFriendProfilePage}=this.props
+    const{frienditem,handleFriendship, displayFriendProfilePage}=this.props
     return (
       <View style={styles.main_container}>
         <View style={{flex:4}}>
@@ -89,7 +88,7 @@ class FriendItem extends React.Component {
             <View style={styles.user_image_container}>
               <Image
                 style={imageStyles.friendList_user_avatar}
-                source= {imageSource}
+                source= {{uri:frienditem.icon}}
               />
             </View>
             <View style={styles.user_name_container}>

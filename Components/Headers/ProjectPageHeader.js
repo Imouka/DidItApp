@@ -39,7 +39,7 @@ class ProjectPageHeader extends React.Component {
    }
 
   render() {
-    const {project,imageProject, optionsIsDisplayed}=this.props
+    const {project, optionsIsDisplayed}=this.props
     return (
       <View>
       <View style={{flexDirection:"row",justifyContent:"space-between",  alignItems:"center"}}>
@@ -58,7 +58,8 @@ class ProjectPageHeader extends React.Component {
         <View
           style={styles.image_container}>
           <ProjectIcon
-          imageSource={imageProject}/>
+          imageSource={{uri:project.logo}}
+          must_opacify={project.is_done}/>
         </View>
         <View
         style={styles.progress_container}>

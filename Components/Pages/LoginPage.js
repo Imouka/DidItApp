@@ -93,6 +93,8 @@ render(){
   }
 }
 }
+//  source={{uri : 'https://diditapp.s3.eu-west-3.amazonaws.com/project_icons/1800x1200_cat_relaxing_on_patio_other.jpg'}}/>
+//  source={require('../../Images/main_page.png')}/>
 
 const styles = StyleSheet.create({
   main_container: {

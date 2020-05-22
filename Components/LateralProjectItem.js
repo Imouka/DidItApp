@@ -27,7 +27,7 @@ class LateralProjectItem extends React.Component {
 
 
   render() {
-    const{imageSource, project, displayDetailForProject}=this.props
+    const{project, displayDetailForProject}=this.props
     return (
     <TouchableOpacity
     onPress={ () => displayDetailForProject(project.id)}
@@ -46,7 +46,7 @@ class LateralProjectItem extends React.Component {
            style = {{alignSelf:"center"}}>
               <ProjectIcon
               style = {[{justifyContent:'center'}]}
-              imageSource={imageSource}/>
+              imageSource={{uri:project.logo }}/>
           </View>
           <View
           style={{marginTop:8, alignSelf:"center"}}>

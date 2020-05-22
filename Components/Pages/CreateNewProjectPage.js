@@ -5,7 +5,7 @@ import {Button} from 'react-native-elements'
 import ProjectIcon from '../../Components/ProjectIcon';
 import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
-import{postCreateNewProject, getProjectFromUserId} from '../../API/APITest'
+import{postCreateNewProject, getProjectFromUserId, postUpdateProjectImage } from '../../API/APITest'
 import update from '../../Utils/Updaters.js';
 import {imageStyles} from '../../Styles/Image_styles'
 import {policeStyles} from '../../Styles/police_styles'
@@ -18,7 +18,7 @@ class CreateNewProjectPage extends React.Component {
   constructor(props) {
      super(props);
      this.state = {
-        avatar: require("../../Images/project.png"),
+        avatar: require('../../Images/project.png'),
        title:"",
        description:"",
        selectedStartDate: null,
@@ -28,6 +28,7 @@ class CreateNewProjectPage extends React.Component {
        stepNumber:null,
        stepSizeTmp:null,
        isLoading:false,
+       changed_avatar:false,
 
         error_title:"",
         error_target:"",
@@ -35,6 +36,18 @@ class CreateNewProjectPage extends React.Component {
      };
       this.edit_project_icon = this.edit_project_icon.bind(this)
    }
+
+   createFormData = (photo) => {
+     const data = new FormData();
+     data.append("file", {
+       name: photo.fileName,
+       type: photo.type,
+       uri:
+         Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
+     });
+     return data;
+   };
+
 
    edit_project_icon(){
      console.log("Edit project icon")
@@ -47,9 +60,10 @@ class CreateNewProjectPage extends React.Component {
        }
        else {
          console.log('Photo : ', response.uri )
-         let requireSource = { uri: response.uri }
+         //let requireSource = { uri: response.uri }
          this.setState({
-           avatar: requireSource
+           avatar: response,
+           changed_avatar:true,
          })
        }
      })
@@ -123,7 +137,6 @@ _manageDate(date){
   )
 }
 
-
 _default_step_size=(target_val)=> {
        this.setState({
          stepSize: Math.max(1, Math.round(target_val /10)).toString()
@@ -131,9 +144,13 @@ _default_step_size=(target_val)=> {
   }
 
 _check_form=()=>{
-  if (this._valid_title() && this._valid_description() && this._valid_dates() && this._valid_target_value() && this._valid_step_size() ) {
+  var valid_form =this._valid_title() && this._valid_description() && this._valid_dates() && this._valid_target_value() && this._valid_step_size()
+  if ( valid_form && this.state.changed_avatar) {
     this.setState({ isLoading: true })
     postCreateNewProject(this.props.user.id, this.state.title,this.state.description,this._manageDate(this.state.selectedStartDate),this._manageDate(this.state.selectedEndDate), this.state.targetValue, this.state.stepSize, moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
+    .then(data =>{
+      console.log(data)
+      return postUpdateProjectImage(data.id,this.createFormData(this.state.avatar))})
     .then(data => {
            this.setState({ isLoading: false })
            update.update_projects(this, this.props.user.id)
@@ -146,11 +163,25 @@ _check_form=()=>{
             Alert.alert("Error", "The action could not be performed, please try again later")
           })
    }
-  else {
-    if (!this._valid_dates()){
+   else if (valid_form){
+     this.setState({ isLoading: true })
+     postCreateNewProject(this.props.user.id, this.state.title,this.state.description,this._manageDate(this.state.selectedStartDate),this._manageDate(this.state.selectedEndDate), this.state.targetValue, this.state.stepSize, moment(new Date()).format("YYYY-MM-DD HH:mm:ss"))
+     .then(data => {
+            this.setState({ isLoading: false })
+            update.update_projects(this, this.props.user.id)
+            update.update_user(this,this.props.loggedid )
+            this._displayProfilePage()
+            Alert.alert("New project created ","your new project has been created")
+           })
+     .catch(data => {
+             this.setState({ isLoading: false })
+             Alert.alert("Error", "The action could not be performed, please try again later")
+           })
+   }
+  else if (!this._valid_dates()){
       Alert.alert("Something went wrong ", " Please enter start and end dates")
     }
-  }
+
 }
 
 _valid_title=()=>{
@@ -229,7 +260,8 @@ _valid_step_size=()=>{
             labelStyle={policeStyles.label_text_input}
             label='Project title'
             placeholder={'Insert your project title'}
-            onChangeText={title=>{this.setState({  title   }),this._valid_title()}}
+            onChangeText={title=>this.setState({title})}
+            onEndEditing={() => this._valid_title()}
             errorStyle={{ color: 'red' }}
             errorMessage={this.state.error_title}/>
           </View>
@@ -277,8 +309,8 @@ _valid_step_size=()=>{
                   containerStyle={styles.input_container}
                   label='Target value'
                   keyboardType="numeric"
-                  onChangeText={(targetValue)=>{this.setState({targetValue}), this._valid_target_value()}}
-                  onEndEditing={() => this._default_step_size(this.state.targetValue)}
+                  onChangeText={(targetValue)=>this.setState({targetValue})}
+                  onEndEditing={() => {this._default_step_size(this.state.targetValue),this._valid_target_value()}}
                   errorStyle={{ color: 'red' }}
                   errorMessage={this.state.error_target}/>
                 </View>
@@ -302,8 +334,8 @@ _valid_step_size=()=>{
                 label='Step size'
                 keyboardType="numeric"
                 placeholder={this.state.stepSize}
-                onChangeText={(stepSizeTmp)=>{this.setState({stepSizeTmp}), this._valid_step_size()}}
-                onEndEditing={()=>this.setState({stepSize:this.state.stepSizeTmp})}
+                onChangeText={(stepSizeTmp)=>this.setState({stepSizeTmp})}
+                onEndEditing={()=>{this.setState({stepSize:this.state.stepSizeTmp}),this._valid_step_size()}}
                 errorStyle={{ color: 'red' }}
                 errorMessage={this.state.error_step}/>
                 </View>

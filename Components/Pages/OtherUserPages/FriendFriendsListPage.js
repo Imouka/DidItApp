@@ -67,7 +67,6 @@ class FriendFriendsListPage extends React.Component {
          renderItem={({item}) =>
          <FriendItem
            frienditem={item}
-           imageSource={require('../../../Images/profile_icon.png')}
            handleFriendship={this.handleFriendship}
            displayFriendProfilePage ={this.displayCorrectProfilePage}
          />}

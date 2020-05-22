@@ -14,7 +14,7 @@ class SupportItem extends React.Component {
         style={styles.main_container}>
           <View  style={{flex:1}}>
           <ButtonSmallImage
-            imageSource= {require("../Images/profile_icon.png")}
+            imageSource= {{uri:support.icon}}
             action={()=>action(support.user_id)}/>
           </View>
           <View style={{flex:10}} >
@@ -48,6 +48,9 @@ class SupportItem extends React.Component {
   }
 }
 export default SupportItem
+
+//  imageSource= {{support.icon}}
+
 
 const styles = StyleSheet.create({
   main_container: {

@@ -273,3 +273,58 @@ export function searchInFriend_FriendList(user_id, search_entry, friend_id){
      throw error;
  })
 }
+
+
+export function postUpdateProjectImage(project_id,data_form){
+  const url ="https://did-it-server.herokuapp.com/projects/"+project_id+"/modifyimage"
+  console.log("API TEST Update Image Projet");
+  console.log(project_id)
+  return fetch(url, {
+     method: 'POST',
+     redirect:'follow',
+     body: data_form
+   })
+    .then((response)=>console.log(response))
+    .catch((error)=>{
+      console.log(error);
+      throw error;
+  })
+}
+
+export function postUpdateUserImage(user_id,data_form){
+  const url ="https://did-it-server.herokuapp.com/users/"+user_id+"/modifyimage"
+  console.log("API TEST Update Image User");
+  console.log(user_id)
+  return fetch(url, {
+     method: 'POST',
+     redirect:'follow',
+     body: data_form
+   })
+    .then((response)=>console.log(response))
+    .catch((error)=>{
+      console.log(error);
+      throw error;
+  })
+}
+
+export function postUpdateUserProfile(user_id,first_name,last_name,description){
+  const url ="https://did-it-server.herokuapp.com/users/"+user_id+"/modifyProfile"
+  return fetch(url, {
+     method: 'POST',
+     redirect:'follow',
+     headers: {
+       Accept: 'application/json',
+       'Content-Type': 'application/json',
+     },
+     body: JSON.stringify({
+       first_name:first_name,
+       last_name:last_name,
+       description:description,
+     })
+   })
+    .then((response)=>console.log(response))
+    .catch((error)=>{
+      console.log(error);
+      throw error;
+  })
+}

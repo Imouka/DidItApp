@@ -68,7 +68,7 @@ class FriendProjectPage extends React.Component {
         <View style={[styles.add_update_container]} >
            <TextInputWithImage
            text={"Add a comment"}
-           imageSource= {require("../../../Images/profile_icon.png")}
+           imageSource= {{uri:this.props.user.icon}}
            action={this.send_comment}/>
        </View>
       )
@@ -91,7 +91,6 @@ class FriendProjectPage extends React.Component {
         <View style={styles.header_container}>
          <ProjectPageHeader
          project={this.state.project}
-         imageProject={require('../../../Images/project.png')}
          displayProjectSettings={console.log}
          deleteProject={console.log}
          optionsIsDisplayed={false}>
@@ -159,6 +158,7 @@ class FriendProjectPage extends React.Component {
          <UpdateItem
            UsernameIsDisplayed={true}
            update={item}
+           user_icon={{uri:this.props.friend_user.friend.icon}}
            user_first_name={this.props.friend_user.friend.first_name}
            user_last_name={this.props.friend_user.friend.last_name}
            action={this.displayProfilePage}/>

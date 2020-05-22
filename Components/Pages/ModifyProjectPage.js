@@ -5,7 +5,7 @@ import {Button} from 'react-native-elements'
 import ProjectIcon from '../../Components/ProjectIcon';
 import CalendarPicker from 'react-native-calendar-picker';
 import moment from 'moment';
-import {postModifyProject } from '../../API/APITest'
+import {postModifyProject, postUpdateProjectImage } from '../../API/APITest'
 import update from '../../Utils/Updaters.js';
 import ImagePicker from 'react-native-image-picker'
 import { Input} from 'react-native-elements'
@@ -17,7 +17,7 @@ class ModifyProjectPage extends React.Component {
   constructor(props) {
      super(props);
      this.state = {
-       avatar: require("../../Images/project.png"),
+       avatar: {uri:this.props.navigation.state.params.project.logo},
        title:"",
        description:"",
        selectedStartDate: null,
@@ -28,9 +28,22 @@ class ModifyProjectPage extends React.Component {
        isLoading:false,
 
        error_title:"",
+        changed_avatar:false,
      };
      this.edit_project_icon = this.edit_project_icon.bind(this)
    }
+
+   createFormData = (photo) => {
+     const data = new FormData();
+
+     data.append("file", {
+       name: photo.fileName,
+       type: photo.type,
+       uri:
+         Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
+     });
+     return data;
+   };
 
    edit_project_icon(){
      console.log("Edit project icon")
@@ -43,9 +56,10 @@ class ModifyProjectPage extends React.Component {
        }
        else {
          console.log('Photo : ', response.uri )
-         let requireSource = { uri: response.uri }
+         //let requireSource = { uri: response.uri }
          this.setState({
-           avatar: requireSource
+           avatar: response,
+           changed_avatar:true,
          })
        }
      })
@@ -140,9 +154,11 @@ _manageDate(date){
 }
 
 _check_form=()=>{
-  if (this._valid_title() && this._valid_description() && this._valid_dates())  {
+  var valid_form =this._valid_title() && this._valid_description() && this._valid_dates()
+  if ( valid_form && this.state.changed_avatar) {
     this.setState({  isLoading: true  })
     postModifyProject(this.props.navigation.state.params.project.id, this.state.title,this.state.description,this._manageDate(this.state.selectedEndDate))
+    .then(data => postUpdateProjectImage(this.props.navigation.state.params.project.id,this.createFormData(this.state.avatar)))
     .then(data => {
             this.setState({ isLoading: false })
             update.update_projects(this, this.props.user.id)
@@ -153,7 +169,24 @@ _check_form=()=>{
             this.setState({ isLoading: false })
             Alert.alert("Error", "The action could not be performed, please try again later")
           })
-  }
+   }
+   else if (valid_form){
+     this.setState({  isLoading: true  })
+     postModifyProject(this.props.navigation.state.params.project.id, this.state.title,this.state.description,this._manageDate(this.state.selectedEndDate))
+     .then(data => {
+             this.setState({ isLoading: false })
+             update.update_projects(this, this.props.user.id)
+             this._displayProjectPage(this.props.navigation.state.params.project.id)
+            Alert.alert("Project modified ","Your project has been modified")
+           })
+     .catch(data => {
+             this.setState({ isLoading: false })
+             Alert.alert("Error", "The action could not be performed, please try again later")
+           })
+   }
+  else if (!this._valid_dates()){
+      Alert.alert("Something went wrong ", " Please enter start and end dates")
+    }
 }
 
 _valid_title=()=>{
@@ -205,7 +238,8 @@ _valid_dates=()=>{
               labelStyle={policeStyles.label_text_input}
               label='Project title'
               placeholder={titlePlaceholder}
-              onChangeText={title=>{this.setState({  title   }),this._valid_title()}}
+              onChangeText={title=>this.setState({  title   })}
+              onEndEditing={() => this._valid_title()}
               errorStyle={{ color: 'red' }}
               errorMessage={this.state.error_title}/>
           </View>

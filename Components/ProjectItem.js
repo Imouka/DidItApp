@@ -28,9 +28,8 @@ class ProjectItem_LargeScreen extends React.Component {
       else {return(1)}
      }
 
-
   render() {
-    const{imageSource,project, displayDetailForProject}=this.props
+    const{project, displayDetailForProject}=this.props
     return (
       <View>
         <TouchableOpacity
@@ -40,7 +39,7 @@ class ProjectItem_LargeScreen extends React.Component {
             <View style = {styles.project_image_container}>
               <View>
                  <ProjectIcon
-                 imageSource={imageSource}/>
+                 imageSource={{uri:project.logo}}/>
               </View>
               <View
               style={{marginTop:8}}>

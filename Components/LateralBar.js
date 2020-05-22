@@ -17,7 +17,7 @@ class LateralBar extends React.Component {
 
 
   render() {
-    const{imageSource, projects,displayDetailForProject}=this.props
+    const{projects,displayDetailForProject}=this.props
     return (
       <View>
       <FlatList
@@ -30,7 +30,6 @@ class LateralBar extends React.Component {
         renderItem={({item}) =>
           <LateralProjectItem
             project={item}
-            imageSource={imageSource}
             displayDetailForProject={displayDetailForProject}/>}/>
         </View>
 

@@ -10,7 +10,7 @@ class ProfileHeader extends React.Component {
 
 
   render() {
-    const{user, imageSource, scrollToIndex, displayFriendsList, nbNewRequests, notification_icon}=this.props
+    const{user,scrollToIndex, displayFriendsList, notification_icon}=this.props
     return (
       <View>
         <View
@@ -18,8 +18,9 @@ class ProfileHeader extends React.Component {
           <View
             style={styles.user_image_container}>
             <UserIcon
-            userName={user.first_name}
-            imageSource={imageSource}/>
+            userFirstName={user.first_name}
+            userLastName={user.last_name}
+            imageSource={{uri:user.icon}}/>
           </View>
           <View
             style={styles.nb_container}>

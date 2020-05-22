@@ -5,7 +5,7 @@ import {imageStyles} from '../Styles/Image_styles'
 
 class UserIcon extends React.Component {
   render() {
-    const{userName, imageSource}=this.props
+    const{userFirstName,userLastName, imageSource}=this.props
     return (
       <View
       style={styles.main_container}>
@@ -16,7 +16,7 @@ class UserIcon extends React.Component {
         style={policeStyles.user_name_for_Icon}
         numberOfLines={1}
         ellipsizeMode={'tail'}>
-        {userName}
+        {userFirstName} {userLastName}
         </Text>
       </View>
 

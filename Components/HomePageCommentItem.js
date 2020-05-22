@@ -29,7 +29,7 @@ class HomePageCommentItem extends React.Component {
         style={styles.main_container}>
           <View  style={{flex:1}}>
           <ButtonSmallImage
-            imageSource= {require("../Images/profile_icon.png")}
+            imageSource= {{uri:comment.icon}}
             action={()=>action(id)}/>
           </View>
           <View style={{flex:10,   justifyContent:'center',}} >

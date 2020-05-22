@@ -1,26 +1,30 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import { Input} from 'react-native-elements'
-import {View,StyleSheet,Text, TouchableOpacity, KeyboardAvoidingView,ScrollView} from 'react-native'
+import {View,StyleSheet,Text, TouchableOpacity, KeyboardAvoidingView,ScrollView, ActivityIndicator} from 'react-native'
 import {Button} from 'react-native-elements'
 import EditableUserIcon from '../../Components/EditableUserIcon'
 import ImagePicker from 'react-native-image-picker'
 import {imageStyles} from '../../Styles/Image_styles'
 import {policeStyles} from '../../Styles/police_styles'
+import{postUpdateUserImage,postUpdateUserProfile} from '../../API/APITest'
+import update from '../../Utils/Updaters.js'
+
 
 
 class EditProfilePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      avatar: require("../../Images/user.png"),
+      avatar:{uri :this.props.user.icon},
       first_name:this.props.user.first_name,
       last_name:this.props.user.last_name,
       description:this.props.user.description,
-
+      isLoading:false,
       error_first_name:'',
       error_last_name:'',
       error_desc:'',
+      changed_avatar:false
     }
     this.edit_profile_icon = this.edit_profile_icon.bind(this)
   }
@@ -30,7 +34,7 @@ class EditProfilePage extends React.Component {
   }
 
   edit_profile_icon(){
-    console.log("Edit project icon")
+    console.log("Edit user icon")
     ImagePicker.showImagePicker({}, (response) => {
       if (response.didCancel) {
         console.log('L\'utilisateur a annulé')
@@ -40,13 +44,25 @@ class EditProfilePage extends React.Component {
       }
       else {
         console.log('Photo : ', response.uri )
-        let requireSource = { uri: response.uri }
         this.setState({
-          avatar: requireSource
+          avatar: response,
+          changed_avatar: true
         })
       }
     })
   }
+
+  createFormData = (photo) => {
+    const data = new FormData();
+
+    data.append("file", {
+      name: photo.fileName,
+      type: photo.type,
+      uri:
+        Platform.OS === "android" ? photo.uri : photo.uri.replace("file://", "")
+    });
+    return data;
+  };
 
   _check_form=()=>{
     if (this._valid_first_name()  && this._valid_last_name() && this._valid_description()) {
@@ -55,7 +71,20 @@ class EditProfilePage extends React.Component {
         error_last_name: '',
         description: ''
       })
-      this.displayProfilePage()
+      if(this.state.changed_avatar){
+        postUpdateUserProfile(this.props.user.id,this.state.first_name,this.state.last_name,this.state.description)
+        .then(data =>
+          postUpdateUserImage(this.props.user.id,this.createFormData(this.state.avatar)))
+        .then(data =>
+          update.update_user(this,this.props.user.id))
+          .then(data =>  this.displayProfilePage())
+      }
+      else{
+        postUpdateUserProfile(this.props.user.id,this.state.first_name,this.state.last_name,this.state.description)
+        .then(data =>
+          update.update_user(this,this.props.user.id))
+          .then(data =>  this.displayProfilePage())
+      }
     }
     else {
       if (!this._valid_first_name()){
@@ -77,8 +106,6 @@ class EditProfilePage extends React.Component {
   }
 
   _valid_first_name(){
-    console.log((this.state.first_name))
-    console.log((this.state.first_name).replace(/\s/g, '').length)
     if ((this.state.first_name).replace(/\s/g, '').length){
       return (true)
     }
@@ -100,9 +127,21 @@ class EditProfilePage extends React.Component {
     }
   }
 
+  _displayLoading() {
+    if (this.state.isLoading) {
+      return (
+        <View style={imageStyles.loading_container}>
+        <ActivityIndicator size='large' />
+        </View>
+      )
+    }
+  }
+
+
   render() {
     return (
       <ScrollView >
+      {this._displayLoading()}
         <View style={styles.main_container}>
           <View
           style={styles.user_icon_container}>

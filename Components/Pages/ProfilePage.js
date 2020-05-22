@@ -80,9 +80,7 @@ return (
 <View>
   <View>
       <ProfileHeader
-       imageSource={require('../../Images/profile_icon.png')}
        user={this.props.user}
-       nbNewRequests='xxx'
        scrollToIndex={this._scrollToIndex}
        displayFriendsList={this._displayFriendsListPage}
        notification_icon={true}/>
@@ -124,13 +122,12 @@ _renderProjectItems(){
         renderItem={({item}) =>
         <ProjectItem_LargeScreen
             project={item}
-            imageSource={require('../../Images/project.png')}
             displayDetailForProject={this._displayDetailForProject}
         />}
       />
     )
   }
-  else {
+ else {
     return (
       <FlatList
         data={this.props.projects}
@@ -141,7 +138,6 @@ _renderProjectItems(){
         renderItem={({item}) =>
         <ProjectItem
             project={item}
-            imageSource={require('../../Images/project.png')}
             displayDetailForProject={this._displayDetailForProject}
         />}
       />

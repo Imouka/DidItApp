@@ -72,21 +72,23 @@ send_comment=(message) => {
   sendComment(post.project.id,message)
    }
 
- _display_add_comment(isMyProject) {
+ _display_add_comment(isMyProject,userImageSource) {
    if (!isMyProject){
+     console.log("_display_add_comment"+userImageSource)
      return (
        <View>
          <TextInputWithImage
          text={"Add a comment"}
-         imageSource= {require("../Images/profile_icon.png")}
+         imageSource= {userImageSource}
          action={this.send_comment}/>
        </View>
      )
    }
 }
 
+
   render() {
-    const {  projectImageSource,userImageSource, post, displayProfilePage, displayProjectPage, isMyProject}=this.props
+    const { userImageSource,post, displayProfilePage, displayProjectPage, isMyProject}=this.props
     return (
         <View style={styles.main_container}>
           <View style={styles.row_container}>
@@ -95,7 +97,7 @@ send_comment=(message) => {
                 onPress={() => displayProjectPage(post.user.id, post.project.id)}>
                 <Image
                   style={imageStyles.project_icon_SMALL}
-                  source={projectImageSource}/>
+                  source={{uri:post.project.logo}}/>
                 <View  style={{marginLeft:"2%", width: 0, flexGrow: 1}} >
                   <Text
                   style={policeStyles.standard_bold}
@@ -119,7 +121,7 @@ send_comment=(message) => {
                 <View  style={{marginRight:"2%", alignItems:'center'}} >
                   <Image
                     style={imageStyles.small_user_avatar}
-                    source= {userImageSource}  />
+                    source= {{uri:post.user.icon}}  />
                 </View>
               </TouchableOpacity>
             </View>
@@ -130,7 +132,7 @@ send_comment=(message) => {
           </View>
 
           {this._displayComments(post,displayProfilePage)}
-          {this._display_add_comment(isMyProject)}
+          {this._display_add_comment(isMyProject,userImageSource)}
         </View>
     )
   }
